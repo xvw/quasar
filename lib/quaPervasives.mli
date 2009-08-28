@@ -121,10 +121,19 @@ sig
   include module type of String
 
   (** Convert JavaScript's string to an OCaml's string *)
-  val ocaml : Js.js_string Js.t -> string
+  val ocaml    : Js.js_string Js.t -> string
 
   (** Convert OCaml's string to a JavaScript 's string *)
-  val js    : string -> Js.js_string Js.t
+  val js       : string -> Js.js_string Js.t
+
+  (** Convert Safe Json to string *)
+  val of_json  :
+    ?buf:Bi_outbuf.t
+    -> ?len:int
+    -> ?std:bool
+    -> Yojson.Safe.json
+    -> string
+ 
 
 end
 

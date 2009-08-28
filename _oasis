@@ -27,7 +27,9 @@ Library "quasar"
     js_of_ocaml.ppx,
     js_of_ocaml.tyxml,
     tyxml.ppx,
-    lwt.ppx
+    lwt.ppx,
+    ppx_deriving,
+    ppx_deriving_yojson
 
 SourceRepository master
   Type:     git

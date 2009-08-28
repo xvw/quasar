@@ -1,4 +1,4 @@
-CC=ocamlfind ocamlc -package js_of_ocaml -package js_of_ocaml.ppx -package quasar
+CC=ocamlfind ocamlc -package js_of_ocaml -package quasar
 
 all:
 	$(CC) -linkpkg -o temp.byte app.ml
