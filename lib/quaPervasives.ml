@@ -64,6 +64,7 @@ struct
   let fail message =
     let () = perform_failure message in
     raise (Runtime message)
+    |> ignore
   
 end
 
