@@ -80,7 +80,7 @@ module Error :
 sig
 
   (** The common exception for Runtime Errors *)
-  exception Runtime
+  exception Runtime of string
 
   (** Fail with a message *)
   val fail : string -> unit
