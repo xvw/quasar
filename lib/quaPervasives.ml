@@ -45,6 +45,10 @@ let flip f x y   = f y x
 let document     = Dom_html.document
 let window       = Dom_html.window
 let console      = Firebug.console
+let with_debugger =
+  let f = Js.Unsafe.js_expr "$QUASAR_DEBUG" in
+  console##log(f)
+ 
 
 (* Common JavaScript functions *)
 let alert str    = window##alert(String.js str)
