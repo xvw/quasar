@@ -45,9 +45,13 @@ let flip f x y   = f y x
 let document     = Dom_html.document
 let window       = Dom_html.window
 let console      = Firebug.console
-let with_debugger =
-  let f = Js.Unsafe.js_expr "$QUASAR_DEBUG" in
-  console##log(f)
+
+(* Helpers *)
+let with_debugger () =
+  try
+    let f = Js.Unsafe.js_expr "$QUASAR_DEBUG" in
+    f <> Js._false
+    with _ -> false
  
 
 (* Common JavaScript functions *)
@@ -60,10 +64,11 @@ struct
 
   exception Runtime of string
 
-  (* Need to be rewritted using a $QUASARDEBUG *)
   let perform_failure message =
-    alert message;
-    log message
+    if with_debugger () then begin
+      alert message;
+      log message
+    end
 
   let fail message =
     let () = perform_failure message in

@@ -60,6 +60,9 @@ val alert : string -> unit
 (** Write data int the console *)
 val log : 'a -> unit
 
+(** Check if the application is in debug mode *)
+val with_debugger : unit -> bool
+
 (** {2 Internals or extensions modules} *)
 
 
