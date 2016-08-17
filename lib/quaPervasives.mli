@@ -60,6 +60,9 @@ val alert : string -> unit
 (** Write data int the console *)
 val log : 'a -> unit
 
+val unopt : 'a Js.Opt.t -> 'a
+val try_unopt : 'a Js.Opt.t -> 'a option
+
 (** Check if the application is in debug mode *)
 val with_debugger : unit -> bool
 
@@ -82,11 +85,14 @@ end
 module Error :
 sig
 
-  (** The common exception for Runtime Errors *)
   exception Runtime of string
+  exception Unoptable
 
   (** Fail with a message *)
   val fail : string -> unit
+
+  (** Fail data extraction *)
+  val fail_unopt : unit -> 'a
 
 end
 

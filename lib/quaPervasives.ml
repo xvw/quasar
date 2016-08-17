@@ -63,6 +63,7 @@ module Error =
 struct
 
   exception Runtime of string
+  exception Unoptable
 
   let perform_failure message =
     if with_debugger () then begin
@@ -74,7 +75,16 @@ struct
     let () = perform_failure message in
     raise (Runtime message)
     |> ignore
+
+  let fail_unopt () =
+    raise Unoptable
   
 end
+
+(* Stuff with Opt *)
+
+let unopt x   = Js.Opt.get x Error.fail_unopt
+let try_unopt = Js.Opt.to_option
+
 
 
