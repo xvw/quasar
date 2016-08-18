@@ -60,7 +60,10 @@ val alert : string -> unit
 (** Write data int the console *)
 val log : 'a -> unit
 
+(** Try to extract a potential null value, raise Error.Unoptable if the value is null *)
 val unopt : 'a Js.Opt.t -> 'a
+
+(** Same as [unopt] but returns an option instead of raising an exception *)
 val try_unopt : 'a Js.Opt.t -> 'a option
 
 (** Check if the application is in debug mode *)
