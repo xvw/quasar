@@ -94,6 +94,9 @@ sig
   (** Fail with a message *)
   val fail : string -> unit
 
+  (** [try_with f "failure"] try f () with potential failure *)
+  val try_with : (unit -> 'a) -> string -> unit
+
   (** Fail data extraction *)
   val fail_unopt : unit -> 'a
 

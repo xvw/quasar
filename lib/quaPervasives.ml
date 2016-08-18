@@ -76,6 +76,9 @@ struct
     raise (Runtime message)
     |> ignore
 
+  let try_with f message =
+    try ignore (f ()) with _ -> fail message
+
   let fail_unopt () =
     raise Unoptable
   
