@@ -20,3 +20,4 @@
 *)
 
 include QuaPervasives
+include Tyxml_js

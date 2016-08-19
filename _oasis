@@ -20,8 +20,7 @@ Library "quasar"
   BuildDepends:
     js_of_ocaml (>= 2.8.1),
     js_of_ocaml.ppx,
-    lwt (>= 2.5.2),
-    lwt.ppx
+    js_of_ocaml.tyxml
 
 SourceRepository master
   Type:     git

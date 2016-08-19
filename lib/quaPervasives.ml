@@ -88,6 +88,3 @@ end
 
 let unopt x   = Js.Opt.get x Error.fail_unopt
 let try_unopt = Js.Opt.to_option
-
-
-

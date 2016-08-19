@@ -2,5 +2,5 @@ S .
 S lib
 B _build/lib
 B _build
-PKG tyxml reactiveData js_of_ocaml js_of_ocaml.ppx
+PKG reactiveData js_of_ocaml js_of_ocaml.ppx js_of_ocaml.tyxml
 EXT js
