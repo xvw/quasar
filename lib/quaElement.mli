@@ -29,3 +29,11 @@ val getById_opt : string -> t option
 
 (** [getById "an_element"] returns an Html element (or raise an exception *)
 val getById : string -> t
+
+(** [find element "selector"] QuerySelector on an element *)
+val find : t -> string -> t
+
+(** [find_opt element "selector"] QuerySelector on an element wrapped in a option *)
+val find_opt : t -> string -> t option
+
+

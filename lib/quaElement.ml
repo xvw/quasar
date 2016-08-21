@@ -32,5 +32,10 @@ let getById idt =
   |> unopt
   
   
+let find container selector =
+  container##querySelector(String.js selector)
+  |> unopt
 
-
+let find_opt container selector =
+  container##querySelector(String.js selector)
+  |> try_unopt
