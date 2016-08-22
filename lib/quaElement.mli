@@ -36,4 +36,11 @@ val find : t -> string -> t
 (** [find_opt element "selector"] QuerySelector on an element wrapped in a option *)
 val find_opt : t -> string -> t option
 
+(** [select element "selector"] QuerySelectorAll on an element *)
+val select : t -> string -> t list
+
+(** Alias of [select] *)
+val find_all : t -> string -> t list
+
+
 

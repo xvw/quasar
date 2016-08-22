@@ -39,3 +39,9 @@ let find container selector =
 let find_opt container selector =
   container##querySelector(String.js selector)
   |> try_unopt
+
+let select container selector =
+  container##querySelectorAll(String.js selector)
+  |> Dom.list_of_nodeList
+
+let find_all = select
