@@ -49,3 +49,13 @@ val find_all : t -> string -> t list
 val all : unit -> t list
 
 
+(** {2 Attributes management} *)
+
+(** Check if an element as an attribute *)
+val has_attribute : t -> string -> bool
+
+(** Try to get an attribute of an element *)
+val get_attribute : t -> string -> string option
+
+(** Set an attribute to an element *)
+val set_attribute : t -> string -> string -> unit

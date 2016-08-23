@@ -56,3 +56,27 @@ let getByTag tag =
 let all () = getByTag "*"
 
 (* Attributes *)
+
+let raw_has_attribute element attribute =
+  let str = String.js attribute in 
+  ((element##hasAttribute(str)) == Js._true, str)
+
+let has_attribute element attribute =
+  fst (raw_has_attribute element attribute)
+  
+
+let get_attribute element attribute =
+  let (check, str) = raw_has_attribute element attribute in
+  if check then
+    Some (
+      element##getAttribute(str)
+      |> unopt
+      |> String.ocaml
+    )
+  else None
+
+let set_attribute element attribute value =
+  let attr = String.js attribute
+  and svalue = String.js value in
+  element##setAttribute(attr, svalue);
+  element
