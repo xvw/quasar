@@ -1,5 +1,5 @@
 (*
- * Drumaderian
+ * Quasar
  *
  * Copyright (C) 2016  Xavier Van de Woestyne <xaviervdw@gmail.com>
  *
@@ -59,3 +59,6 @@ val get_attribute : t -> string -> string option
 
 (** Set an attribute to an element *)
 val set_attribute : t -> string -> string -> t
+
+(** Remove an attribute to an element *)
+val remove_attribute : t -> string -> t

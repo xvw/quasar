@@ -1,5 +1,5 @@
 (*
- * Drumaderian
+ * Quasar
  *
  * Copyright (C) 2016  Xavier Van de Woestyne <xaviervdw@gmail.com>
  *

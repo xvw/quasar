@@ -1,5 +1,5 @@
 (*
- * Drumaderian
+ * Quasar
  *
  * Copyright (C) 2016  Xavier Van de Woestyne <xaviervdw@gmail.com>
  *
@@ -80,4 +80,8 @@ let set_attribute element attribute value =
   let attr = String.js attribute
   and svalue = String.js value in
   element##setAttribute attr svalue;
+  element
+
+let remove_attribute element attribute =
+  element##removeAttribute (String.js attribute);
   element
