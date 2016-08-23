@@ -19,5 +19,7 @@
  *
 *)
 
+module Element = QuaElement
+
 include QuaPervasives
 include Tyxml_js

@@ -22,13 +22,16 @@
 (** Shortcuts for element *)
 type t = Dom_html.element Js.t
 
-(** {2 Retreive Elements} *)
+(** {2 Retreive Elements from the document} *)
 
 (** [getById_opt "an_element"] returns an Html element into an option *)
 val getById_opt : string -> t option
 
 (** [getById "an_element"] returns an Html element (or raise an exception *)
 val getById : string -> t
+
+(** [getByTag "tagname"] returns all element by tag name as a list *)
+val getByTag : string -> t list
 
 (** [find element "selector"] QuerySelector on an element *)
 val find : t -> string -> t
@@ -42,5 +45,7 @@ val select : t -> string -> t list
 (** Alias of [select] *)
 val find_all : t -> string -> t list
 
+(** Get all elements as a list *)
+val all : unit -> t list
 
 

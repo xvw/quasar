@@ -23,6 +23,9 @@ open QuaPervasives
 
 type t = Dom_html.element Js.t
 
+
+(* Retreive elements *)
+
 let getById_opt idt =
   document##getElementById(String.js idt)
   |> try_unopt
@@ -45,3 +48,11 @@ let select container selector =
   |> Dom.list_of_nodeList
 
 let find_all = select
+
+let getByTag tag =
+  document##getElementsByTagName (String.js tag)
+  |> Dom.list_of_nodeList
+
+let all () = getByTag "*"
+
+(* Attributes *)
