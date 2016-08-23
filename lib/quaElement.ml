@@ -129,6 +129,22 @@ let (!!) = element
 let ( <+> ) = append
 let ( <|> ) = prepend
 
+let iter_children f node =
+  let node_list = node##.childNodes in
+  let length    = node_list##.length in
+  for i = 0 to pred length do
+    Js.Opt.iter (node_list##item(i)) f
+  done
+
+
+let remove_children node =
+  let rec iter node =
+    match Js.Opt.to_option (node##.firstChild) with
+    | None -> ()
+    | Some child ->
+      node##removeChild(child);
+      iter node
+  in iter node
 
 
     
