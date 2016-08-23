@@ -85,3 +85,8 @@ let set_attribute element attribute value =
 let remove_attribute element attribute =
   element##removeAttribute (String.js attribute);
   element
+
+let has_data element data = has_attribute element ("data-"^data)
+let get_data element data = get_attribute element ("data-"^data)
+let set_data element data = set_attribute element ("data-"^data)
+let remove_data elmt data = remove_attribute elmt ("data-"^data)

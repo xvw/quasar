@@ -62,3 +62,17 @@ val set_attribute : t -> string -> string -> t
 
 (** Remove an attribute to an element *)
 val remove_attribute : t -> string -> t
+
+(** {2 Data Attributes management} *)
+
+(** Check if an element as a data-attribute *)
+val has_data : t -> string -> bool
+
+(** Try to get a data-attribute of an element *)
+val get_data : t -> string -> string option
+
+(** Set a data-attribute to an element *)
+val set_data : t -> string -> string -> t
+
+(** Remove a data-attribute to an element *)
+val remove_data : t -> string -> t
