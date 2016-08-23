@@ -74,9 +74,10 @@ let get_attribute element attribute =
       |> String.ocaml
     )
   else None
+    
 
 let set_attribute element attribute value =
   let attr = String.js attribute
   and svalue = String.js value in
-  element##setAttribute(attr, svalue);
+  element##setAttribute attr svalue;
   element

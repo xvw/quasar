@@ -58,4 +58,4 @@ val has_attribute : t -> string -> bool
 val get_attribute : t -> string -> string option
 
 (** Set an attribute to an element *)
-val set_attribute : t -> string -> string -> unit
+val set_attribute : t -> string -> string -> t
