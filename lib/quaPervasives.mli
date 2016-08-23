@@ -76,6 +76,8 @@ val with_debugger : unit -> bool
 module String :
 sig
 
+  include module type of String
+
   (** Convert JavaScript's string to an OCaml's string *)
   val ocaml : Js.js_string Js.t -> string
 
