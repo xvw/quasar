@@ -52,27 +52,44 @@ val all : unit -> t list
 (** {2 Attributes management} *)
 
 (** Check if an element as an attribute *)
-val has_attribute : t -> string -> bool
+val has_attribute : string -> t -> bool
 
 (** Try to get an attribute of an element *)
-val get_attribute : t -> string -> string option
+val get_attribute : string -> t -> string option
 
 (** Set an attribute to an element *)
-val set_attribute : t -> string -> string -> t
+val set_attribute : string -> string -> t -> t
 
 (** Remove an attribute to an element *)
-val remove_attribute : t -> string -> t
+val remove_attribute : string -> t -> t
 
 (** {2 Data Attributes management} *)
 
 (** Check if an element as a data-attribute *)
-val has_data : t -> string -> bool
+val has_data : string -> t -> bool
 
 (** Try to get a data-attribute of an element *)
-val get_data : t -> string -> string option
+val get_data : string -> t -> string option
 
 (** Set a data-attribute to an element *)
-val set_data : t -> string -> string -> t
+val set_data : string -> string -> t -> t
 
 (** Remove a data-attribute to an element *)
-val remove_data : t -> string -> t
+val remove_data : string -> t -> t
+
+(** {2 (CSS) class management} *)
+
+(** Append a css class *)
+val add_class : string -> t -> t
+
+(** Append a list of css classes *)
+val add_classes : string list -> t -> t
+
+(** Remove a css class *)
+val remove_class : string -> t -> t
+
+(** Remove a list of css classes *)
+val remove_classes : string list -> t -> t
+
+(** Check if an element implement a class *)
+val has_class : string -> t -> bool

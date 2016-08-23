@@ -61,11 +61,11 @@ let raw_has_attribute element attribute =
   let str = String.js attribute in 
   ((element##hasAttribute(str)) == Js._true, str)
 
-let has_attribute element attribute =
+let has_attribute attribute element =
   fst (raw_has_attribute element attribute)
   
 
-let get_attribute element attribute =
+let get_attribute attribute element =
   let (check, str) = raw_has_attribute element attribute in
   if check then
     Some (
@@ -76,17 +76,43 @@ let get_attribute element attribute =
   else None
     
 
-let set_attribute element attribute value =
+let set_attribute attribute value element =
   let attr = String.js attribute
   and svalue = String.js value in
   element##setAttribute attr svalue;
   element
 
-let remove_attribute element attribute =
+let remove_attribute attribute element =
   element##removeAttribute (String.js attribute);
   element
 
-let has_data element data = has_attribute element ("data-"^data)
-let get_data element data = get_attribute element ("data-"^data)
-let set_data element data = set_attribute element ("data-"^data)
-let remove_data elmt data = remove_attribute elmt ("data-"^data)
+let has_data data    = has_attribute ("data-"^data)
+let get_data data    = get_attribute ("data-"^data)
+let set_data data    = set_attribute ("data-"^data)
+let remove_data data = remove_attribute ("data-"^data)
+
+
+let add_class klass element =
+  element##.classList##add(String.js klass);
+  element
+
+let add_classes classes element =
+  let f = fun x -> ignore (add_class x element) in
+  List.iter f classes;
+  element
+
+let remove_class klass element =
+  element##.classList##remove(String.js klass);
+  element
+
+let remove_classes classes element =
+  let f = fun x -> ignore (remove_class x element) in
+  List.iter f classes;
+  element
+
+let has_class klass element =
+  let str = String.js klass in
+  element##.classList##contains(str) = Js._true
+
+
+    
