@@ -115,4 +115,17 @@ let has_class klass element =
   element##.classList##contains(str) = Js._true
 
 
+let append parent elt =
+  Dom.appendChild parent elt;
+  parent
+
+let prepend parent elt =
+  Dom.insertBefore parent elt (parent##.firstChild);
+  parent
+
+let ( <+> ) = append
+let ( <|> ) = prepend
+
+
+
     

@@ -93,3 +93,18 @@ val remove_classes : string list -> t -> t
 
 (** Check if an element implement a class *)
 val has_class : string -> t -> bool
+
+(** {2 Nodes insertion} *)
+
+(** Append a node into another node [append parent child] *)
+val append : t -> t -> t
+
+(** Append a node into another node [parent <+> child] *)
+val ( <+> ) : t -> t -> t
+
+(** Prepend a node into another node [prepend parent child] *)
+val prepend : t -> t -> t
+
+(** Prepend a node into another node [parent <|> child] *)
+val ( <|> ) : t -> t -> t
+ 
