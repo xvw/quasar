@@ -40,6 +40,7 @@ sig
   val key : int -> string option
   val length : unit -> int
   val to_hashtbl : unit -> (string, string) Hashtbl.t
+  val to_jstable : unit -> (Js.js_string Js.t) Jstable.t
   val map : (string -> string -> string) -> unit
   val fold : ('a -> string -> string -> 'a) -> 'a -> 'a
   val filter : (string -> string -> bool) -> (string, string) Hashtbl.t
