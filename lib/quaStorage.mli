@@ -2,6 +2,7 @@
  * Quasar
  *
  * Copyright (C) 2016  Xavier Van de Woestyne <xaviervdw@gmail.com>
+ * Copyright (C) 2015  Pierre Ruyter <grimfw@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +20,5 @@
  *
 *)
 
-
-module Storage = QuaStorage
-module Element = QuaElement
-
-include QuaPervasives
-include Tyxml_js
+(** Raised if the Webstorages are not allowed *)
+exception Not_allowed
