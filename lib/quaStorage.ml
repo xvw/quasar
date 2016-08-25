@@ -46,3 +46,71 @@ sig
   val filter : (string -> string -> bool) -> (string, string) Hashtbl.t
   val iter : (string -> string -> unit) -> unit
 end
+
+
+type raho =
+    Null
+
+(* Functor for building storage *)
+module Make (S : STORAGE_HANDLER) =
+struct
+
+  let handler =
+    Js.Optdef.case
+      S.handler
+      (fun () -> raise Not_allowed)
+      id
+
+  let wrap f k =
+    try_unopt (f k)
+    |> Option.map String.ocaml
+
+  let js_get k = unopt (handler##getItem(k))
+  let js_key i = unopt (handler##key(i))
+
+  let length () = handler##.length
+  let get = wrap (fun x -> handler##getItem(String.js x))
+  let key = wrap (fun x -> handler##key(x))
+  let set k v  = handler##setItem (String.js k) (String.js v)
+  let remove k = handler##removeItem (String.js k)
+  let clear() = handler##clear
+
+  let raw_get k =
+    match get k with
+    | Some r -> r
+    | None -> raise Not_found
+
+  let iter f =
+    let len = length () in
+    for i = 0 to pred len do
+      match key i with
+      | None -> raise Not_found
+      | Some k -> (f k (raw_get k))
+    done
+
+  let to_hashtbl () =
+    let len = length () in
+    let h = Hashtbl.create len in
+    iter (fun k v -> Hashtbl.add h k v);
+    h
+
+  let to_jstable () =
+    let len = length () in
+    let h = Jstable.create () in
+    for i = 0 to pred len do
+      let k = js_key i in
+      Jstable.add h k (js_get k)
+    done;
+    h
+
+
+  let map f =
+    let len = length () in
+    for i = 0 to pred len do
+      match key i with
+      | Some r -> set r (f r (raw_get r))
+      | _ -> raise Not_found
+    done    
+  
+end
+
