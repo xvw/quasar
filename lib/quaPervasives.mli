@@ -69,6 +69,47 @@ val try_unopt : 'a Js.Opt.t -> 'a option
 (** Check if the application is in debug mode *)
 val with_debugger : unit -> bool
 
+(** {2 Option} *)
+
+module Option :
+sig
+
+  val some : 'a -> 'a option
+  (** [some x] returns [Some x] *)
+
+
+  val none : 'a option
+  (** [none] returns [None] *)
+
+
+  (** [safe f x] try [f x] and wrap the result in an option *)
+  val safe : ('a -> 'b) -> 'a -> 'b option
+
+  val default : 'a -> 'a option -> 'a
+  (** return the wrapped value or the first arguments (if the gived 
+      option is None ) *)
+
+  (** Map a side effect on an option *)
+  val unit_map : ('a -> unit) -> 'a option -> unit
+
+  val map : ('a -> 'b) -> 'a option -> 'b option
+  (** [map f opt] returns [Some (f x)] if opt = Some x, None if opt = None *)
+
+  val apply : ('a -> 'a) option -> 'a -> 'a
+  (** [apply None x] returns [x] and [apply (Some f) x] returns [f x] *)
+
+  (** {2 Option verification} *)
+
+  val is_some : 'a option -> bool
+  (** [is_some opt] returns true if opt is Some(x), otherwise false *)
+
+  val is_none : 'a option -> bool
+  (** [is_none opt] returns true if opt is None, otherwise false *)
+
+
+end
+
+
 (** {2 Internals or extensions modules} *)
 
 

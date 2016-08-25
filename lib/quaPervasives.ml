@@ -88,3 +88,41 @@ end
 
 let unopt x   = Js.Opt.get x Error.fail_unopt
 let try_unopt = Js.Opt.to_option
+
+
+(* Option management *)
+module Option =
+struct
+
+  let safe f x =
+    try Some (f x)
+    with _ -> None
+
+  let some x = Some x
+  let none = None
+
+  let is_some = function
+    | Some _ -> true
+    | None -> false
+
+  let is_none = function
+    | None -> true
+    | Some _ -> false
+
+  let default v = function
+    | None -> v
+    | Some x -> x
+
+  let unit_map f = function
+    | Some x -> f x
+    | None -> ()
+
+  let map f = function
+    | None -> None
+    | Some x -> Some (f x)
+
+  let apply = function
+    | None -> id
+    | Some f -> f
+
+end
