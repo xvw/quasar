@@ -33,26 +33,23 @@ end
 (* General API for storage *)
 module type STORAGE =
 sig
-  val get : string -> string option
-  val set : string -> string -> unit
-  val remove : string -> unit
-  val clear : unit -> unit
-  val key : int -> string option
-  val length : unit -> int
+  val get        : string -> string option
+  val set        : string -> string -> unit
+  val remove     : string -> unit
+  val clear      : unit -> unit
+  val key        : int -> string option
+  val length     : unit -> int
   val to_hashtbl : unit -> (string, string) Hashtbl.t
   val to_jstable : unit -> (Js.js_string Js.t) Jstable.t
-  val map : (string -> string -> string) -> unit
-  val fold : ('a -> string -> string -> 'a) -> 'a -> 'a
-  val filter : (string -> string -> bool) -> (string, string) Hashtbl.t
-  val iter : (string -> string -> unit) -> unit
+  val map        : (string -> string -> string) -> unit
+  val fold       : ('a -> string -> string -> 'a) -> 'a -> 'a
+  val filter     : (string -> string -> bool) -> unit
+  val iter       : (string -> string -> unit) -> unit
 end
 
 
-type raho =
-    Null
-
 (* Functor for building storage *)
-module Make (S : STORAGE_HANDLER) =
+module Make (S : STORAGE_HANDLER) : STORAGE =
 struct
 
   let handler =
@@ -65,15 +62,15 @@ struct
     try_unopt (f k)
     |> Option.map String.ocaml
 
-  let js_get k = unopt (handler##getItem(k))
-  let js_key i = unopt (handler##key(i))
+  let js_get k  = unopt (handler##getItem(k))
+  let js_key i  = unopt (handler##key(i))
 
   let length () = handler##.length
-  let get = wrap (fun x -> handler##getItem(String.js x))
-  let key = wrap (fun x -> handler##key(x))
-  let set k v  = handler##setItem (String.js k) (String.js v)
-  let remove k = handler##removeItem (String.js k)
-  let clear() = handler##clear
+  let get       = wrap (fun x -> handler##getItem(String.js x))
+  let key       = wrap (fun x -> handler##key(x))
+  let set k v   = handler##setItem (String.js k) (String.js v)
+  let remove k  = handler##removeItem (String.js k)
+  let clear()   = handler##clear
 
   let raw_get k =
     match get k with
@@ -111,6 +108,19 @@ struct
       
   let filter p =
     iter (fun k v -> if not (p k v) then remove k)
+
+  let fold f default =
+    let acc = ref default in
+    iter (fun k v -> acc := f !acc k v );
+    !acc
   
 end
 
+
+module Session = Make(struct
+    let handler = window##.sessionStorage
+  end)
+    
+module Local = Make(struct
+    let handler = window##.localStorage
+  end)
