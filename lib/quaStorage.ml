@@ -103,14 +103,8 @@ struct
     done;
     h
 
-
-  let map f =
-    let len = length () in
-    for i = 0 to pred len do
-      match key i with
-      | Some r -> set r (f r (raw_get r))
-      | _ -> raise Not_found
-    done    
+  let map f = iter (fun k v -> set k (f k v))
+  let filter p = iter (fun k v -> if not (p k v) then remove k)
   
 end
 
