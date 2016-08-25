@@ -80,18 +80,21 @@ struct
     | Some r -> r
     | None -> raise Not_found
 
-  let iter f =
-    let len = length () in
+  let internal_iter len f =
     for i = 0 to pred len do
       match key i with
       | None -> raise Not_found
-      | Some k -> (f k (raw_get k))
+      | Some k -> let () = (f k (raw_get k)) in ()
     done
 
-  let to_hashtbl () =
+  let iter f =
     let len = length () in
+    internal_iter len f
+
+  let to_hashtbl () =
+    let len = length () in 
     let h = Hashtbl.create len in
-    iter (fun k v -> Hashtbl.add h k v);
+    internal_iter len (fun k v -> Hashtbl.add h k v);
     h
 
   let to_jstable () =
@@ -103,8 +106,11 @@ struct
     done;
     h
 
-  let map f = iter (fun k v -> set k (f k v))
-  let filter p = iter (fun k v -> if not (p k v) then remove k)
+  let map f =
+    iter (fun k v -> set k (f k v))
+      
+  let filter p =
+    iter (fun k v -> if not (p k v) then remove k)
   
 end
 
