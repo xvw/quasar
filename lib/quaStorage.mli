@@ -20,5 +20,97 @@
  *
 *)
 
+(** Function for webstorage manipulation *)
+
 (** Raised if the Webstorages are not allowed *)
 exception Not_allowed
+
+
+(** {2 API for session storage (key value)} *)
+module Session :
+sig
+
+  (** [Session.get key] retreive (in an option) the value at the [key] *)
+  val get : string -> string option
+
+  (** [Session.set key value] save [value] at [key] as a key  *)
+  val set : string -> string -> unit
+
+  (** [Session.remove key] remove the value at the [key] *)
+  val remove : string -> unit
+
+  (** [Session.clear ()] clear the storage *)
+  val clear : unit -> unit
+
+  (** Get a key with is position *)
+  val key : int -> string option
+
+  (** [Session.length ()] give the total of stored object *) 
+  val length : unit -> int
+
+  (** [Session.to_hashtbl ()] retreive all stored data as an Hashtbl *) 
+  val to_hashtbl : unit -> (string, string) Hashtbl.t
+
+  (** [Session.to_jstable ()] retreive all stored data as a jstable *)
+  val to_jstable : unit -> (Js.js_string Js.t) Jstable.t
+
+  (** [Session.map (fun key value -> ...))] map the function on each block *)
+  val map : (string -> string -> string) -> unit
+
+  (** [Session.fold (fun acc key value -> ...) default] fold on storage *)
+  val fold : ('a -> string -> string -> 'a) -> 'a -> 'a
+
+  (** [Session.filter (fun key value -> a_predicat)] filter using a predicate *)
+  val filter : (string -> string -> bool) -> unit
+
+  (** [Session.iter (fun key value -> ... )] apply f on each cell *)
+  val iter : (string -> string -> unit) -> unit
+    
+
+end
+
+
+(** {2 API for local storage (key value)} *)
+module Local :
+sig
+
+  (** [Local.get key] retreive (in an option) the value at the [key] *)
+  val get : string -> string option
+
+  (** [Local.set key value] save [value] at [key] as a key  *)
+  val set : string -> string -> unit
+
+  (** [Local.remove key] remove the value at the [key] *)
+  val remove : string -> unit
+
+  (** [Local.clear ()] clear the storage *)
+  val clear : unit -> unit
+
+  (** Get a key with is position *)
+  val key : int -> string option
+
+  (** [Local.length ()] give the total of stored object *) 
+  val length : unit -> int
+
+  (** [Local.to_hashtbl ()] retreive all stored data as an Hashtbl *) 
+  val to_hashtbl : unit -> (string, string) Hashtbl.t
+
+  (** [Local.to_jstable ()] retreive all stored data as a jstable *)
+  val to_jstable : unit -> (Js.js_string Js.t) Jstable.t
+
+  (** [Local.map (fun key value -> ...))] map the function on each block *)
+  val map : (string -> string -> string) -> unit
+
+  (** [Local.fold (fun acc key value -> ...) default] fold on storage *)
+  val fold : ('a -> string -> string -> 'a) -> 'a -> 'a
+
+  (** [Local.filter (fun key value -> a_predicat)] filter using a predicate *)
+  val filter : (string -> string -> bool) -> unit
+
+  (** [Local.iter (fun key value -> ... )] apply f on each cell *)
+  val iter : (string -> string -> unit) -> unit
+    
+
+end
+
+
