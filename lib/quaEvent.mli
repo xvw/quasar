@@ -38,36 +38,45 @@ sig
 
   (** {3 List of listeners *)
 
-  val click      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val dblclick   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val mousedown  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val mouseup    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val mouseover  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val mousemove  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val mouseout   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val mousewheel : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> wheel
+  val click       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val dblclick    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mousedown   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mouseup     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mouseover   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mousemove   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mouseout    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mousewheel  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> wheel
 
-  val keypress   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
-  val keyup      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
-  val keydown    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
+  val keypress    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
+  val keyup       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
+  val keydown     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
 
-  val timeupdate : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
-  val input      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
-  val change     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
-  val focus      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
-  val blur       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
-  val scroll     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
-  val submit     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
-  val select     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val timeupdate  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val input       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val change      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val focus       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val blur        : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val scroll      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val submit      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val select      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
     
 
-  val dragstart  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
-  val dragend    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
-  val dragenter  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
-  val dragover   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
-  val dragleave  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
-  val drag       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
-  val drop       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val dragstart   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val dragend     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val dragenter   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val dragover    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val dragleave   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val drag        : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val drop        : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+
+  val touchstart  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> touch
+  val touchmove   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> touch
+  val touchend    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> touch
+  val touchcancel : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> touch
+
+  val transitionend : #Dom_html.eventTarget Js.t -> unit Lwt.t
+    
+    
     
 
 end
