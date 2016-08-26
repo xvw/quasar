@@ -21,4 +21,16 @@
 
 open QuaPervasives
 
+module Listener =
+struct
 
+  type mouse        = Dom_html.mouseEvent Js.t Lwt.t
+  type keyboard     = Dom_html.keyboardEvent Js.t Lwt.t
+  type event        = Dom_html.event Js.t Lwt.t
+  type drag         = Dom_html.dragEvent Js.t Lwt.t
+  type wheel        = (Dom_html.mouseEvent Js.t * (int * int)) Lwt.t
+  type touch        = Dom_html.touchEvent Js.t Lwt.t
+  type 'a multiple  = ('a Js.t -> unit Lwt.t -> unit Lwt.t) -> unit Lwt.t
+    
+
+end
