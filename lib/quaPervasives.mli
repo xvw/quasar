@@ -51,6 +51,7 @@ val ( $ ) : ('a -> 'b) -> 'a -> 'b
 val document : Dom_html.document Js.t
 val window   : Dom_html.window   Js.t
 val console  : Firebug.console   Js.t
+val location : Dom_html.location Js.t
   
 (** {2 JavaScript useful functions} *)
     

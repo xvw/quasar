@@ -22,17 +22,13 @@
 open QuaPervasives
 
 let get_hash () =
-  let hash =
-    window##.location##.hash
-    |> String.ocaml
-  in
+  let hash = String.ocaml location##.hash in
   if (String.length hash) > 1
   then Scanf.sscanf hash "#%s" id
   else ""
 
 let set_hash new_hash =
   let hash = String.js ("#" ^ new_hash) in
-  window##.location##.hash := hash
+  location##.hash := hash
 
-let clear_hash () =
-  set_hash ""
+let clear_hash () = set_hash ""

@@ -45,6 +45,8 @@ let flip f x y   = f y x
 let document     = Dom_html.document
 let window       = Dom_html.window
 let console      = Firebug.console
+let location     = window##.location
+  
 
 (* Helpers *)
 let with_debugger () =
