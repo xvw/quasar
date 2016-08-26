@@ -27,6 +27,7 @@ sig
 
   (** {3 Internals types} *)
 
+
   type mouse        = Dom_html.mouseEvent Js.t Lwt.t
   type keyboard     = Dom_html.keyboardEvent Js.t Lwt.t
   type event        = Dom_html.event Js.t Lwt.t
@@ -36,5 +37,17 @@ sig
   type 'a multiple  = ('a Js.t -> unit Lwt.t -> unit Lwt.t) -> unit Lwt.t
 
   (** {3 List of listeners *)
+
+  val click     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val dblclick  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mousedown : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mouseup   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mouseover : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mousemove : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mouseout  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+
+  val keypress  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
+  val keyup     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
+  val keydown   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
 
 end
