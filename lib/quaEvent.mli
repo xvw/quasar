@@ -45,6 +45,7 @@ sig
   val mouseover  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
   val mousemove  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
   val mouseout   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mousewheel : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> wheel
 
   val keypress   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
   val keyup      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
@@ -53,6 +54,12 @@ sig
   val timeupdate : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
   val input      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
   val change     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val focus      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val blur       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val scroll     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val submit     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val select     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+    
 
   val dragstart  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
   val dragend    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
