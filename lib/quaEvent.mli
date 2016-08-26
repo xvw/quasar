@@ -59,8 +59,10 @@ sig
   val scroll      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
   val submit      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
   val select      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val load        : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val error       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val abort       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
     
-
   val dragstart   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
   val dragend     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
   val dragenter   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
@@ -75,6 +77,13 @@ sig
   val touchcancel : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> touch
 
   val transitionend : #Dom_html.eventTarget Js.t -> unit Lwt.t
+      
+  val transitionends :
+    ?cancel_handler:bool
+    -> #Dom_html.eventTarget Js.t
+    -> (unit Lwt.t -> unit Lwt.t)
+    -> unit Lwt.t
+      
     
     
     
