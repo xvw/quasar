@@ -38,16 +38,20 @@ sig
 
   (** {3 List of listeners *)
 
-  val click     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val dblclick  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val mousedown : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val mouseup   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val mouseover : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val mousemove : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
-  val mouseout  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val click      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val dblclick   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mousedown  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mouseup    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mouseover  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mousemove  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
+  val mouseout   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
 
-  val keypress  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
-  val keyup     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
-  val keydown   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
+  val keypress   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
+  val keyup      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
+  val keydown    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> keyboard
+
+  val timeupdate : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val input      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
+  val change     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
 
 end
