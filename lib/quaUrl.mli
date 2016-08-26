@@ -24,3 +24,9 @@
 
 (** Returns the hash of the url (each after # in the url) *)
 val get_hash : unit -> string
+
+(** [set_hash "foo"] append [#foo] at the url *)
+val set_hash : string -> unit
+
+(** Remove hash of the url *)
+val clear_hash : unit -> unit
