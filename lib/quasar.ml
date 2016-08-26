@@ -21,6 +21,7 @@
 
 
 module Storage = QuaStorage
+module Url     = QuaUrl
 module Element = QuaElement
 
 include QuaPervasives
