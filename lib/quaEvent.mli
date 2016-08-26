@@ -206,14 +206,111 @@ sig
     -> Dom_html.dragEvent multiple
     -> unit Lwt.t
 
-   val drops :
+  val drops :
     ?cancel_handler:bool
     -> ?use_capture:bool
     -> #Dom_html.eventTarget Js.t
     -> Dom_html.dragEvent multiple
     -> unit Lwt.t
 
+  val mousewheels :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> (Dom_html.mouseEvent Js.t * (int * int) -> unit Lwt.t -> unit Lwt.t)
+    -> unit Lwt.t
 
+  val touchstarts :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.touchEvent multiple
+    -> unit Lwt.t
+
+  val touchmoves :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.touchEvent multiple
+    -> unit Lwt.t
+
+  val touchends :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.touchEvent multiple
+    -> unit Lwt.t
+
+  val touchcancels :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.touchEvent multiple
+    -> unit Lwt.t
+
+  val focuses :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.event multiple
+    -> unit Lwt.t
+
+
+  val blurs :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.event multiple
+    -> unit Lwt.t
+
+ 
+  val scrolls :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.event multiple
+    -> unit Lwt.t
+
+
+  val submits :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.event multiple
+    -> unit Lwt.t
+
+ 
+  val selects :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.event multiple
+    -> unit Lwt.t
+
+
+  val loads :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.imageElement Js.t
+    -> Dom_html.event multiple
+    -> unit Lwt.t
+
+ val errors :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.imageElement Js.t
+    -> Dom_html.event multiple
+    -> unit Lwt.t
+
+ val aborts :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.imageElement Js.t
+    -> Dom_html.event multiple
+    -> unit Lwt.t
+  
+  
+  
   val transitionend : #Dom_html.eventTarget Js.t -> unit Lwt.t
       
   val transitionends :
