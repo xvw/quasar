@@ -30,7 +30,7 @@ struct
   type drag         = Dom_html.dragEvent Js.t Lwt.t
   type wheel        = (Dom_html.mouseEvent Js.t * (int * int)) Lwt.t
   type touch        = Dom_html.touchEvent Js.t Lwt.t
-  type 'a multiple  = ('a Js.t -> unit Lwt.t -> unit Lwt.t) -> unit Lwt.t
+  type 'a multiple  = ('a Js.t -> unit Lwt.t -> unit Lwt.t)
 
   include Lwt_js_events
     

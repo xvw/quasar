@@ -34,7 +34,7 @@ sig
   type drag         = Dom_html.dragEvent Js.t Lwt.t
   type wheel        = (Dom_html.mouseEvent Js.t * (int * int)) Lwt.t
   type touch        = Dom_html.touchEvent Js.t Lwt.t
-  type 'a multiple  = ('a Js.t -> unit Lwt.t -> unit Lwt.t) -> unit Lwt.t
+  type 'a multiple  = ('a Js.t -> unit Lwt.t -> unit Lwt.t)
 
   (** {3 List of listeners *)
 
@@ -59,9 +59,6 @@ sig
   val scroll      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
   val submit      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
   val select      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
-  val load        : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
-  val error       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
-  val abort       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
     
   val dragstart   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
   val dragend     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
@@ -76,6 +73,147 @@ sig
   val touchend    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> touch
   val touchcancel : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> touch
 
+  val clicks :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.mouseEvent multiple
+    -> unit Lwt.t
+
+  val dblclicks :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.mouseEvent multiple
+    -> unit Lwt.t
+      
+  val mousedowns :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.mouseEvent multiple
+    -> unit Lwt.t
+
+   val mouseups :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.mouseEvent multiple
+    -> unit Lwt.t
+
+   val mouseovers :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.mouseEvent multiple
+    -> unit Lwt.t
+
+   val mousemoves :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.mouseEvent multiple
+    -> unit Lwt.t
+
+  val mouseouts :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.mouseEvent multiple
+    -> unit Lwt.t
+
+  val keypresses :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.keyboardEvent multiple
+    -> unit Lwt.t
+
+  val keydowns :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.keyboardEvent multiple
+    -> unit Lwt.t
+
+  val keyups :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.keyboardEvent multiple
+    -> unit Lwt.t
+
+  val inputs :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.event multiple
+    -> unit Lwt.t
+
+  val timeupdates :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.event multiple
+    -> unit Lwt.t
+
+  val changes :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.event multiple
+    -> unit Lwt.t
+
+  val dragstarts :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.dragEvent multiple
+    -> unit Lwt.t
+
+  val dragends :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.dragEvent multiple
+    -> unit Lwt.t
+
+  val dragenters :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.dragEvent multiple
+    -> unit Lwt.t
+
+  val dragovers :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.dragEvent multiple
+    -> unit Lwt.t
+
+  val dragleaves :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.dragEvent multiple
+    -> unit Lwt.t
+
+  val drags :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.dragEvent multiple
+    -> unit Lwt.t
+
+   val drops :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> #Dom_html.eventTarget Js.t
+    -> Dom_html.dragEvent multiple
+    -> unit Lwt.t
+
+
   val transitionend : #Dom_html.eventTarget Js.t -> unit Lwt.t
       
   val transitionends :
@@ -83,9 +221,10 @@ sig
     -> #Dom_html.eventTarget Js.t
     -> (unit Lwt.t -> unit Lwt.t)
     -> unit Lwt.t
-      
     
-    
+  val load  : ?use_capture:bool ->  #Dom_html.imageElement Js.t -> event    
+  val error : ?use_capture:bool ->  #Dom_html.imageElement Js.t -> event
+  val abort : ?use_capture:bool ->  #Dom_html.imageElement Js.t -> event
     
 
 end
