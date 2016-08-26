@@ -54,4 +54,13 @@ sig
   val input      : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
   val change     : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> event
 
+  val dragstart  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val dragend    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val dragenter  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val dragover   : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val dragleave  : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val drag       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+  val drop       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> drag
+    
+
 end
