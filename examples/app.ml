@@ -5,9 +5,15 @@ let _ =
   | Some main_div ->
     let open Element in
     let open Html in
-      main_div
-      <+> (!!(div [pcdata "Hello"]) <+> !!(pcdata " World"))
-      <|> add_class "hello-world" !!(div [pcdata "Prepended Hello"])
-      <+> set_data "hello" "world" !!(div [pcdata "Node with data"])
-  |> ignore
+    let but = !![%html "<input type='button' value='test'>"] in
+    let _ = main_div <+> but in
+    Event.(
+      sequential
+        Listener.click
+        but
+        (handler (fun _ -> alert "lol"))
+    ) |> ignore
   | None -> alert "unable to found app div"
+
+
+

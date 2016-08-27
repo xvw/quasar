@@ -25,7 +25,9 @@ Library "quasar"
     js_of_ocaml (>= 2.8.1),
     reactiveData,
     js_of_ocaml.ppx,
-    js_of_ocaml.tyxml
+    js_of_ocaml.tyxml,
+    tyxml.ppx,
+    lwt.ppx
 
 SourceRepository master
   Type:     git

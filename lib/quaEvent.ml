@@ -36,5 +36,18 @@ struct
 
   include Lwt_js_events
     
-
 end
+
+let wrap_lwt f =
+  let%lwt _ = f () in
+  Lwt.return_unit
+
+let wait_for events =
+  List.map wrap_lwt events
+  |> Lwt.pick
+
+
+let handler f = (fun e _ -> f e; Lwt.return_unit)
+let sequential = Lwt_js_events.seq_loop
+let async      = Lwt_js_events.async_loop
+let buffered   = Lwt_js_events.buffered_loop

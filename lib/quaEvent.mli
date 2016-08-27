@@ -24,6 +24,48 @@
 (** Cancel any Lwt thread *)
 val cancel : 'a Lwt.t -> unit
 
+(** Wait for events *)
+val wait_for : (unit -> 'a Lwt.t) list -> unit Lwt.t
+
+(** Promote a function to an event handler *)
+val handler : ('event -> 'b) -> ('event -> unit Lwt.t -> unit Lwt.t)
+
+(** creates a looping Lwt thread that waits for the event ev to happen on target, 
+    then execute handler, and start again waiting for the event. Events happening 
+    during the execution of the handler are ignored. 
+*)
+val sequential : 
+  (?use_capture:bool -> 'target -> 'event Lwt.t)
+  -> ?cancel_handler:bool
+  -> ?use_capture:bool
+  -> 'target
+  -> ('event -> unit Lwt.t -> unit Lwt.t)
+  -> unit Lwt.t
+
+(** async_loop is similar to sequential, but each handler runs independently. No event
+    is thus missed, but since several instances of the handler can be run concurrently,
+    it is up to the programmer to ensure that they interact correctly.
+*)
+val async :
+  (?use_capture:bool -> 'target -> 'event Lwt.t)
+  -> ?use_capture:bool
+  -> 'target
+  -> ('event -> unit Lwt.t -> unit Lwt.t)
+  -> unit Lwt.t
+
+
+(** buffered_loop is similar to sequential, but any event that occurs during an execution 
+    of the handler is queued instead of being ingnored.
+*)
+val buffered :
+  (?use_capture:bool -> 'target -> 'event Lwt.t)
+  -> ?cancel_handler:bool
+  -> ?cancel_queue:bool
+  -> ?use_capture:bool
+  -> 'target
+  -> ('event -> unit Lwt.t -> unit Lwt.t)
+  -> unit Lwt.t
+
 
 (** {2 Listener} *)
 
