@@ -20,10 +20,11 @@
 *)
 
 
-module Storage = QuaStorage
-module Url     = QuaUrl
-module Event   = QuaEvent
-module Element = QuaElement
+module Storage  = QuaStorage
+module Url      = QuaUrl
+module Event    = QuaEvent
+module Listener = Event.Listener
+module Element  = QuaElement
 
 include QuaPervasives
 include Tyxml_js

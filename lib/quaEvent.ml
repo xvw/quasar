@@ -21,6 +21,8 @@
 
 (* open QuaPervasives *)
 
+let cancel = Lwt.cancel
+
 module Listener =
 struct
 

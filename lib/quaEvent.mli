@@ -19,6 +19,11 @@
  *
 *)
 
+(** {2 Event manager} *)
+
+(** Cancel any Lwt thread *)
+val cancel : 'a Lwt.t -> unit
+
 
 (** {2 Listener} *)
 
