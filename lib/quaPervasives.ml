@@ -24,9 +24,11 @@ module String =
 struct
   
   include String
-  let ocaml   = Js.to_string
-  let js      = Js.string
-  let of_json = Yojson.Safe.to_string
+  let ocaml          = Js.to_string
+  let js             = Js.string
+  let of_json        = Yojson.Safe.to_string
+  let of_unsafe_json = Yojson.to_string
+      
     
       
 end

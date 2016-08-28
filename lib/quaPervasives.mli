@@ -133,6 +133,14 @@ sig
     -> ?std:bool
     -> Yojson.Safe.json
     -> string
+
+    (** Convert Unsafe Json to string *)
+  val of_unsafe_json  :
+    ?buf:Bi_outbuf.t
+    -> ?len:int
+    -> ?std:bool
+    -> Yojson.json
+    -> string
  
 
 end
