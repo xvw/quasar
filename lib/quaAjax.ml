@@ -18,14 +18,3 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
 *)
-
-
-module Storage  = QuaStorage
-module Url      = QuaUrl
-module Event    = QuaEvent
-module Listener = Event.Listener
-module Ajax     = QuaAjax
-module Element  = QuaElement
-
-include QuaPervasives
-include Tyxml_js
