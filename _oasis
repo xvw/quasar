@@ -10,8 +10,10 @@ OASISFormat: 0.4
 BuildTools: ocamlbuild
 Plugins: META (0.4), DevFiles (0.4)
 
-Library "quasar"
-  Path: lib
+Library quasar
+  Path:           lib
+  FindlibName:    quasar
+  Install:        true
   Modules:
     Quasar,
     QuaPervasives,
@@ -31,6 +33,18 @@ Library "quasar"
     lwt.ppx,
     ppx_deriving,
     ppx_deriving_yojson
+
+Library ppx
+  Path:           lib/ppx_quasar
+  FindlibName:    ppx
+  FindlibParent:  quasar
+  Modules:        Ppx_quasar
+  BuildDepends:
+    compiler-libs,
+    compiler-libs.common,
+    quasar
+  CompiledObject: best
+  XMETAExtraLines:  ppx = "ppx_quasar"
 
 SourceRepository master
   Type:     git
