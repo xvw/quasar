@@ -18,3 +18,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
 *)
+
+open Parsetree
+open Asttypes
+open Ast_helper
+
+let match_route exp =
+  match exp.pexp_desc with
+  | Pexp_extension ({txt = "routes"; loc=_}, _) -> true
+  | _ -> false 
+
+let expr_mapper mapper expr =
+  match expr.pexp_desc with
+  | Pexp_match (exp, cases) when match_route exp ->
+    Ast_mapper.(default_mapper.expr mapper expr)
+  | _ -> Ast_mapper.(default_mapper.expr mapper expr)
+
+
+
+let quasar_mapper argv =
+  Ast_mapper.{
+    default_mapper with
+    expr = expr_mapper  
+  }
+
+let () =
+  Ast_mapper.register
+    "ppx_quasar"
+    quasar_mapper

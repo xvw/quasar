@@ -44,7 +44,6 @@ Library ppx
     compiler-libs.common,
     quasar
   CompiledObject: best
-  XMETAExtraLines:  ppx = "ppx_quasar"
 
 SourceRepository master
   Type:     git
