@@ -55,6 +55,7 @@ let match_route exp =
 
 (* to be continued ... *)
 let expr_mapper mapper expr =
+  let _ = print_endline "lol" in
   match expr.pexp_desc with
   | Pexp_match (exp, cases) when match_route exp ->
     let f = Util.import_function "Quasar.Url" "get_hash" in
@@ -63,7 +64,7 @@ let expr_mapper mapper expr =
 
 
 
-let quasar_mapper argv =
+let quasar_mapper =
   Ast_mapper.{
     default_mapper with
     expr = expr_mapper  
@@ -73,6 +74,6 @@ let quasar_mapper argv =
 let _ = print_endline "test" 
 
 let () =
-  Ast_mapper.register
-    "ppx_quasar"
-    quasar_mapper
+  Ast_mapper.run_main (
+    fun argv -> quasar_mapper
+  )
