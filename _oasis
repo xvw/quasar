@@ -7,9 +7,10 @@ Homepage: http://github.com/xvw/quasar
 License: GPL
 
 OASISFormat: 0.4
-BuildTools: ocamlbuild
+BuildTools: ocamlbuild, ocamldoc
 Plugins: META (0.4), DevFiles (0.4)
 FilesAB: lib/ppx_quasar/META.ab
+AlphaFeatures: ocamlbuild_more_args
 
 Library quasar
   Path:           lib
@@ -25,7 +26,6 @@ Library quasar
     QuaElement
   CompiledObject: byte
   ByteOpt: -g -w +a-4-40..42-44-45-48
-  BuildTools: ocamlbuild
   BuildDepends:
     js_of_ocaml (>= 2.8.1),
     reactiveData,
@@ -41,12 +41,24 @@ Library ppx_quasar
   FindlibName:    ppx
   FindlibParent:  quasar
   Modules:        Ppx_quasar
-  BuildTools:     ocamlbuild
+  XMETAType:      syntax
   BuildDepends:
     compiler-libs,
     compiler-libs.common,
     quasar
   CompiledObject: best
+
+Document api
+  Title:                Documentation and API reference for Quasar
+  Type:                 ocamlbuild (0.4)
+  BuildTools+:          ocamldoc
+  InstallDir:           $htmldir/quasar
+  XOCamlbuildPath:      .
+  XOCamlbuildLibraries: quasar
+  Install:              true
+  XOCamlbuildExtraArgs: "-docflags '-colorize-code -charset utf-8 -hide Pervasives'"
+
+
 
 SourceRepository master
   Type:     git

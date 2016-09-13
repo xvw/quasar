@@ -83,7 +83,7 @@ sig
   type touch        = Dom_html.touchEvent Js.t Lwt.t
   type 'a multiple  = ('a Js.t -> unit Lwt.t -> unit Lwt.t)
 
-  (** {3 List of listeners *)
+  (** {3 List of listeners} *)
 
   val click       : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
   val dblclick    : ?use_capture:bool ->  #Dom_html.eventTarget Js.t -> mouse
