@@ -23,15 +23,42 @@ open Parsetree
 open Asttypes
 open Ast_helper
 
+module Util =
+struct
+
+  let define_loc ?(loc = !default_loc) value =
+    { txt = value; loc = loc }
+                                               
+  let loc = define_loc
+  let ident ?(loc = !default_loc) value =
+    define_loc ~loc (Longident.Lident value)
+      
+  let exp_ident x  = Exp.ident (ident x)
+  let string value = Exp.constant (Const.string value)
+  let int value    = Exp.constant (Const.int value)
+  let _true        = Exp.construct (ident "true") None
+  let _false       = Exp.construct (ident "false") None
+  let pattern s    = Pat.var (loc s)
+  let _unit        = pattern "()"
+  
+  let import_function modname funcname =
+  loc Longident.(Ldot (Lident modname, funcname))
+  |> Exp.ident
+
+end
+
 let match_route exp =
   match exp.pexp_desc with
-  | Pexp_extension ({txt = "routes"; loc=_}, _) -> true
+  | Pexp_extension ({txt = "quasar.routes"; loc=_}, _) -> true
   | _ -> false 
 
+
+(* to be continued ... *)
 let expr_mapper mapper expr =
   match expr.pexp_desc with
   | Pexp_match (exp, cases) when match_route exp ->
-    Ast_mapper.(default_mapper.expr mapper expr)
+    let f = Util.import_function "Quasar.Url" "get_hash" in
+    Exp.apply f [Nolabel, Util.exp_ident "()"]
   | _ -> Ast_mapper.(default_mapper.expr mapper expr)
 
 
@@ -41,6 +68,9 @@ let quasar_mapper argv =
     default_mapper with
     expr = expr_mapper  
   }
+
+
+let _ = print_endline "test" 
 
 let () =
   Ast_mapper.register
