@@ -55,10 +55,9 @@ let match_route exp =
 
 (* to be continued ... *)
 let expr_mapper mapper expr =
-  let _ = print_endline "lol" in
   match expr.pexp_desc with
   | Pexp_match (exp, cases) when match_route exp ->
-    let f = Util.import_function "Quasar.Url" "get_hash" in
+    let f = Util.import_function "QuaUrl" "get_hash" in
     Exp.apply f [Nolabel, Util.exp_ident "()"]
   | _ -> Ast_mapper.(default_mapper.expr mapper expr)
 
