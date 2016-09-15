@@ -1,6 +1,6 @@
 open Quasar
 
-let start app =
+let router app () =
   let open Element in
   let p text =
     let x = Html.pcdata text in
@@ -17,8 +17,4 @@ let start app =
 let () =
   match Element.getById_opt "app" with
   | None     -> alert "unable to start"
-  | Some app ->
-    let _ = Event.(watch Watcher.onhashchange () (
-        fun x -> log "Hash change"
-      ))
-    in ignore (start app)
+  | Some app -> Router.start (router app)

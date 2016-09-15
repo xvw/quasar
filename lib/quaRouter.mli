@@ -19,16 +19,5 @@
  *
 *)
 
-
-module Storage  = QuaStorage
-module Url      = QuaUrl
-module Event    = QuaEvent
-module Listener = Event.Listener
-module Watcher  = Event.Watcher
-module Ajax     = QuaAjax
-module Element  = QuaElement
-module Router   = QuaRouter
-  
-
-include QuaPervasives
-include Tyxml_js
+(** Start routing *)
+val start : (unit -> 'a) -> unit
