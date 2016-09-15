@@ -15,10 +15,13 @@ let _ =
     let but = !![%html "<input type='button' value='test'>"] in
     let _ = log (String.js (String.of_json t)) in
     let _ = main_div <+> but in
-    begin 
+    let _ = begin 
       match [%quasar.routes] with
-      | _ -> alert "yo"
+      | "news" -> alert "news"
+      | "user" -> alert "user"
+      | _ -> alert "nothing"
     end
+    in ()
     
   | None -> alert "unable to found app div"
 

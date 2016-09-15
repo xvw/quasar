@@ -39,7 +39,7 @@ struct
   let _true        = Exp.construct (ident "true") None
   let _false       = Exp.construct (ident "false") None
   let pattern s    = Pat.var (loc s)
-  let _unit        = pattern "()"
+  let _unit        = Exp.construct (ident "()") None
   
   let import_function modname funcname =
   loc Longident.(Ldot (Lident modname, funcname))
@@ -58,7 +58,7 @@ let expr_mapper mapper expr =
   match expr.pexp_desc with
   | Pexp_match (exp, cases) when match_route exp ->
     let f = Util.import_function "QuaUrl" "get_hash" in
-    Exp.apply f [Nolabel, Util.exp_ident "()"]
+    Exp.(Exp.match_ (apply f [Nolabel, Util._unit])) cases
   | _ -> Ast_mapper.(default_mapper.expr mapper expr)
 
 
