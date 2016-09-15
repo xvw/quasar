@@ -30,6 +30,21 @@ val wait_for : (unit -> 'a Lwt.t) list -> unit Lwt.t
 (** Promote a function to an event handler *)
 val handler : ('event -> 'b) -> ('event -> unit Lwt.t -> unit Lwt.t)
 
+
+(** Describe a watchable event *) 
+type ('a, 'b) watchable = 'a -> 'b Lwt.t
+
+(** Describe an event *)
+type event  = Dom_html.event Js.t Lwt.t
+    
+
+(** Watch an event once *)
+val watch_once : ('a, 'b) watchable -> 'a -> ('b -> 'c) -> unit Lwt.t
+
+
+(** Watch an event *)
+val watch : ('a, 'b) watchable -> 'a -> ('b -> 'c) -> 'd Lwt.t
+    
 (** creates a looping Lwt thread that waits for the event ev to happen on target, 
     then execute handler, and start again waiting for the event. Events happening 
     during the execution of the handler are ignored. 
@@ -67,17 +82,46 @@ val buffered :
   -> unit Lwt.t
 
 
+(** {2 Watcher} *)
+module Watcher :
+sig
+
+  (** Describe the watchable functions for watch *)
+
+  (** {3 List of watchers} *)
+
+  val request_animation_frame : (unit, unit) watchable
+  val onload : (unit, Dom_html.event Js.t) watchable
+  val domContentLoaded: (unit, unit) watchable
+  val onunload : (unit, Dom_html.event Js.t) watchable
+  val onbeforeunload : (unit, Dom_html.event Js.t) watchable
+  val onresize : (unit, Dom_html.event Js.t) watchable
+  val onorientationchange : (unit, Dom_html.event Js.t) watchable
+  val onpopstate : (unit, Dom_html.event Js.t) watchable
+  val onhashchange : (unit, Dom_html.hashChangeEvent Js.t) watchable
+  val onorientationchange_or_onresize : (unit, Dom_html.event Js.t) watchable
+  val onresizes : (Dom_html.event Js.t -> unit Lwt.t -> unit Lwt.t, unit) watchable
+  val onorientationchanges :  (Dom_html.event Js.t -> unit Lwt.t -> unit Lwt.t, unit) watchable
+  val onpopstates :  (Dom_html.event Js.t -> unit Lwt.t -> unit Lwt.t, unit) watchable
+  val onhashchanges :  (Dom_html.hashChangeEvent Js.t -> unit Lwt.t -> unit Lwt.t, unit) watchable
+  val onorientationchanges_or_onresizes :  (Dom_html.event Js.t -> unit Lwt.t -> unit Lwt.t, unit) watchable
+      
+      
+end
+
+
 (** {2 Listener} *)
 
 module Listener :
 sig
+
+  (** Describe the listenable functions for loop/async/bufferd *)
 
   (** {3 Internals types} *)
 
 
   type mouse        = Dom_html.mouseEvent Js.t Lwt.t
   type keyboard     = Dom_html.keyboardEvent Js.t Lwt.t
-  type event        = Dom_html.event Js.t Lwt.t
   type drag         = Dom_html.dragEvent Js.t Lwt.t
   type wheel        = (Dom_html.mouseEvent Js.t * (int * int)) Lwt.t
   type touch        = Dom_html.touchEvent Js.t Lwt.t

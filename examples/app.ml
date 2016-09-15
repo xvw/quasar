@@ -17,4 +17,8 @@ let start app =
 let () =
   match Element.getById_opt "app" with
   | None     -> alert "unable to start"
-  | Some app -> ignore (start app)
+  | Some app ->
+    let _ = Event.(watch Watcher.onhashchange () (
+        fun x -> log "Hash change"
+      ))
+    in ignore (start app)

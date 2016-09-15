@@ -24,6 +24,7 @@ module Storage  = QuaStorage
 module Url      = QuaUrl
 module Event    = QuaEvent
 module Listener = Event.Listener
+module Watcher  = Event.Watcher
 module Ajax     = QuaAjax
 module Element  = QuaElement
 

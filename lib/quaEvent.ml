@@ -23,12 +23,15 @@
 
 let cancel = Lwt.cancel
 
+type ('a, 'b) watchable = 'a -> 'b Lwt.t
+type event = Dom_html.event Js.t Lwt.t
+    
+
 module Listener =
 struct
 
   type mouse        = Dom_html.mouseEvent Js.t Lwt.t
   type keyboard     = Dom_html.keyboardEvent Js.t Lwt.t
-  type event        = Dom_html.event Js.t Lwt.t
   type drag         = Dom_html.dragEvent Js.t Lwt.t
   type wheel        = (Dom_html.mouseEvent Js.t * (int * int)) Lwt.t
   type touch        = Dom_html.touchEvent Js.t Lwt.t
@@ -51,3 +54,20 @@ let handler f = (fun e _ -> f e; Lwt.return_unit)
 let sequential = Lwt_js_events.seq_loop
 let async      = Lwt_js_events.async_loop
 let buffered   = Lwt_js_events.buffered_loop
+
+let watch_once event args f =
+  let%lwt result = event args in
+  let _ = f result in
+  Lwt.return_unit
+
+let rec watch event args f =
+  let%lwt _ = watch_once event args f in
+  watch event args f
+
+module Watcher =
+struct
+
+  include Lwt_js_events
+
+end
+
