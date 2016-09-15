@@ -1,4 +1,5 @@
 S .
 B .
-PKG quasar quasar.ppx
+PKG quasar
+PKG quasar.ppx
 EXT js
