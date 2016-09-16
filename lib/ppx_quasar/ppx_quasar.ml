@@ -49,19 +49,37 @@ end
 
 let match_route exp =
   match exp.pexp_desc with
-  | Pexp_extension ({txt = "quasar.routes"; loc=_}, _) -> true
+  | Pexp_extension
+      ({txt = "quasar.routes"; loc=_},  _) -> true
   | _ -> false
 
-let pattern_route pat =
-  match pat.ppat_desc with
-  | Ppat_extension ({txt = "quasar.route"; loc=_}, _) -> true
-  | _ -> false
+let extract_regex = function
+  | _ -> ".*"
 
-let case_mapper mapper c =
-  match c.pc_lhs with
-  | case when pattern_route c.pc_lhs ->
-    Ast_mapper.(default_mapper.case mapper c)
-  | _ -> Ast_mapper.(default_mapper.case mapper c)
+let create_regex reg =
+  let f = Util.import_function "Str" "regexp" in
+  let g = Util.import_function "Str" "string_match" in 
+  let c = Util.string reg in
+  let r = Exp.(apply f [Nolabel, c]) in
+  Exp.(apply g [
+      Nolabel, r
+    ; Nolabel, Util.exp_ident "quasar_route_uri"
+    ; Nolabel, Util.int 0
+    ])
+
+
+
+let case_mapper mapper case =
+    match case.pc_lhs.ppat_desc with
+  | Ppat_extension ({txt = "quasar.route"; loc=_}, pl) ->
+    let reg   = extract_regex pl in
+    let guard = create_regex reg in
+    {
+      pc_lhs    = Util.pattern "quasar_route_uri"
+    ; pc_guard  = Some guard
+    ; pc_rhs    = case.pc_rhs
+    }
+  | _ -> Ast_mapper.(default_mapper.case mapper case)
 
 
 (* to be continued ... *)
