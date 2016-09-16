@@ -52,9 +52,16 @@ let match_route exp =
   | Pexp_extension ({txt = "quasar.routes"; loc=_}, _) -> true
   | _ -> false
 
-let case_mapper mapper case =
-  match case.pc_lhs with
-  | _ -> Ast_mapper.(default_mapper.case mapper case)
+let pattern_route pat =
+  match pat.ppat_desc with
+  | Ppat_extension ({txt = "quasar.route"; loc=_}, _) -> true
+  | _ -> false
+
+let case_mapper mapper c =
+  match c.pc_lhs with
+  | case when pattern_route c.pc_lhs ->
+    Ast_mapper.(default_mapper.case mapper c)
+  | _ -> Ast_mapper.(default_mapper.case mapper c)
 
 
 (* to be continued ... *)
