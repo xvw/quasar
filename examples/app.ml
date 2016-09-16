@@ -7,7 +7,7 @@ let router app () =
     !![%html "<p>"[x]"</p>"] in
   
   match [%quasar.routes] with
-  | "foo" -> app <+> p "page foo"
+  | [%quasar.route "foo"] -> app <+> p "page foo"
   | "bar" -> app <+> p "page bar"
   | ""    -> app <+> p "page index"
   | _     -> app <+> p "unknown page"

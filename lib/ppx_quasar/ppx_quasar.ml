@@ -50,7 +50,11 @@ end
 let match_route exp =
   match exp.pexp_desc with
   | Pexp_extension ({txt = "quasar.routes"; loc=_}, _) -> true
-  | _ -> false 
+  | _ -> false
+
+let case_mapper mapper case =
+  match case.pc_lhs with
+  | _ -> Ast_mapper.(default_mapper.case mapper case)
 
 
 (* to be continued ... *)
@@ -58,7 +62,11 @@ let expr_mapper mapper expr =
   match expr.pexp_desc with
   | Pexp_match (exp, cases) when match_route exp ->
     let f = Util.import_function "QuaUrl" "get_hash" in
-    Exp.(Exp.match_ (apply f [Nolabel, Util._unit])) cases
+    Exp.(
+      Exp.match_
+        (apply f [Nolabel, Util._unit])
+        (List.map (case_mapper mapper) cases)
+    )  
   | _ -> Ast_mapper.(default_mapper.expr mapper expr)
 
 
