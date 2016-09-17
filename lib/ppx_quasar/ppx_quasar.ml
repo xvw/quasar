@@ -45,6 +45,8 @@ struct
   loc Longident.(Ldot (Lident modname, funcname))
   |> Exp.ident
 
+           
+
 end
 
 let match_route exp =
@@ -57,15 +59,19 @@ let extract_regex = function
   | _ -> ".*"
 
 let create_regex reg =
-  let f = Util.import_function "Str" "regexp" in
-  let g = Util.import_function "Str" "string_match" in 
-  let c = Util.string reg in
-  let r = Exp.(apply f [Nolabel, c]) in
-  Exp.(apply g [
-      Nolabel, r
-    ; Nolabel, Util.exp_ident "quasar_route_uri"
-    ; Nolabel, Util.int 0
-    ])
+  let to_reg = Util.import_function "Regexp" "regexp" in
+  let matchs = Util.import_function "Regexp" "string_match" in
+  let to_opt = Util.import_function "Option" "is_some" in 
+  let str    = Util.string reg in
+  let regex  = Exp.(apply to_reg [Nolabel, str]) in
+  let app    =
+    Exp.(apply matchs [
+        Nolabel, regex
+      ; Nolabel, Util.exp_ident "quasar_route_uri"
+      ; Nolabel, Util.int 0
+      ])
+  in Exp.(apply to_opt [Nolabel, app])
+      
 
 
 
@@ -87,11 +93,14 @@ let expr_mapper mapper expr =
   match expr.pexp_desc with
   | Pexp_match (exp, cases) when match_route exp ->
     let f = Util.import_function "QuaUrl" "get_hash" in
-    Exp.(
-      Exp.match_
-        (apply f [Nolabel, Util._unit])
-        (List.map (case_mapper mapper) cases)
-    )  
+    let match_ =
+      Exp.(
+        Exp.match_
+          (apply f [Nolabel, Util._unit])
+          (List.map (case_mapper mapper) cases)
+      )
+    in
+    Exp.open_ Fresh (Util.ident "QuaPervasives") match_
   | _ -> Ast_mapper.(default_mapper.expr mapper expr)
 
 
