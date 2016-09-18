@@ -64,7 +64,19 @@ let merge_guard other = function
         ; Nolabel, other
         ])
 
+
+let extract_pattern_regex str =
+  (* To be continued *)
+  Printf.sprintf "^%s$" str
+ 
 let extract_regex = function
+  | PStr [{pstr_desc = Pstr_eval (e, _); _}] ->
+    begin
+      match e.pexp_desc with
+      | Pexp_constant (Pconst_string (str, _)) ->
+        extract_pattern_regex str
+      | _ -> ".*"
+    end
   | _ -> ".*"
 
 let create_regex reg =
@@ -82,8 +94,6 @@ let create_regex reg =
   in Exp.(apply to_opt [Nolabel, app])
       
 
-
-
 let case_mapper mapper case =
     match case.pc_lhs.ppat_desc with
   | Ppat_extension ({txt = "quasar.route"; loc=_}, pl) ->
@@ -97,7 +107,6 @@ let case_mapper mapper case =
   | _ -> Ast_mapper.(default_mapper.case mapper case)
 
 
-(* to be continued ... *)
 let expr_mapper mapper expr =
   match expr.pexp_desc with
   | Pexp_match (exp, cases) when match_route exp ->
