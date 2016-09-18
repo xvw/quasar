@@ -55,6 +55,15 @@ let match_route exp =
       ({txt = "quasar.routes"; loc=_},  _) -> true
   | _ -> false
 
+let merge_guard other = function
+  | None -> Some other
+  | Some x ->
+    Some
+      Exp.(apply (Util.exp_ident "&&") [
+          Nolabel, x
+        ; Nolabel, other
+        ])
+
 let extract_regex = function
   | _ -> ".*"
 
@@ -82,7 +91,7 @@ let case_mapper mapper case =
     let guard = create_regex reg in
     {
       pc_lhs    = Util.pattern "quasar_route_uri"
-    ; pc_guard  = Some guard
+    ; pc_guard  = merge_guard guard case.pc_guard
     ; pc_rhs    = case.pc_rhs
     }
   | _ -> Ast_mapper.(default_mapper.case mapper case)
