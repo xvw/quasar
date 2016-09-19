@@ -19,6 +19,48 @@
  *
 *)
 
+let raise_error ?(loc = !Ast_helper.default_loc) message =
+  let open Location in
+  raise (Error (error ~loc message))
+
+module Reg =
+struct
+
+  let _types = Hashtbl.create 6
+  let _ =
+    let add = Hashtbl.add in
+    add _types "int" "\\(-?[0-9]+\\)";
+    add _types "float" "\\(-?[0-9]+\\.[0-9]*\\)";
+    add _types "char" "\\(.\\)";
+    add _types "bool" "\\(true\\|false\\)"; 
+    add _types "string" "\\(.+\\)"
+
+  let cons = Printf.sprintf "%s%c"
+
+  let create str =
+    let len = String.length str in
+    let rec aux acc i =
+      if i = len then acc
+      else
+        match str.[i] with
+        | '{' ->
+          let (r, new_index) = variable "" (succ i) in
+          aux (acc ^ r) new_index
+        | c   -> aux (cons acc c) (succ i)
+    and variable acc i =
+      if i = len then raise_error "Malformed route"
+      else
+        match str.[i] with
+        | '}' ->
+          if Hashtbl.mem _types acc then (Hashtbl.find _types acc, succ i)
+          else raise_error "Unknown type in route"
+        | c -> variable (cons acc c) (succ i)
+      
+    in aux "" 0
+    
+end
+
+
 open Parsetree
 open Asttypes
 open Ast_helper
@@ -43,9 +85,7 @@ struct
   
   let import_function modname funcname =
   loc Longident.(Ldot (Lident modname, funcname))
-  |> Exp.ident
-
-           
+  |> Exp.ident          
 
 end
 
@@ -63,10 +103,10 @@ let merge_guard other = function
           Nolabel, x
         ; Nolabel, other
         ])
-
+  
 
 let extract_pattern_regex str =
-  (* To be continued *)
+  
   Printf.sprintf "^%s$" str
  
 let extract_regex = function

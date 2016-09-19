@@ -44,6 +44,7 @@ Library ppx_quasar
   Modules:        Ppx_quasar
   XMETAType:      syntax
   BuildDepends:
+    str,
     compiler-libs,
     compiler-libs.common,
     quasar
