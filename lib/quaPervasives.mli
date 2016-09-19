@@ -45,7 +45,10 @@ val ( %> ) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
     application (f x) means the same as (f $ x). However, $ has low,
     right-associative binding precedence, so it sometimes allows parentheses
 *)
-val ( $ ) : ('a -> 'b) -> 'a -> 'b 
+val ( $ ) : ('a -> 'b) -> 'a -> 'b
+
+(** Convert a TyXML element into a DOM element *)
+val (!!) : 'a Tyxml_js.To_dom.elt -> Dom_html.element Js.t
 
 (** {2 JavaScript objects} *)
 val document : Dom_html.document Js.t

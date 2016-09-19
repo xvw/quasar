@@ -24,11 +24,8 @@ type t = Dom_html.element Js.t
 
 (** {2 Coersion tool} *)
 
-(** Coerse an Tyxml element to a dom element *)
+(** Convert a TyXML element into a DOM element *)
 val element : 'a Tyxml_js.To_dom.elt -> t
-
-(** Infix version of [element] *)
-val (!!) : 'a Tyxml_js.To_dom.elt -> t
 
 (** {2 Retreive Elements from the document} *)
 

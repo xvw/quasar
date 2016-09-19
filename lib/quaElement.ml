@@ -123,8 +123,7 @@ let prepend parent elt =
   Dom.insertBefore parent elt (parent##.firstChild);
   parent
 
-let element = Tyxml_js.To_dom.of_element
-let (!!) = element
+let element = (!!)
 
 let ( <+> ) = append
 let ( <|> ) = prepend

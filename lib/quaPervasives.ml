@@ -63,6 +63,7 @@ let with_debugger () =
 (* Common JavaScript functions *)
 let alert str    = window##alert(String.js str)
 let log value    = console##log(value)
+let (!!)         = Tyxml_js.To_dom.of_element
 
 (* Error Management *)
 module Error =

@@ -1,11 +1,10 @@
 open Quasar
 
 let router app () =
-  let open Element in
 
   let page app text =
     let x = Html.pcdata text in
-    (clean app) <+> !![%html "<p>"[x]"</p>"]
+    Element.((clean app) <+> !![%html "<p>"[x]"</p>"])
   in
 
   
