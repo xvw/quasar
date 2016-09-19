@@ -146,5 +146,9 @@ let remove_children node =
       iter node
   in iter node
 
+let clean node =
+  let () = remove_children node
+  in node
+
 
     

@@ -21,3 +21,14 @@
 
 (** Start routing *)
 val start : (unit -> 'a) -> unit
+
+(** Get the current hash *)
+val routes : unit -> string
+
+(** Coersion for the routes arguments *)
+  
+val coersion_int   : string -> int
+val coersion_float : string -> float
+val coersion_bool  : string -> bool
+val coersion_char  : string -> char
+  

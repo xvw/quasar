@@ -122,5 +122,9 @@ val iter_children : (Dom.node Js.t -> unit) -> t -> unit
 (** Remove all children *)
 val remove_children : t -> unit
 
+(** Remove all children and returns the cleaned node *)
+val clean : t -> t
+
+
 
  

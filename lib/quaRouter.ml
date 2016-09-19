@@ -19,9 +19,32 @@
  *
 *)
 
+open QuaPervasives
+
 
 let start f =
   let open QuaEvent.Watcher in
   let _ = QuaEvent.watch_once onload  () (fun _ -> f ()) in
   let _ = QuaEvent.watch onhashchange () (fun _ -> f ()) in
   ()
+
+let routes = QuaUrl.get_hash
+
+let coersion_int str =
+  try int_of_string str
+  with _ -> Error.raise_ "Unable to coers string into int"
+
+let coersion_float str =
+  try float_of_string str
+  with _ -> Error.raise_ "Unable to coers string into float"
+
+let coersion_bool str =
+  str <> "false"
+
+
+let coersion_char str =
+  if (String.length str) <> 1 then
+    Error.raise_ "Unable to coers string into char"
+  else str.[0]
+    
+
