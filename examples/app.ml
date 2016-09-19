@@ -10,10 +10,16 @@ let router app () =
   let i = 99 in 
   
   match [%quasar.routes] with
-  | [%quasar.route "foo"]             -> app <+> p "page foo"
-  | [%quasar.route "bar"] when i > 10 -> app <+> p "page bar"
-  | ""                                -> app <+> p "page index"
-  | _                                 -> app <+> p "unknown page"
+  | [%quasar.route "foo"] ->
+    app <+> p "page foo"
+  | [%quasar.route "hello-{string}"] when i > 10 ->
+    app <+> p "page hello"
+  | [%quasar.route "age-{int}-{int}-{bool}"] ->
+    app <+> p "page age"
+  | "" ->
+    app <+> p "page index"
+  | _  ->
+    app <+> p "unknown page"
     
     
 

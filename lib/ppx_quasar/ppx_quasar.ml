@@ -29,24 +29,24 @@ struct
   let _types = Hashtbl.create 6
   let _ =
     let add = Hashtbl.add in
-    add _types "int" "\\(-?[0-9]+\\)";
-    add _types "float" "\\(-?[0-9]+\\.[0-9]*\\)";
-    add _types "char" "\\(.\\)";
-    add _types "bool" "\\(true\\|false\\)"; 
-    add _types "string" "\\(.+\\)"
+    add _types "int" "(-?[0-9]+)";
+    add _types "float" "(-?[0-9]+.[0-9]*)";
+    add _types "char" "(.)";
+    add _types "bool" "(true|false)"; 
+    add _types "string" "(.+)"
 
   let cons = Printf.sprintf "%s%c"
 
   let create str =
     let len = String.length str in
-    let rec aux acc i =
-      if i = len then acc
+    let rec aux accn acc i =
+      if i = len then (acc, accn)
       else
         match str.[i] with
         | '{' ->
           let (r, new_index) = variable "" (succ i) in
-          aux (acc ^ r) new_index
-        | c   -> aux (cons acc c) (succ i)
+          aux (succ accn) (acc ^ r) new_index
+        | c   -> aux accn (cons acc c) (succ i)
     and variable acc i =
       if i = len then raise_error "Malformed route"
       else
@@ -56,7 +56,7 @@ struct
           else raise_error "Unknown type in route"
         | c -> variable (cons acc c) (succ i)
       
-    in aux "" 0
+    in aux 0 "" 0
     
 end
 
@@ -82,6 +82,7 @@ struct
   let _false       = Exp.construct (ident "false") None
   let pattern s    = Pat.var (loc s)
   let _unit        = Exp.construct (ident "()") None
+  let some x       = Exp.construct (ident "Some") (Some x)
   
   let import_function modname funcname =
   loc Longident.(Ldot (Lident modname, funcname))
@@ -106,8 +107,9 @@ let merge_guard other = function
   
 
 let extract_pattern_regex str =
-  
-  Printf.sprintf "^%s$" str
+  let (r,i) = Reg.create str in
+  let matcher = Printf.sprintf "^%s$" r
+  in (matcher, i)
  
 let extract_regex = function
   | PStr [{pstr_desc = Pstr_eval (e, _); _}] ->
@@ -115,9 +117,56 @@ let extract_regex = function
       match e.pexp_desc with
       | Pexp_constant (Pconst_string (str, _)) ->
         extract_pattern_regex str
-      | _ -> ".*"
+      | _ -> ".*", 0
     end
-  | _ -> ".*"
+  | _ -> ".*", 0
+
+let create_matched i =
+  let f = Util.import_function "Regexp" "matched_group" in
+  Exp.( apply f [
+      Nolabel, Util.exp_ident "result"
+    ; Nolabel, Util.int i
+    ])
+
+let expr_fun len guard =
+  let result = Exp.let_ Nonrecursive [Vb.mk (Util.pattern "raw_result") guard] in
+  let rec aux acc i =
+    if i > len then List.rev acc
+    else aux ((create_matched i)::acc) (succ i)
+  in
+  let expr =
+    if len > 1 then Exp.tuple (aux [] 1)
+    else create_matched 1 in 
+  result (
+    Exp.match_
+      (Util.exp_ident "raw_result")
+      [
+        Exp.case
+          (Pat.construct (Util.ident "Some") (Some (Util.pattern "result")))
+          expr
+      ; Exp.case
+          (Pat.construct (Util.ident "None") None)
+          
+      ]
+  )
+    
+  
+
+let route_args_function guard gexp i case =
+  let f =
+    if i > 1 then 
+      Exp.let_ Nonrecursive [
+        Vb.mk
+          (Util.pattern "route_arguments")
+          (Exp.fun_ Nolabel None (Util.pattern "()") (expr_fun i gexp))
+      ] case.pc_rhs
+    else case.pc_rhs     
+  in  {
+    pc_lhs    = Util.pattern "quasar_route_uri"
+  ; pc_guard  = merge_guard guard case.pc_guard
+  ; pc_rhs    = f
+  }
+  
 
 let create_regex reg =
   let to_reg = Util.import_function "Regexp" "regexp" in
@@ -131,19 +180,15 @@ let create_regex reg =
       ; Nolabel, Util.exp_ident "quasar_route_uri"
       ; Nolabel, Util.int 0
       ])
-  in Exp.(apply to_opt [Nolabel, app])
+  in (Exp.(apply to_opt [Nolabel, app]), app)
       
 
 let case_mapper mapper case =
     match case.pc_lhs.ppat_desc with
   | Ppat_extension ({txt = "quasar.route"; loc=_}, pl) ->
-    let reg   = extract_regex pl in
-    let guard = create_regex reg in
-    {
-      pc_lhs    = Util.pattern "quasar_route_uri"
-    ; pc_guard  = merge_guard guard case.pc_guard
-    ; pc_rhs    = case.pc_rhs
-    }
+    let (reg, clause)   = extract_regex pl in
+    let (guard, gexp) = create_regex reg in
+    route_args_function guard gexp clause case
   | _ -> Ast_mapper.(default_mapper.case mapper case)
 
 
@@ -160,6 +205,7 @@ let expr_mapper mapper expr =
     in
     Exp.open_ Fresh (Util.ident "QuaPervasives") match_
   | _ -> Ast_mapper.(default_mapper.expr mapper expr)
+
 
 
 
