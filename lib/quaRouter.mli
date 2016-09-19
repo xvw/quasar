@@ -19,8 +19,12 @@
  *
 *)
 
+
 (** Start routing *)
 val start : (unit -> 'a) -> unit
+
+
+(** {2 Internal functions} *)
 
 (** Get the current hash *)
 val routes : unit -> string

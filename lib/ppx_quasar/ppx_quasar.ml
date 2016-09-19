@@ -213,7 +213,7 @@ let case_mapper mapper case =
 let expr_mapper mapper expr =
   match expr.pexp_desc with
   | Pexp_match (exp, cases) when match_route exp ->
-    let f = Util.import_function "QuaUrl" "get_hash" in
+    let f = Util.import_function "QuaRouter" "routes" in
     let match_ =
       Exp.(
         Exp.match_
