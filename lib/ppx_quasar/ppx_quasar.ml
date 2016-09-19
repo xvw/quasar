@@ -234,8 +234,6 @@ let quasar_mapper =
   }
 
 
-let _ = print_endline "test" 
-
 let () =
   Ast_mapper.run_main (
     fun argv -> quasar_mapper
