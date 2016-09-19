@@ -27,8 +27,10 @@ val routes : unit -> string
 
 (** Coersion for the routes arguments *)
   
-val coersion_int   : string -> int
-val coersion_float : string -> float
-val coersion_bool  : string -> bool
-val coersion_char  : string -> char
+val coersion_int    : string option -> int
+val coersion_float  : string option -> float
+val coersion_bool   : string option -> bool
+val coersion_char   : string option -> char
+val coersion_string : string option -> string
+  
   

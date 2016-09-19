@@ -11,11 +11,17 @@ let router app () =
   
   match [%quasar.routes] with
   
-  | [%quasar.route "foo"]                    ->  page app "Page foo"
-  | [%quasar.route "hello-{string}"]         ->  page app "Page Hello"          
-  | [%quasar.route "age-{int}-{int}-{bool}"] ->  page app "Page age"
-  | ""                                       ->  page app "Index du site"
-  | _                                        ->  page app "Page inconnue"
+  | [%quasar.route "hello-{string}-{int}"]  ->
+    let name, age = route_arguments () in
+    page app (Printf.sprintf "Hello %s, tu as %d ans" name age)
+
+  | [%quasar.route "auth-{bool}-{int}"] ->
+    let auth, age = route_arguments () in
+    if auth && (age >= 18) then page app "Bienvenue"
+    else page app "Interdit !"
+
+  | ""  ->  page app "Index du site"
+  | _   ->  page app "Page inconnue"
     
     
 

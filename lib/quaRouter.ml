@@ -30,21 +30,34 @@ let start f =
 
 let routes = QuaUrl.get_hash
 
-let coersion_int str =
-  try int_of_string str
-  with _ -> Error.raise_ "Unable to coers string into int"
+let coersion_int = function
+  | Some str -> begin
+      try int_of_string str
+      with _ -> Error.raise_ "Unable to coers string into int"
+    end 
+  | None -> Error.raise_ "Unable to coers string into int"
+        
 
-let coersion_float str =
-  try float_of_string str
-  with _ -> Error.raise_ "Unable to coers string into float"
+let coersion_float = function
+  | Some str -> begin
+      try float_of_string str
+      with _ -> Error.raise_ "Unable to coers string into float"
+    end
+  | None -> Error.raise_ "Unable to coers string into float"
+              
+let coersion_bool = function
+  | Some str -> str <> "false"
+  | None -> Error.raise_ "Unable to coers string into bool"
 
-let coersion_bool str =
-  str <> "false"
 
-
-let coersion_char str =
-  if (String.length str) <> 1 then
-    Error.raise_ "Unable to coers string into char"
-  else str.[0]
+let coersion_char = function
+  | Some str ->
+    if (String.length str) <> 1 then
+      Error.raise_ "Unable to coers string into char"
+    else str.[0]
+  | None -> Error.raise_ "Unable to coers string into char"
     
 
+let coersion_string = function
+  | Some str -> str
+  | None -> Error.raise_ "Unable to coers string into string"

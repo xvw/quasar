@@ -23,6 +23,8 @@ let raise_error ?(loc = !Ast_helper.default_loc) message =
   let open Location in
   raise (Error (error ~loc message))
 
+let empty_hash = Hashtbl.create 10
+
 module Reg =
 struct
 
@@ -38,21 +40,24 @@ struct
   let cons = Printf.sprintf "%s%c"
 
   let create str =
-    let len = String.length str in
+    let hash = Hashtbl.create 10 in 
+    let len  = String.length str in
     let rec aux accn acc i =
-      if i = len then (acc, accn)
+      if i = len then (acc, accn, hash)
       else
         match str.[i] with
         | '{' ->
           let (r, new_index) = variable "" (succ i) in
-          aux (succ accn) (acc ^ r) new_index
+          let index = succ accn in
+          let _ = Hashtbl.add hash index r in
+          aux index (acc ^ (Hashtbl.find _types r)) new_index
         | c   -> aux accn (cons acc c) (succ i)
     and variable acc i =
       if i = len then raise_error "Malformed route"
       else
         match str.[i] with
         | '}' ->
-          if Hashtbl.mem _types acc then (Hashtbl.find _types acc, succ i)
+          if Hashtbl.mem _types acc then (acc, succ i)
           else raise_error "Unknown type in route"
         | c -> variable (cons acc c) (succ i)
       
@@ -115,9 +120,9 @@ let merge_guard other = function
   
 
 let extract_pattern_regex str =
-  let (r,i) = Reg.create str in
+  let (r,i, hash) = Reg.create str in
   let matcher = Printf.sprintf "^%s$" r
-  in (matcher, i)
+  in (matcher, i, hash)
  
 let extract_regex = function
   | PStr [{pstr_desc = Pstr_eval (e, _); _}] ->
@@ -125,27 +130,31 @@ let extract_regex = function
       match e.pexp_desc with
       | Pexp_constant (Pconst_string (str, _)) ->
         extract_pattern_regex str
-      | _ -> ".*", 0
+      | _ -> (".*", 0, empty_hash)
     end
-  | _ -> ".*", 0
+  | _ -> (".*", 0, empty_hash)
 
-let create_matched i =
+let create_matched hash i =
+  let k = Hashtbl.find hash i in
   let f = Util.import_function "Regexp" "matched_group" in
-  Exp.( apply f [
+  let coersion = Util.import_function "QuaRouter" ("coersion_"^k) in
+  let e = Exp.( apply f [
       Nolabel, Util.exp_ident "result"
     ; Nolabel, Util.int i
     ])
+  in
+  Exp.(apply coersion [Nolabel, e])
 
-let expr_fun len guard =
+let expr_fun len guard hash =
   let err = Util.import_function "Error" "raise_" in
   let result = Exp.let_ Nonrecursive [Vb.mk (Util.pattern "raw_result") guard] in
   let rec aux acc i =
     if i > len then List.rev acc
-    else aux ((create_matched i)::acc) (succ i)
+    else aux ((create_matched hash i)::acc) (succ i)
   in
   let expr =
     if len > 1 then Exp.tuple (aux [] 1)
-    else create_matched 1 in 
+    else create_matched hash 1 in 
   result (
     Exp.match_
       (Util.exp_ident "raw_result")
@@ -161,13 +170,13 @@ let expr_fun len guard =
     
   
 
-let route_args_function guard gexp i case =
+let route_args_function guard gexp i case hash=
   let f =
     if i > 1 then 
       Exp.let_ ~attrs:[Util.warning "-26"] Nonrecursive [
         Vb.mk
           (Util.pattern "route_arguments")
-          (Exp.fun_ Nolabel None (Util.pattern "()") (expr_fun i gexp))
+          (Exp.fun_ Nolabel None (Util.pattern "()") (expr_fun i gexp hash))
       ] case.pc_rhs
     else case.pc_rhs     
   in  {
@@ -195,9 +204,9 @@ let create_regex reg =
 let case_mapper mapper case =
     match case.pc_lhs.ppat_desc with
   | Ppat_extension ({txt = "quasar.route"; loc=_}, pl) ->
-    let (reg, clause)   = extract_regex pl in
+    let (reg, clause, hash) = extract_regex pl in
     let (guard, gexp) = create_regex reg in
-    route_args_function guard gexp clause case
+    route_args_function guard gexp clause case hash
   | _ -> Ast_mapper.(default_mapper.case mapper case)
 
 
