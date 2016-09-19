@@ -86,7 +86,15 @@ struct
   
   let import_function modname funcname =
   loc Longident.(Ldot (Lident modname, funcname))
-  |> Exp.ident          
+  |> Exp.ident
+
+  let attribute name e =
+    let loc = !default_loc in
+    let str = Str.eval e in
+    ({txt = name; loc}, PStr [str])
+
+  let warning n =
+    attribute "ocaml.warning" (string n)
 
 end
 
@@ -129,6 +137,7 @@ let create_matched i =
     ])
 
 let expr_fun len guard =
+  let err = Util.import_function "Error" "raise_" in
   let result = Exp.let_ Nonrecursive [Vb.mk (Util.pattern "raw_result") guard] in
   let rec aux acc i =
     if i > len then List.rev acc
@@ -146,7 +155,7 @@ let expr_fun len guard =
           expr
       ; Exp.case
           (Pat.construct (Util.ident "None") None)
-          
+          (Exp.apply err [Nolabel, Util.string "Error during matching route"])
       ]
   )
     
@@ -155,7 +164,7 @@ let expr_fun len guard =
 let route_args_function guard gexp i case =
   let f =
     if i > 1 then 
-      Exp.let_ Nonrecursive [
+      Exp.let_ ~attrs:[Util.warning "-26"] Nonrecursive [
         Vb.mk
           (Util.pattern "route_arguments")
           (Exp.fun_ Nolabel None (Util.pattern "()") (expr_fun i gexp))

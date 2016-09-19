@@ -82,6 +82,10 @@ struct
     raise (Runtime message)
     |> ignore
 
+  let raise_ message =
+    let () = perform_failure message in
+    raise (Runtime message)
+
   let try_with f message =
     try ignore (f ()) with _ -> fail message
 

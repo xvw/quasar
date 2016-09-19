@@ -155,6 +155,9 @@ sig
   (** Fail with a message *)
   val fail : string -> unit
 
+  (** Raise a RuntimeError *)
+  val raise_ : string -> 'a
+
   (** [try_with f "failure"] try f () with potential failure *)
   val try_with : (unit -> 'a) -> string -> unit
 

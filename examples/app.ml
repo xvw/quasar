@@ -15,7 +15,8 @@ let router app () =
   | [%quasar.route "hello-{string}"] when i > 10 ->
     app <+> p "page hello"
   | [%quasar.route "age-{int}-{int}-{bool}"] ->
-    app <+> p "page age"
+    let i, j, k = route_arguments () in
+    app <+> p (Printf.sprintf "page age : %d" i)
   | "" ->
     app <+> p "page index"
   | _  ->
