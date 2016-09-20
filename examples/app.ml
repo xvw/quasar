@@ -29,9 +29,10 @@ let router app () =
 
   | "load" ->
     Ajax.get_text
-      "https://xvw.github.io"
-      (fun x -> alert x)
-      
+      "http://jsonplaceholdertypicode.com/posts/1"
+      ~error:(fun _ _ -> alert "fail")
+    $ (fun x -> alert x)
+    
 
   | ""  ->  page app "Index du site" |> ignore
   | _   ->  page app "Page inconnue" |> ignore

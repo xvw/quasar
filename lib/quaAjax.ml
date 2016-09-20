@@ -22,11 +22,20 @@
 open QuaPervasives
 open XmlHttpRequest
 
-let request meth file sync response callback =
+let failure _ _ = Error.raise_ "failure of Ajax request"
+
+let request
+  ?(error=failure)
+    meth
+    file
+    sync
+    response
+    callback =
   let xhr    = create () in
   let onr () =
     match xhr##.readyState, xhr##.status with
     | DONE, 200 -> callback (response xhr)
+    | (UNSENT | DONE) as t, code -> error t code
     | _ -> ()
   in
   let _ = xhr##.onreadystatechange := (Js.wrap_callback onr) in
@@ -36,8 +45,8 @@ let request meth file sync response callback =
       (if sync then Js._true else Js._false)
   in xhr##send(Js.null)
 
-let _get f = request "GET" f true
+let _get ?(error=failure) f = request ~error "GET" f true
 
-let get_text file = _get file (fun x -> String.ocaml x##.responseText)
-let get_xml  file = _get file (fun x -> try_unopt x##.responseXML) 
+let get_text ?(error=failure) file = _get ~error file (fun x -> String.ocaml x##.responseText)
+let get_xml  ?(error=failure) file = _get ~error file (fun x -> try_unopt x##.responseXML) 
 

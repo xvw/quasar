@@ -19,6 +19,15 @@
  *
 *)
 
-val get_text : string -> (string -> unit) -> unit
-val get_xml  : string -> (Dom.element Dom.document Js.t option -> unit) -> unit
+val get_text :
+  ?error:(XmlHttpRequest.readyState -> int -> unit)
+  -> string
+  -> (string -> unit)
+  -> unit
+  
+val get_xml :
+  ?error:(XmlHttpRequest.readyState -> int -> unit)
+  -> string
+  -> (Dom.element Dom.document Js.t option -> unit)
+  -> unit
   
