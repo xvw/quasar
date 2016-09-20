@@ -21,6 +21,118 @@
 
 (** tools for Ajax request *)
 
+(** Content of a query *)
+
+type 'response generic_http_frame = {
+  url: string;
+  code: int;
+  headers: string -> string option;
+  content: 'response;
+  content_xml: unit -> Dom.element Dom.document Js.t option;
+}
+
+type result = XmlHttpRequest.http_frame
+
+(** HTTP methods *)
+
+val get :
+  ?headers:(string * string) list
+  -> ?content_type:string
+  -> ?post_args:((string * Form.form_elt) list)
+  -> ?get_args:((string * string) list) 
+  -> ?form_arg:Form.form_contents
+  -> ?check_headers:(int -> (string -> string option) -> bool)
+  -> ?progress:(int -> int -> unit)
+  -> ?upload_progress:(int -> int -> unit)
+  -> ?override_mime_type:string
+  -> ?with_credentials:bool
+  -> string
+  -> result Lwt.t
+
+val post :
+  ?headers:(string * string) list
+  -> ?content_type:string
+  -> ?post_args:((string * Form.form_elt) list)
+  -> ?get_args:((string * string) list) 
+  -> ?form_arg:Form.form_contents
+  -> ?check_headers:(int -> (string -> string option) -> bool)
+  -> ?progress:(int -> int -> unit)
+  -> ?upload_progress:(int -> int -> unit)
+  -> ?override_mime_type:string
+  -> ?with_credentials:bool
+  -> string
+  -> result Lwt.t
+
+
+val head :
+  ?headers:(string * string) list
+  -> ?content_type:string
+  -> ?post_args:((string * Form.form_elt) list)
+  -> ?get_args:((string * string) list) 
+  -> ?form_arg:Form.form_contents
+  -> ?check_headers:(int -> (string -> string option) -> bool)
+  -> ?progress:(int -> int -> unit)
+  -> ?upload_progress:(int -> int -> unit)
+  -> ?override_mime_type:string
+  -> ?with_credentials:bool
+  -> string
+  -> result Lwt.t
+
+val put :
+  ?headers:(string * string) list
+  -> ?content_type:string
+  -> ?post_args:((string * Form.form_elt) list)
+  -> ?get_args:((string * string) list) 
+  -> ?form_arg:Form.form_contents
+  -> ?check_headers:(int -> (string -> string option) -> bool)
+  -> ?progress:(int -> int -> unit)
+  -> ?upload_progress:(int -> int -> unit)
+  -> ?override_mime_type:string
+  -> ?with_credentials:bool
+  -> string
+  -> result Lwt.t
+
+val delete :
+  ?headers:(string * string) list
+  -> ?content_type:string
+  -> ?post_args:((string * Form.form_elt) list)
+  -> ?get_args:((string * string) list) 
+  -> ?form_arg:Form.form_contents
+  -> ?check_headers:(int -> (string -> string option) -> bool)
+  -> ?progress:(int -> int -> unit)
+  -> ?upload_progress:(int -> int -> unit)
+  -> ?override_mime_type:string
+  -> ?with_credentials:bool
+  -> string
+  -> result Lwt.t
+
+val options :
+  ?headers:(string * string) list
+  -> ?content_type:string
+  -> ?post_args:((string * Form.form_elt) list)
+  -> ?get_args:((string * string) list) 
+  -> ?form_arg:Form.form_contents
+  -> ?check_headers:(int -> (string -> string option) -> bool)
+  -> ?progress:(int -> int -> unit)
+  -> ?upload_progress:(int -> int -> unit)
+  -> ?override_mime_type:string
+  -> ?with_credentials:bool
+  -> string
+  -> result Lwt.t
+
+val patch :
+  ?headers:(string * string) list
+  -> ?content_type:string
+  -> ?post_args:((string * Form.form_elt) list)
+  -> ?get_args:((string * string) list) 
+  -> ?form_arg:Form.form_contents
+  -> ?check_headers:(int -> (string -> string option) -> bool)
+  -> ?progress:(int -> int -> unit)
+  -> ?upload_progress:(int -> int -> unit)
+  -> ?override_mime_type:string
+  -> ?with_credentials:bool
+  -> string
+  -> result Lwt.t
 
 (** Provide simple functions as helper (to be used only for small ajax call) *)
 module Atomic :

@@ -28,11 +28,13 @@ let router app () =
 
 
   | "load" ->
-    Ajax.Atomic.post
-      "http://jsonplaceholder.typicode.com/posts"
-      ~error:(fun x y -> log [x, y])
-      (fun x -> alert x)
-    
+    Ajax.(
+      get "http://jsonplaceholder.typicode.com/posts/1"
+      >>= (fun x -> alert x.content; Lwt.return_unit)
+      >>= (fun _ -> post "http://jsonplaceholder.typicode.com/posts")
+      >>= (fun x -> alert x.content; Lwt.return_unit)
+      |> ignore
+    )
 
   | ""  ->  page app "Index du site" |> ignore
   | _   ->  page app "Page inconnue" |> ignore

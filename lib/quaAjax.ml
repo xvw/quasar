@@ -22,10 +22,30 @@
 open QuaPervasives
 open XmlHttpRequest
 
-let failure _ _ = Error.raise_ "failure of Ajax request"
+type 'response generic_http_frame = {
+  url: string;
+  code: int;
+  headers: string -> string option;
+  content: 'response;
+  content_xml: unit -> Dom.element Dom.document Js.t option;
+}
+
+type result = http_frame
+
+
+let get     = perform_raw_url ~override_method:`GET
+let post    = perform_raw_url ~override_method:`POST
+let head    = perform_raw_url ~override_method:`HEAD
+let put     = perform_raw_url ~override_method:`PUT
+let delete  = perform_raw_url ~override_method:`DELETE
+let options = perform_raw_url ~override_method:`OPTIONS    
+let patch   = perform_raw_url ~override_method:`PATCH
+
 
 module Atomic =
 struct
+
+  let failure _ _ = Error.raise_ "failure of Ajax request"
 
   let request
       ?(error=failure)
@@ -68,6 +88,8 @@ struct
   [@@ocaml.deprecated]
 
 end
+
+
 
 
 
