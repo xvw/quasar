@@ -34,7 +34,7 @@ let request
   let xhr    = create () in
   let onr () =
     match xhr##.readyState, xhr##.status with
-    | DONE, 200 -> callback (response xhr)
+    | DONE, code when code >= 200 && code <= 226 -> callback (response xhr)
     | (UNSENT | DONE) as t, code -> error t code
     | _ -> ()
   in
@@ -45,8 +45,13 @@ let request
       (if sync then Js._true else Js._false)
   in xhr##send(Js.null)
 
-let _get ?(error=failure) f = request ~error "GET" f true
+let _get  ?(error=failure) f = request ~error "GET"  f true
+let _post ?(error=failure) f = request ~error "POST" f true
 
-let get_text ?(error=failure) file = _get ~error file (fun x -> String.ocaml x##.responseText)
-let get_xml  ?(error=failure) file = _get ~error file (fun x -> try_unopt x##.responseXML) 
+let txt s = String.ocaml s##.responseText
+  
+
+let get_text ?(error=failure) file = _get ~error  file txt
+let get_xml  ?(error=failure) file = _get ~error  file (fun x -> try_unopt x##.responseXML)
+let post     ?(error=failure) file = _post ~error file txt
 

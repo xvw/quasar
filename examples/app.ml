@@ -28,10 +28,10 @@ let router app () =
 
 
   | "load" ->
-    Ajax.get_text
-      "http://jsonplaceholdertypicode.com/posts/1"
-      ~error:(fun _ _ -> alert "fail")
-    $ (fun x -> alert x)
+    Ajax.post
+      "http://jsonplaceholder.typicode.com/posts"
+      ~error:(fun x y -> log [x, y])
+      (fun x -> alert x)
     
 
   | ""  ->  page app "Index du site" |> ignore

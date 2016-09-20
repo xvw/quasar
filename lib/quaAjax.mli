@@ -30,4 +30,9 @@ val get_xml :
   -> string
   -> (Dom.element Dom.document Js.t option -> unit)
   -> unit
-  
+
+val post :
+  ?error:(XmlHttpRequest.readyState -> int -> unit)
+  -> string
+  -> (string -> unit)
+  -> unit
