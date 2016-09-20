@@ -13,14 +13,28 @@ let router app () =
   | [%quasar.route "hello-{string}-{int}"]  ->
     let name, age = route_arguments () in
     page app (Printf.sprintf "Hello %s, tu as %d ans" name age)
+    |> ignore
+    
 
   | [%quasar.route "auth-{bool}-{int}"] ->
     let auth, age = route_arguments () in
-    if auth && (age >= 18) then page app "Bienvenue"
-    else page app "Interdit !"
+    if auth && (age >= 18) then
+      page app "Bienvenue"
+      |> ignore
+    else
+      page app "Interdit !"
+      |> ignore
+         
 
-  | ""  ->  page app "Index du site"
-  | _   ->  page app "Page inconnue"
+
+  | "load" ->
+    Ajax.get_text
+      "https://xvw.github.io"
+      (fun x -> alert x)
+      
+
+  | ""  ->  page app "Index du site" |> ignore
+  | _   ->  page app "Page inconnue" |> ignore
     
     
 
