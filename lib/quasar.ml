@@ -32,3 +32,14 @@ module Router   = QuaRouter
 
 include QuaPervasives
 include Tyxml_js
+
+(** {2 Application functions} *)
+
+(** Entry point for an application *)
+let start f =
+  Event.watch_once
+    Watcher.onload
+    ()
+    (fun _ -> f ())
+  |> ignore
+  

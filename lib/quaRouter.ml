@@ -23,6 +23,7 @@ open QuaPervasives
 
 
 let start f =
+  let _ = f () in 
   let open QuaEvent.Watcher in
   let _ = QuaEvent.watch_once onload  () (fun _ -> f ()) in
   let _ = QuaEvent.watch onhashchange () (fun _ -> f ()) in

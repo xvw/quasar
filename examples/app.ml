@@ -25,6 +25,8 @@ let router app () =
     
 
 let () =
-  match Element.getById_opt "app" with
-  | None     -> alert "unable to start"
-  | Some app -> Router.start (router app)
+  start (fun () ->
+      match Element.getById_opt "app" with
+      | None     -> alert "unable to start"
+      | Some app -> Router.start (router app)
+    )
