@@ -31,7 +31,7 @@ let router app () =
     Ajax.(
       get "http://jsonplaceholder.typicode.com/posts/1"
       >>= (fun x -> alert x.content; Lwt.return_unit)
-      >>= (fun _ -> post "http://jsonplaceholder.typicode.com/posts")
+      >>  post "http://jsonplaceholder.typicode.com/posts"
       >>= (fun x -> alert x.content; Lwt.return_unit)
       |> ignore
     )

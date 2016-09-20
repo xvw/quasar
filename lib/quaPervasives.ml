@@ -29,13 +29,13 @@ struct
   let of_json        = Yojson.Safe.to_string
   let of_unsafe_json = Yojson.to_string
       
-    
-      
 end
 
 
 (* Infix operators *)
 let (>>=)        = Lwt.bind
+let ( >> ) a b   = a >>= ( fun _ -> b)
+    
 let ( % )  f g x = f (g x)
 let ( %> ) f g x = g (f x)
 let ( $ )  f x   = f x

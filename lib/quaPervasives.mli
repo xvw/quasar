@@ -35,6 +35,9 @@ val flip : ('a -> 'b -> 'c) -> 'b -> 'a -> 'c
 (** Shortcut for Lwt.bind *)
 val ( >>=) : 'a Lwt.t -> ('a -> 'b Lwt.t) -> 'b Lwt.t
 
+(** Bind and ignore the result of the pred thread *)
+val ( >> ) : 'a Lwt.t -> 'b Lwt.t -> 'b Lwt.t
+
 (** Function composition *)
 val ( % ) : ('a -> 'b) -> ('c -> 'a) -> 'c -> 'b
 
