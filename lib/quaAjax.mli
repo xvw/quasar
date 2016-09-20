@@ -19,8 +19,10 @@
  *
 *)
 
+(** tools for Ajax request *)
 
-(** Provide simple functions as helper *)
+
+(** Provide simple functions as helper (to be used only for small ajax call) *)
 module Atomic :
 sig
   

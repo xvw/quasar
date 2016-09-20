@@ -28,7 +28,7 @@ let router app () =
 
 
   | "load" ->
-    Ajax.post
+    Ajax.Atomic.post
       "http://jsonplaceholder.typicode.com/posts"
       ~error:(fun x y -> log [x, y])
       (fun x -> alert x)

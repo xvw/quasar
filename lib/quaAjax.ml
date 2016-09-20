@@ -24,46 +24,52 @@ open XmlHttpRequest
 
 let failure _ _ = Error.raise_ "failure of Ajax request"
 
-let request
-  ?(error=failure)
-    meth
-    file
-    sync
-    response
-    callback =
-  let xhr    = create () in
-  let onr () =
-    match xhr##.readyState, xhr##.status with
-    | DONE, code when code >= 200 && code <= 226 -> callback (response xhr)
-    | (UNSENT | DONE) as t, code -> error t code
-    | _ -> ()
-  in
-  let _ = xhr##.onreadystatechange := (Js.wrap_callback onr) in
-  let _ = xhr##_open
-      (String.js meth)
-      (String.js file)
-      (if sync then Js._true else Js._false)
-  in xhr##send(Js.null)
-
-let _get  ?(error=failure) f = request ~error "GET"  f true
-let _post ?(error=failure) f = request ~error "POST" f true
-
-let txt s = String.ocaml s##.responseText
-    
-  
 module Atomic =
 struct
-  let get_one_text ?(error=failure) file =
+
+  let request
+      ?(error=failure)
+      meth
+      file
+      sync
+      response
+      callback =
+    let xhr    = create () in
+    let onr () =
+      match xhr##.readyState, xhr##.status with
+      | DONE, code when code >= 200 && code <= 226 -> callback (response xhr)
+      | (UNSENT | DONE) as t, code -> error t code
+      | _ -> ()
+    in
+    let _ = xhr##.onreadystatechange := (Js.wrap_callback onr) in
+    let _ = xhr##_open
+        (String.js meth)
+        (String.js file)
+        (if sync then Js._true else Js._false)
+    in xhr##send(Js.null)
+
+  let _get  ?(error=failure) f = request ~error "GET"  f true
+  let _post ?(error=failure) f = request ~error "POST" f true
+
+  let txt s = String.ocaml s##.responseText
+
+
+
+  let get_text ?(error=failure) file =
     _get ~error  file txt
-      
-  let get_one_xml ?(error=failure) file =
+  [@@ocaml.deprecated]
+
+  let get_xml ?(error=failure) file =
     _get ~error  file (fun x -> try_unopt x##.responseXML)
-      
-  let post_one?(error=failure) file =
+  [@@ocaml.deprecated]
+
+  let post ?(error=failure) file =
     _post ~error file txt
+  [@@ocaml.deprecated]
+
 end
 
 
 
-      
+
 
