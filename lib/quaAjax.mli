@@ -19,20 +19,30 @@
  *
 *)
 
-val get_text :
-  ?error:(XmlHttpRequest.readyState -> int -> unit)
-  -> string
-  -> (string -> unit)
-  -> unit
-  
-val get_xml :
-  ?error:(XmlHttpRequest.readyState -> int -> unit)
-  -> string
-  -> (Dom.element Dom.document Js.t option -> unit)
-  -> unit
 
-val post :
-  ?error:(XmlHttpRequest.readyState -> int -> unit)
-  -> string
-  -> (string -> unit)
-  -> unit
+(** Provide simple functions as helper *)
+module Atomic :
+sig
+  
+  val get_text :
+    ?error:(XmlHttpRequest.readyState -> int -> unit)
+    -> string
+    -> (string -> unit)
+    -> unit
+    
+  val get_xml :
+    ?error:(XmlHttpRequest.readyState -> int -> unit)
+    -> string
+    -> (Dom.element Dom.document Js.t option -> unit)
+    -> unit
+    
+  val post :
+    ?error:(XmlHttpRequest.readyState -> int -> unit)
+    -> string
+    -> (string -> unit)
+    -> unit
+
+end
+
+
+

@@ -49,9 +49,21 @@ let _get  ?(error=failure) f = request ~error "GET"  f true
 let _post ?(error=failure) f = request ~error "POST" f true
 
 let txt s = String.ocaml s##.responseText
+    
   
+module Atomic =
+struct
+  let get_one_text ?(error=failure) file =
+    _get ~error  file txt
+      
+  let get_one_xml ?(error=failure) file =
+    _get ~error  file (fun x -> try_unopt x##.responseXML)
+      
+  let post_one?(error=failure) file =
+    _post ~error file txt
+end
 
-let get_text ?(error=failure) file = _get ~error  file txt
-let get_xml  ?(error=failure) file = _get ~error  file (fun x -> try_unopt x##.responseXML)
-let post     ?(error=failure) file = _post ~error file txt
+
+
+      
 
