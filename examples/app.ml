@@ -28,13 +28,18 @@ let router app () =
 
 
   | "load" ->
-    Ajax.(
-      get "http://jsonplaceholder.typicode.com/posts/1"
-      >>= (fun x -> alert x.content; Lwt.return_unit)
-      >>  post "http://jsonplaceholder.typicode.com/posts"
-      >>= (fun x -> alert x.content; Lwt.return_unit)
-      |> ignore
-    )
+    begin
+      try
+        Ajax.(
+          get "http://jsonplaceholder.typicode.com/posts/1"
+          >>= (fun x -> page app x.content; Lwt.return_unit)
+          >>  post "http://jsonplaceholder.typicode.com/posts"
+          >>= (fun x -> alert x.content; Lwt.return_unit)
+          |> ignore
+        )
+      with _ -> alert "erf"
+    end
+    
 
   | ""  ->  page app "Index du site" |> ignore
   | _   ->  page app "Page inconnue" |> ignore

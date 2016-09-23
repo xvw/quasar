@@ -9,11 +9,10 @@ License: GPL
 OASISFormat: 0.4
 BuildTools: ocamlbuild, ocamldoc
 Plugins: META (0.4), DevFiles (0.4)
-FilesAB: lib/ppx_quasar/META.ab
 AlphaFeatures: ocamlbuild_more_args
 
 Library quasar
-  Path:           lib
+  Path:           lib/core
   FindlibName:    quasar
   Install:        true
   Modules:
@@ -38,7 +37,7 @@ Library quasar
     ppx_deriving_yojson
 
 Library ppx_quasar
-  Path:           lib/ppx_quasar
+  Path:           lib/ppx
   FindlibName:    ppx
   FindlibParent:  quasar
   Modules:        Ppx_quasar
@@ -53,7 +52,7 @@ Library ppx_quasar
   XMETAExtraLines:  ppx = "ppx_quasar"
 
 Executable "ppx_quasar"
-  Path: lib/ppx_quasar
+  Path: lib/ppx
   MainIs: ppx_quasar.ml
   Install: true
   BuildDepends: compiler-libs.common
