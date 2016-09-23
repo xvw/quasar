@@ -173,7 +173,7 @@ let expr_fun len guard hash =
 let route_args_function guard gexp i case hash=
   let f =
     if i > 1 then 
-      Exp.let_ ~attrs:[Util.warning "-26"] Nonrecursive [
+      Exp.let_ Nonrecursive [
         Vb.mk
           (Util.pattern "route_arguments")
           (Exp.fun_ Nolabel None (Util.pattern "()") (expr_fun i gexp hash))
