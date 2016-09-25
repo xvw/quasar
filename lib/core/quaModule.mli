@@ -31,9 +31,11 @@
 module type M =
 sig
 
-  type t 
+  type t
+  val init   : t
   val update : t -> t
-  val view : t -> Dom_html.element Js.t
+  val view   : t -> Dom_html.element Js.t
+  val mount  : Dom_html.element Js.t
 
 end
 
@@ -42,5 +44,8 @@ module type T =
 sig
 
   include M
+  val boot : unit -> unit
 
 end
+
+(** {2 Functors} *)
