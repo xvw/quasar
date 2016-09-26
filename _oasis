@@ -39,7 +39,7 @@ Library quasar
     ppx_deriving,
     ppx_deriving_yojson
 
-Library ppx_quasar
+Library ppx
   Path:           lib/ppx
   FindlibName:    ppx
   FindlibParent:  quasar
@@ -50,16 +50,27 @@ Library ppx_quasar
     compiler-libs,
     compiler-libs.common,
     quasar
-  CompiledObject: best
+  CompiledObject:   best
   XMETARequires:    quasar
   XMETAExtraLines:  ppx = "ppx_quasar"
 
-Executable "ppx_quasar"
-  Path: lib/ppx
-  MainIs: ppx_quasar.ml
-  Install: true
-  BuildDepends: compiler-libs.common
+Executable ppx_quasar
+  Path:           lib/ppx
+  MainIs:         ppx_quasar.ml
+  Install:        true
+  BuildDepends:   compiler-libs.common
   CompiledObject: best
+
+Library slideshow
+  Path:          plugins/slideshow
+  FindlibName:   slideshow
+  FindlibParent: quasar
+  Modules:       QuaSlide
+  CompiledObject:best
+  BuildDepends:
+    quasar,
+    ppx_quasar
+
 
 Document api
   Title:                Documentation and API reference for Quasar
