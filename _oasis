@@ -68,8 +68,7 @@ Library slideshow
   Modules:       QuaSlide
   CompiledObject:best
   BuildDepends:
-    quasar,
-    ppx_quasar
+    quasar
 
 
 Document api
@@ -78,7 +77,10 @@ Document api
   BuildTools+:          ocamldoc
   InstallDir:           $htmldir/quasar
   XOCamlbuildPath:      .
-  XOCamlbuildLibraries: quasar
+  XOCamlbuildLibraries:
+    quasar,
+    quasar.slideshow,
+    quasar.ppx
   Install:              true
   XOCamlbuildExtraArgs: "-docflags '-colorize-code -charset utf-8 -hide Pervasives'"
 

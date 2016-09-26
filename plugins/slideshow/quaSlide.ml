@@ -35,7 +35,11 @@ sig
   val before : unit -> unit
 
   (** Slide initialization *)
-  val init_slide : Element.t -> unit
+  val init_slide :
+    length:int
+    -> slides:(Element.t list)
+    -> Element.t
+    -> unit
 
 end
 
@@ -45,21 +49,13 @@ struct
 
   include M
 
-  let length = ref 0
-  let cursor = match [%quasar.routes] with
-    | [%quasar.route "slide-{int}"] ->
-      ref (route_arguments ())
-    | _ -> ref 0
-
   (** Get all slides *)
   let get_slides () =
     Element.find_all parent selector
 
   (** Initialize each slides *)
-  let init_slides () =
-    let slides = get_slides () in 
-    let _ = List.iter init_slide slides in
-    let _ = length := List.length slides in
+  let init_slides ~length ~slides () =
+    let _ = List.iter (init_slide ~length ~slides) slides in
     slides
 
 end
