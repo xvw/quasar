@@ -10,12 +10,19 @@ let router app () =
 
   
   match [%routes] with
-  | "hello"                          ->  page app "Hello World"
-  | [%route "hello-{string}"] ->  page app ("Hello "^(route_arguments ()))
-  | ""                               ->  page app "Index du site"
-  | _                                ->  page app "Page inconnue"
+  | "hello"                      ->  page app "Hello World"
+                                       
+  | [%route "point-{int}-{int}"] ->
+    let x, y = route_arguments () in
+    page app (Printf.sprintf "point:{%d;%d}" x y)
+      
+  | [%route "hello-{string}"]    ->  page app ("Hello "^(route_arguments ()))
+    
+  | ""                           ->  page app "Index du site"
+  | _                            ->  page app "Page inconnue"
     
     
+
 
 let () =
   start (fun () ->
