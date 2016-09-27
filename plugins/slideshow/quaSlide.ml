@@ -35,7 +35,7 @@ sig
   val before :
     length:int
     -> slides:(Element.t list)
-    -> unit
+    -> int ref
     -> unit
 
   (** Slide initialization *)
@@ -48,19 +48,23 @@ sig
   (** List of events to be listened *)
   val handler :
     ((?use_capture:bool -> 'target -> 'event Lwt.t)
-     * (length:int -> slides:(Element.t list) -> 'event -> unit)) list
+     * (length:int -> slides:(Element.t list) -> int ref -> 'event -> unit)) list
 
   (** List of events to be watched *)
   val watcher :
     (('a, 'b) Event.watchable
-     * ((length:int -> slides:(Element.t list) -> 'c -> 'd))      
+     * ((length:int -> slides:(Element.t list) -> int ref -> 'c -> 'd))      
      * [< `Once | `Always]) list
 
   (** Next slide : returns true if the changement is completely passed, false otherwhise*)
-  val succ : length:int -> slides:(Element.t list) -> unit -> bool 
+  val succ : length:int -> slides:(Element.t list) -> int ref -> bool 
 
   (** Prev slide : returns true if the changement is completely passed, false otherwhise *)
-  val pred : length:int -> slides:(Element.t list) -> unit -> bool 
+  val pred : length:int -> slides:(Element.t list) -> int ref -> bool
+
+  (** Update is called when a slide is changed *)
+  val update : length:int -> slides:(Element.t list) -> int ref -> unit
+
 
 end
 
@@ -70,24 +74,23 @@ struct
 
   include M
 
+  (** Cursor *)
+  let cursor = ref 0
+  let set_cursor x = cursor := x
+
   (** Move N slides *)
   let move ~length ~slides amount =
     if amount = 0 then true
     else let result = ref false in
       if amount > 0 then begin
         for i = 0 to amount do
-          result := succ ~length ~slides ()
+          result := succ ~length ~slides cursor
         done; !result
       end
       else begin for i = amount to 0 do
-          result := pred ~length ~slides ()
+          result := pred ~length ~slides cursor
         done; !result end
-      
-
-          
-    
         
-       
 
   (** Get all slides *)
   let get_slides () =
@@ -104,7 +107,7 @@ struct
           listener
           document
           (fun e _ ->
-             f ~length ~slides e;
+             f ~length ~slides cursor e;
              Lwt.return_unit
           ) |> ignore
       ) handler
@@ -112,7 +115,7 @@ struct
   (** Initialize event watcher *)
   let init_watcher ~length ~slides () =
     List.iter (fun (watch, f, kind) ->
-        let rf = (fun x -> f ~length ~slides x) in
+        let rf = (fun x -> f ~length ~slides cursor x) in
         match kind with
         | `Once -> ignore $ Event.watch_once watch () rf
         | `Always -> ignore $ Event.watch watch () rf
@@ -124,10 +127,33 @@ struct
     let s = get_slides () in
     let l = List.length s in
     
-    let _ = before        ~length:l ~slides:s () in
+    let _ = before        ~length:l ~slides:s cursor in
     let _ = init_listener ~length:l ~slides:s () in
     let _ = init_watcher  ~length:l ~slides:s () in
-    init_slides   ~length:l ~slides:s ()
+    let _ = init_slides   ~length:l ~slides:s () in
+    update  ~length:l ~slides:s cursor
 
 end
+
+(** {2 Default combinators} *)
+
+(** Default successor function *)
+let default_succ ~length ~slides cursor =
+  let c = !cursor in
+  if c > length-1 then false
+  else let _ = incr cursor in true
+
+(** Default predecessor function *)
+let default_pred  ~length ~slides cursor =
+  let c = !cursor in
+  if c < 1 then false
+  else let _ = decr cursor in true
+
+(** Default before function *)
+let default_before ~length ~slides cursor =
+  let hash = Url.get_hash () in
+  let c =
+    try Scanf.sscanf hash "%d" id with
+    | _ -> 0
+  in cursor := c
 
