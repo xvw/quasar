@@ -21,64 +21,50 @@
 
 open Quasar
 
-(** Requirement to provide combinators to build new presentation *)
 module type Configuration =
 sig
 
-  (** The css selector of all slides *)
   val selector : string
-
-  (** Where slides are *)
   val parent : Element.t
 
-  (** Slider initialization *)
   val before :
     length:int
     -> slides:(Element.t list)
     -> int ref
     -> unit
-
-  (** Slide initialization *)
+    
   val init_slide :
     length:int
     -> slides:(Element.t list)
     -> Element.t
     -> unit
 
-  (** List of events to be listened *)
   val handler :
+    int ref ->
     ((?use_capture:bool -> 'target -> 'event Lwt.t)
      * (length:int -> slides:(Element.t list) -> int ref -> 'event -> unit)) list
 
-  (** List of events to be watched *)
   val watcher :
+    int ref ->
     (('a, 'b) Event.watchable
      * ((length:int -> slides:(Element.t list) -> int ref -> 'c -> 'd))      
      * [< `Once | `Always]) list
 
-  (** Next slide : returns true if the changement is completely passed, false otherwhise*)
   val succ : length:int -> slides:(Element.t list) -> int ref -> bool 
-
-  (** Prev slide : returns true if the changement is completely passed, false otherwhise *)
   val pred : length:int -> slides:(Element.t list) -> int ref -> bool
-
-  (** Update is called when a slide is changed *)
   val update : length:int -> slides:(Element.t list) -> int ref -> unit
 
 
 end
 
-(** Functor to provide combinators to build new presentation *)
 module Simple (M :  Configuration) =
 struct
 
   include M
 
-  (** Cursor *)
   let cursor = ref 0
   let set_cursor x = cursor := x
 
-  (** Move N slides *)
   let move ~length ~slides amount =
     if amount = 0 then true
     else let result = ref false in
@@ -92,15 +78,12 @@ struct
         done; !result end
         
 
-  (** Get all slides *)
   let get_slides () =
     Element.find_all parent selector
 
-  (** Initialize each slides *)
   let init_slides ~length ~slides () =
     List.iter (init_slide ~length ~slides) slides
 
-  (** Initialize event listener *)
   let init_listener ~length ~slides () =
     List.iter (fun (listener, f) ->
         Event.async
@@ -110,9 +93,8 @@ struct
              f ~length ~slides cursor e;
              Lwt.return_unit
           ) |> ignore
-      ) handler
+      ) (handler cursor)
 
-  (** Initialize event watcher *)
   let init_watcher ~length ~slides () =
     List.iter (fun (watch, f, kind) ->
         let rf = (fun x -> f ~length ~slides cursor x) in
@@ -120,9 +102,8 @@ struct
         | `Once -> ignore $ Event.watch_once watch () rf
         | `Always -> ignore $ Event.watch watch () rf
         |> ignore
-    ) watcher
+    ) (watcher cursor)
 
-  (** Initialize the slider *)
   let start () =
     let s = get_slides () in
     let l = List.length s in
@@ -135,25 +116,24 @@ struct
 
 end
 
-(** {2 Default combinators} *)
-
-(** Default successor function *)
 let default_succ ~length ~slides cursor =
   let c = !cursor in
   if c > length-1 then false
   else let _ = incr cursor in true
 
-(** Default predecessor function *)
 let default_pred  ~length ~slides cursor =
   let c = !cursor in
   if c < 1 then false
   else let _ = decr cursor in true
 
-(** Default before function *)
 let default_before ~length ~slides cursor =
   let hash = Url.get_hash () in
   let c =
     try Scanf.sscanf hash "%d" id with
     | _ -> 0
   in cursor := c
+
+let default_watcher = (fun _ -> [])
+let default_handler = (fun _ -> [])
+
 
