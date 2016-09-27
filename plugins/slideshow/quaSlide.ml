@@ -55,7 +55,12 @@ sig
     (('a, 'b) Event.watchable
      * ((length:int -> slides:(Element.t list) -> 'c -> 'd))      
      * [< `Once | `Always]) list
-      
+
+  (** Next slide : returns true if the changement is completely passed, false otherwhise*)
+  val succ : length:int -> slides:(Element.t list) -> unit -> bool 
+
+  (** Prev slide : returns true if the changement is completely passed, false otherwhise *)
+  val pred : length:int -> slides:(Element.t list) -> unit -> bool 
 
 end
 
@@ -64,6 +69,25 @@ module Simple (M :  Configuration) =
 struct
 
   include M
+
+  (** Move N slides *)
+  let move ~length ~slides amount =
+    if amount = 0 then true
+    else let result = ref false in
+      if amount > 0 then begin
+        for i = 0 to amount do
+          result := succ ~length ~slides ()
+        done; !result
+      end
+      else begin for i = amount to 0 do
+          result := pred ~length ~slides ()
+        done; !result end
+      
+
+          
+    
+        
+       
 
   (** Get all slides *)
   let get_slides () =
