@@ -106,7 +106,7 @@ end
 let match_route exp =
   match exp.pexp_desc with
   | Pexp_extension
-      ({txt = "quasar.routes"; loc=_},  _) -> true
+      ({txt = "routes"; loc=_},  _) -> true
   | _ -> false
 
 let merge_guard other = function
@@ -172,7 +172,7 @@ let expr_fun len guard hash =
 
 let route_args_function guard gexp i case hash=
   let f =
-    if i > 1 then 
+    if i >= 1 then 
       Exp.let_ Nonrecursive [
         Vb.mk
           (Util.pattern "route_arguments")
@@ -203,7 +203,7 @@ let create_regex reg =
 
 let case_mapper mapper case =
     match case.pc_lhs.ppat_desc with
-  | Ppat_extension ({txt = "quasar.route"; loc=_}, pl) ->
+  | Ppat_extension ({txt = "route"; loc=_}, pl) ->
     let (reg, clause, hash) = extract_regex pl in
     let (guard, gexp) = create_regex reg in
     route_args_function guard gexp clause case hash
