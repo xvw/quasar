@@ -32,7 +32,11 @@ sig
   val parent : Element.t
 
   (** Slider initialization *)
-  val before : unit -> unit
+  val before :
+    length:int
+    -> slides:(Element.t list)
+    -> unit
+    -> unit
 
   (** Slide initialization *)
   val init_slide :
@@ -40,6 +44,18 @@ sig
     -> slides:(Element.t list)
     -> Element.t
     -> unit
+
+  (** List of events to be listened *)
+  val handler :
+    ((?use_capture:bool -> 'target -> 'event Lwt.t)
+     * (length:int -> slides:(Element.t list) -> 'event -> unit)) list
+
+  (** List of events to be watched *)
+  val watcher :
+    (('a, 'b) Event.watchable
+     * ((length:int -> slides:(Element.t list) -> 'c -> 'd))      
+     * [< `Once | `Always]) list
+      
 
 end
 
@@ -55,8 +71,39 @@ struct
 
   (** Initialize each slides *)
   let init_slides ~length ~slides () =
-    let _ = List.iter (init_slide ~length ~slides) slides in
-    slides
+    List.iter (init_slide ~length ~slides) slides
+
+  (** Initialize event listener *)
+  let init_listener ~length ~slides () =
+    List.iter (fun (listener, f) ->
+        Event.async
+          listener
+          document
+          (fun e _ ->
+             f ~length ~slides e;
+             Lwt.return_unit
+          ) |> ignore
+      ) handler
+
+  (** Initialize event watcher *)
+  let init_watcher ~length ~slides () =
+    List.iter (fun (watch, f, kind) ->
+        let rf = (fun x -> f ~length ~slides x) in
+        match kind with
+        | `Once -> ignore $ Event.watch_once watch () rf
+        | `Always -> ignore $ Event.watch watch () rf
+        |> ignore
+    ) watcher
+
+  (** Initialize the slider *)
+  let start () =
+    let s = get_slides () in
+    let l = List.length s in
+    
+    let _ = before        ~length:l ~slides:s () in
+    let _ = init_listener ~length:l ~slides:s () in
+    let _ = init_watcher  ~length:l ~slides:s () in
+    init_slides   ~length:l ~slides:s ()
 
 end
 
