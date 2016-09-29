@@ -18,5 +18,3 @@ all: slideshow.js
 
 %.js: %.byte
 	$(JSOCAML) -o $(@) $(<)
-
-

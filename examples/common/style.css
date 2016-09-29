@@ -1,0 +1,28 @@
+@import 'https://fonts.googleapis.com/css?family=Libre+Baskerville';
+
+body {
+    font-family: 'Libre Baskerville', serif;
+}
+
+.quasar-slide {
+    position: absolute;
+    top : 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    background-color: white;
+    transition: all .7s ease-in-out;
+}
+
+.quasar-slide > * {
+    margin: auto;
+}
+
+.quasar-slide-active   { opacity: 1.0; }
+.quasar-slide-inactive { opacity: 0.0; }
+
+h1, h2 {
+    font-weight: 700;
+}
+
+.centered {
+    text-align: center;
+}
