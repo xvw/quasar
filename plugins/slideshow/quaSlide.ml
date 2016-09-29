@@ -89,7 +89,6 @@ struct
   let start () =
     let s = get_slides () in
     let l = List.length s in
-    
     let _ = before        ~length:l ~slides:s cursor in
     let _ = init_slides   ~length:l ~slides:s () in
     let _ = match_data () in
@@ -99,7 +98,7 @@ end
 
 let default_succ ~length ~slides cursor =
   let c = !cursor in
-  if c > length-1 then false
+  if c > length-2 then false
   else let _ = incr cursor in true
 
 let default_pred  ~length ~slides cursor =
@@ -108,15 +107,16 @@ let default_pred  ~length ~slides cursor =
   else let _ = decr cursor in true
 
 let default_update ~length ~slides cursor =
+  let _ = Url.set_hash (string_of_int !cursor) in
   let current_div = List.nth slides !cursor in
   let () = List.iter (fun x ->
-      Element.remove_class "quasar_slide_active" x
-      |> Element.add_class "quasar_slide_inactive"
+      Element.remove_class "quasar-slide-active" x
+      |> Element.add_class "quasar-slide-inactive"
       |> ignore) slides                 
   in
   let _ =
-    Element.remove_class "quasar_slide_inactive" current_div
-    |> Element.add_class "quasar_slide_active"
+    Element.remove_class "quasar-slide-inactive" current_div
+    |> Element.add_class "quasar-slide-active"
   in ()
 
 let default_before ~length ~slides cursor =
@@ -143,8 +143,8 @@ let default_before ~length ~slides cursor =
 
 module Default = Simple(struct
 
-    let selector = "slide"
-    let parent = Element.getById "slides"
+    let selector = ".quasar-slide"
+    let parent = Element.getById "quasar-slides"
     let before = default_before
     let init_slide = fun ~length ~slides _ -> ()
     let succ = default_succ

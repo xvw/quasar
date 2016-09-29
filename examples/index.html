@@ -1,10 +1,25 @@
-<div id="app"></div>
+<style>
+  body {
+  background-color: yellow;
+  }
+  .quasar-slide {
+  position: absolute;
+  top: 0; left:0; right: 0; bottom: 0;
+  }
+  .a {background-color: green;}
+  .b {background-color: red;}
+  .c {background-color: orange;}
+  .quasar-slide-active { display: block; }
+  .quasar-slide-inactive { display: none; }
+</style>
 
-<a href="#hello">Hello World</a>
-<a href="#hello-Xavier">Hello Xavier</a>
-<a href="#point-12-15"> Point 12;15</a>
-<a href="#404">Error 404</a>
-<a href="#">Index</a>
+
+
+<div id="quasar-slides">
+  <div class="a quasar-slide">A</div>
+  <div class="b quasar-slide">B</div>
+  <div class="c quasar-slide">C</div>
+</div>
 
 <script type="application/javascript">var $QUASAR_DEBUG = true</script>
 <script type="application/javascript" src="app.js"></script>
