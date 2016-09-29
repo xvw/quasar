@@ -1,5 +1,5 @@
 body {
-    background-color: #B9121B;
+    background-color: cyan;
     color: #BD8D46;
     display: flex;
     min-height: 100vh;
@@ -34,4 +34,6 @@ footer {
     padding: 22px;
     font-size: 75%;
     color: white;
+    display: flex;
+    justify-content: space-between;
 }
