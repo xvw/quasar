@@ -54,6 +54,8 @@ sig
   val pred : length:int -> slides:(Element.t list) -> int ref -> bool
   val update : length:int -> slides:(Element.t list) -> int ref -> unit
 
+  val deal_with_data : (string * (Quasar.Element.t -> string -> unit)) list
+
 
 end
 
@@ -64,6 +66,16 @@ struct
 
   let cursor = ref 0
   let set_cursor x = cursor := x
+
+  let match_data () =
+    let nodes = Element.all () in
+    List.iter (fun elt ->
+        List.iter (fun (attr, f) ->
+            match Element.get_attribute attr elt with
+            | None   -> ()
+            | Some x -> f elt x 
+          ) deal_with_data
+      ) nodes
 
   let move ~length ~slides amount =
     if amount = 0 then true
@@ -112,6 +124,7 @@ struct
     let _ = init_listener ~length:l ~slides:s () in
     let _ = init_watcher  ~length:l ~slides:s () in
     let _ = init_slides   ~length:l ~slides:s () in
+    let _ = match_data () in
     update  ~length:l ~slides:s cursor
 
 end

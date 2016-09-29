@@ -69,6 +69,9 @@ sig
   (** Update is called when a slide is changed *)
   val update : length:int -> slides:(Quasar.Element.t list) -> int ref -> unit
 
+  (** Deal with the custom data element of the slide *)
+  val deal_with_data : (string * (Quasar.Element.t -> string -> unit)) list
+
 
 end
 
@@ -99,6 +102,8 @@ sig
   
   val selector : string
   val parent : Quasar.Element.t
+
+  val match_data : unit -> unit
                  
   val before :
     length:int
