@@ -1,0 +1,46 @@
+body {
+    font-family: 'Noto Sans', sans-serif;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin: 0;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+h2 { color: #BD4932; }
+
+#content {
+    flex: 1;
+    background-color: #DB9E36;
+    color: #FFFAD5;
+    padding: 64px;
+    display: flex;
+}
+
+#content > * {
+    margin: auto;
+}
+
+header {
+    padding: 8px;
+}
+
+footer {
+    padding: 18px;
+}
+
+.btn {
+    background-color: #105B63;
+    color: white;
+    font-weight: 900;
+    margin: 12px;
+}
+
+.btn:hover {
+    background-color: black;
+}
