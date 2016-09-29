@@ -65,7 +65,7 @@ Library slideshow
   Path:          plugins/slideshow
   FindlibName:   slideshow
   FindlibParent: quasar
-  Modules:       QuaSlide
+  Modules:       QuaSlideshow
   CompiledObject:best
   BuildDepends:
     js_of_ocaml,

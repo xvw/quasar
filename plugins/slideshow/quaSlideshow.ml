@@ -129,7 +129,7 @@ let default_before ~length ~slides cursor =
   let _ = Event.(async Listener.keyup document (fun e _ ->
       Lwt.return begin
         match e##.keyCode with
-        | 39 ->
+        | 39 | 32 | 13 ->
           let _ = default_succ ~length ~slides cursor in
           default_update ~length ~slides cursor
         | 37 ->

@@ -1,5 +1,5 @@
 
 open Quasar
-module Slideshow = QuaSlide.Default
+module Slideshow = QuaSlideshow.Default
 
 let () = Slideshow.start ()
