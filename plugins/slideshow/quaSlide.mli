@@ -70,6 +70,13 @@ val default_pred    : length:int -> slides:(Quasar.Element.t list) -> int ref ->
 val default_before  : length:int -> slides:(Quasar.Element.t list) -> int ref -> unit
 val default_update  : length:int -> slides:(Quasar.Element.t list) -> int ref -> unit
 
+(** {2 Default slider} *)
+module Default :
+sig
+  val start: unit -> unit
+end
+
+
 (** {2 Functors} *)
 
 (** build simple combinators to build a slider *)
