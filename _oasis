@@ -68,6 +68,7 @@ Library slideshow
   Modules:       QuaSlide
   CompiledObject:best
   BuildDepends:
+    js_of_ocaml,
     quasar
 
 

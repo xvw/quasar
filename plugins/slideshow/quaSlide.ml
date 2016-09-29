@@ -39,17 +39,6 @@ sig
     -> Element.t
     -> unit
 
-  val handler :
-    int ref ->
-    ((?use_capture:bool -> 'target -> 'event Lwt.t)
-     * (length:int -> slides:(Element.t list) -> int ref -> 'event -> unit)) list
-
-  val watcher :
-    int ref ->
-    (('a, 'b) Event.watchable
-     * ((length:int -> slides:(Element.t list) -> int ref -> 'c -> 'd))      
-     * [< `Once | `Always]) list
-
   val succ : length:int -> slides:(Element.t list) -> int ref -> bool 
   val pred : length:int -> slides:(Element.t list) -> int ref -> bool
   val update : length:int -> slides:(Element.t list) -> int ref -> unit
@@ -71,7 +60,7 @@ struct
     let nodes = Element.all () in
     List.iter (fun elt ->
         List.iter (fun (attr, f) ->
-            match Element.get_attribute attr elt with
+            match Element.get_data attr elt with
             | None   -> ()
             | Some x -> f elt x 
           ) deal_with_data
@@ -96,33 +85,12 @@ struct
   let init_slides ~length ~slides () =
     List.iter (init_slide ~length ~slides) slides
 
-  let init_listener ~length ~slides () =
-    List.iter (fun (listener, f) ->
-        Event.async
-          listener
-          document
-          (fun e _ ->
-             f ~length ~slides cursor e;
-             Lwt.return_unit
-          ) |> ignore
-      ) (handler cursor)
-
-  let init_watcher ~length ~slides () =
-    List.iter (fun (watch, f, kind) ->
-        let rf = (fun x -> f ~length ~slides cursor x) in
-        match kind with
-        | `Once -> ignore $ Event.watch_once watch () rf
-        | `Always -> ignore $ Event.watch watch () rf
-        |> ignore
-    ) (watcher cursor)
 
   let start () =
     let s = get_slides () in
     let l = List.length s in
     
     let _ = before        ~length:l ~slides:s cursor in
-    let _ = init_listener ~length:l ~slides:s () in
-    let _ = init_watcher  ~length:l ~slides:s () in
     let _ = init_slides   ~length:l ~slides:s () in
     let _ = match_data () in
     update  ~length:l ~slides:s cursor
@@ -139,14 +107,49 @@ let default_pred  ~length ~slides cursor =
   if c < 1 then false
   else let _ = decr cursor in true
 
+let default_update ~length ~slides cursor =
+  let current_div = List.nth slides !cursor in
+  let () = List.iter (fun x ->
+      Element.remove_class "quasar_slide_active" x
+      |> Element.add_class "quasar_slide_inactive"
+      |> ignore) slides                 
+  in
+  let _ =
+    Element.remove_class "quasar_slide_inactive" current_div
+    |> Element.add_class "quasar_slide_active"
+  in ()
+
 let default_before ~length ~slides cursor =
-  let hash = Url.get_hash () in
-  let c =
-    try Scanf.sscanf hash "%d" id with
-    | _ -> 0
-  in cursor := c
+  let () =
+    let hash = Url.get_hash () in
+    let c =
+      try Scanf.sscanf hash "%d" id with
+      | _ -> 0
+    in cursor := c in
+  let _ = Event.(async Listener.keyup document (fun e _ ->
+      Lwt.return begin
+        match e##.keyCode with
+        | 39 ->
+          let _ = default_succ ~length ~slides cursor in
+          default_update ~length ~slides cursor
+        | 37 ->
+          let _ = default_pred ~length ~slides cursor in
+          default_update ~length ~slides cursor
+        | _  -> ()
+      end 
+    ))
+  in ()
 
-let default_watcher = (fun _ -> [])
-let default_handler = (fun _ -> [])
 
+module Default = Simple(struct
 
+    let selector = "slide"
+    let parent = Element.getById "slides"
+    let before = default_before
+    let init_slide = fun ~length ~slides _ -> ()
+    let succ = default_succ
+    let pred = default_pred
+    let update = default_update
+    let deal_with_data = []
+
+  end)

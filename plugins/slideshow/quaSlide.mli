@@ -33,7 +33,7 @@ sig
   (** Where slides are *)
   val parent : Quasar.Element.t
 
-  (** Slider initialization *)
+  (** Slider initialization  (for input handler for example)*)
   val before :
     length:int
     -> slides:(Quasar.Element.t list)
@@ -47,18 +47,6 @@ sig
     -> Quasar.Element.t
     -> unit
 
-  (** List of events to be listened *)
-  val handler :
-    int ref ->
-    ((?use_capture:bool -> 'target -> 'event Lwt.t)
-     * (length:int -> slides:(Quasar.Element.t list) -> int ref -> 'event -> unit)) list
-
-  (** List of events to be watched *)
-  val watcher :
-    int ref ->
-    (('a, 'b) Quasar.Event.watchable
-     * ((length:int -> slides:(Quasar.Element.t list) -> int ref -> 'c -> 'd))      
-     * [< `Once | `Always]) list
 
   (** Next slide : returns true if the changement is completely passed, false otherwhise*)
   val succ : length:int -> slides:(Quasar.Element.t list) -> int ref -> bool 
@@ -80,19 +68,7 @@ end
 val default_succ    : length:int -> slides:(Quasar.Element.t list) -> int ref -> bool
 val default_pred    : length:int -> slides:(Quasar.Element.t list) -> int ref -> bool
 val default_before  : length:int -> slides:(Quasar.Element.t list) -> int ref -> unit
-  
-val default_watcher :
-  int ref ->
-  (('a, 'b) Quasar.Event.watchable
-   * ((length:int -> slides:(Quasar.Element.t list) -> int ref -> 'c -> 'd))      
-   * [< `Once | `Always]) list
-
-val default_handler:
-  int ref ->
-  ((?use_capture:bool -> 'target -> 'event Lwt.t)
-   * (length:int -> slides:(Quasar.Element.t list) -> int ref -> 'event -> unit)) list
-
-
+val default_update  : length:int -> slides:(Quasar.Element.t list) -> int ref -> unit
 
 (** {2 Functors} *)
 
@@ -117,19 +93,6 @@ sig
     -> Quasar.Element.t
     -> unit
     
-  val handler :
-    int ref ->
-    ((?use_capture:bool -> 'target -> 'event Lwt.t) *
-     (length:int ->
-      slides:Quasar.Element.t list -> int ref -> 'event -> unit))
-      list
-      
-  val watcher :
-    int ref ->
-    (('a, 'b) Quasar.Event.watchable *
-     (length:int -> slides:Quasar.Element.t list -> int ref -> 'c -> 'd) *
-     [< `Always | `Once ])
-      list
       
   val succ : length:int -> slides:Quasar.Element.t list -> int ref -> bool
   val pred : length:int -> slides:Quasar.Element.t list -> int ref -> bool
@@ -152,17 +115,6 @@ sig
   val get_slides : unit -> Quasar.Element.t list
       
   val init_slides :
-    length:int
-    -> slides:Quasar.Element.t list
-    -> unit
-    -> unit
-  val init_listener :
-    length:int
-    -> slides:Quasar.Element.t list
-    -> unit
-    -> unit
-    
-  val init_watcher :
     length:int
     -> slides:Quasar.Element.t list
     -> unit
