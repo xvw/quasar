@@ -27,6 +27,9 @@ type t = Dom_html.element Js.t
 (** Convert a TyXML element into a DOM element *)
 val element : 'a Tyxml_js.To_dom.elt -> t
 
+(** Create a simple text node *)
+val text : string -> Dom.text Js.t
+
 (** {2 Retreive Elements from the document} *)
 
 (** [getById_opt "an_element"] returns an Html element into an option *)
@@ -102,13 +105,13 @@ val has_class : string -> t -> bool
 (** {2 Nodes manipulation} *)
 
 (** Append a node into another node [append parent child] *)
-val append : t -> t -> t
+val append : t -> #Dom.node Js.t -> t
 
 (** Append a node into another node [parent <+> child] *)
-val ( <+> ) : t -> t -> t
+val ( <+> ) : t -> #Dom.node Js.t -> t
 
 (** Prepend a node into another node [prepend parent child] *)
-val prepend : t -> t -> t
+val prepend : t -> #Dom.node Js.t -> t
 
 (** Prepend a node into another node [parent <|> child] *)
 val ( <|> ) : t -> t -> t

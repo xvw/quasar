@@ -55,7 +55,11 @@ sig
   val pred : length:int -> slides:(Quasar.Element.t list) -> int ref -> bool
 
   (** Update is called when a slide is changed *)
-  val update : length:int -> slides:(Quasar.Element.t list) -> int ref -> unit
+  val update :
+    length:int
+    -> slides:(Quasar.Element.t list)
+    -> int ref
+    -> unit
 
   (** Deal with the custom data element of the slide *)
   val deal_with_data : (string * (Quasar.Element.t -> string -> unit)) list
@@ -67,7 +71,13 @@ end
 
 val default_succ    : length:int -> slides:(Quasar.Element.t list) -> int ref -> bool
 val default_pred    : length:int -> slides:(Quasar.Element.t list) -> int ref -> bool
-val default_before  : length:int -> slides:(Quasar.Element.t list) -> int ref -> unit
+val default_before  :
+  length:int
+  -> slides:(Quasar.Element.t list)
+  -> int ref
+  -> (length:int -> slides:Quasar.Element.t list -> int ref -> unit)
+  -> unit
+  
 val default_update  : length:int -> slides:(Quasar.Element.t list) -> int ref -> unit
 
 (** {2 Default slider} *)

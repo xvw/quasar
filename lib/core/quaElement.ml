@@ -128,6 +128,8 @@ let element = (!!)
 let ( <+> ) = append
 let ( <|> ) = prepend
 
+let text t = document##createTextNode (String.js t)
+
 let iter_children f node =
   let node_list = node##.childNodes in
   let length    = node_list##.length in

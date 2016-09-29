@@ -119,7 +119,7 @@ let default_update ~length ~slides cursor =
     |> Element.add_class "quasar-slide-active"
   in ()
 
-let default_before ~length ~slides cursor =
+let default_before ~length ~slides cursor update =
   let () =
     let hash = Url.get_hash () in
     let c =
@@ -131,10 +131,10 @@ let default_before ~length ~slides cursor =
         match e##.keyCode with
         | 39 | 32 | 13 ->
           let _ = default_succ ~length ~slides cursor in
-          default_update ~length ~slides cursor
+          update ~length ~slides cursor
         | 37 ->
           let _ = default_pred ~length ~slides cursor in
-          default_update ~length ~slides cursor
+          update ~length ~slides cursor
         | _  -> ()
       end 
     ))
@@ -145,7 +145,7 @@ module Default = Simple(struct
 
     let selector = ".quasar-slide"
     let parent = Element.getById "quasar-slides"
-    let before = default_before
+    let before ~length ~slides cursor = default_before ~length ~slides cursor default_update
     let init_slide = fun ~length ~slides _ -> ()
     let succ = default_succ
     let pred = default_pred
