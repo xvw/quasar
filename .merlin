@@ -1,6 +1,6 @@
 S .
-S lib
-B _build/lib
+S lib/*
+B _build/lib/*
 B _build
 PKG reactiveData js_of_ocaml js_of_ocaml.ppx js_of_ocaml.tyxml
 PKG lwt.ppx tyxml.ppx ppx_deriving ppx_deriving_yojson

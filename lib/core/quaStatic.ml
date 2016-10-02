@@ -18,3 +18,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
 *)
+
+open QuaPervasives
+
+let add elt = Dom.appendChild (document##.head) elt
+
+let add_stylesheet uri =
+  let s   = String.js uri in
+  let css = Dom_html.createLink document in
+  let _   = css##setAttribute (String.js "rel") (String.js "stylesheet") in
+  let _   = css##setAttribute (String.js "type") (String.js "text/css") in
+  let _   = css##setAttribute (String.js "href") s in
+  add css
+
+let add_css stl =
+  let style = Dom_html.createStyle document in
+  let _     = style##setAttribute (String.js "type") (String.js "text/css") in
+  let _     = Dom.appendChild style (QuaElement.text stl) in
+  add style
+  
+
+

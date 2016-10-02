@@ -23,5 +23,7 @@
 
 (** {2 Load external composants} *)
 
-val add_style  : ?inline:bool -> string -> unit
-val add_script : ?inline:bool -> ?defer:bool -> ?async:bool -> string -> unit
+val add_stylesheet  : string -> unit
+val add_css         : string -> unit
+val add_script      : ?defer:bool -> ?async:bool -> string -> unit
+val add_js          : ?defer:bool -> ?async:bool -> string -> unit
