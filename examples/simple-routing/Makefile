@@ -14,7 +14,7 @@ all: app.js
 # Generic rules
 
 %.byte: %.ml
-	$(OCAML) $(QUASAR) $(SLIDES) -linkpkg -o $(@) $(<)
+	$(OCAML) $(QUASAR) $(SLIDES) -dsource -linkpkg -o $(@) $(<)
 
 %.js: %.byte
 	$(JSOCAML) -o $(@) $(<)

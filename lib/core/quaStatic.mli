@@ -19,27 +19,9 @@
  *
 *)
 
+(** Tool for managing static assets *)
 
-module Storage  = QuaStorage
-module Url      = QuaUrl
-module Event    = QuaEvent
-module Listener = QuaEvent.Listener
-module Watcher  = QuaEvent.Watcher
-module Ajax     = QuaAjax
-module Element  = QuaElement
-module Router   = QuaRouter
-module Static   = QuaStatic
+(** {2 Load external composants} *)
 
-include QuaPervasives
-include Tyxml_js
-
-(** {2 Application functions} *)
-
-(** Entry point for an application *)
-let start f =
-  Event.watch_once
-    Watcher.onload
-    ()
-    (fun _ -> f ())
-  |> ignore
-
+val add_style  : ?inline:bool -> string -> unit
+val add_script : ?inline:bool -> ?defer:bool -> ?async:bool -> string -> unit
