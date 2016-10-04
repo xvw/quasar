@@ -44,5 +44,6 @@ let routes parent () =
 let () = start (fun () ->
     match Element.getById_opt "app" with
     | None        -> alert "Unable to boot the application"
-    | Some parent -> Router.start (routes parent) 
+    | Some parent ->
+      Router.start (routes parent) 
   )
