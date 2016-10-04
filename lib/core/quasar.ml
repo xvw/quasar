@@ -33,6 +33,28 @@ module Static   = QuaStatic
 include QuaPervasives
 include Tyxml_js
 
+module Tag =
+struct
+ 
+  include Tyxml_js.Html5
+
+  let text = pcdata
+
+  let append a b =
+    let open Element in
+    let _ = !!a <+> !!b in a
+
+  let prepend a b =
+    let open Element in
+    let _ = !!a <|> !!b in a
+
+  let ( <+> ) = append
+  let ( <|> )= prepend
+            
+end
+
+
+
 (** {2 Application functions} *)
 
 (** Entry point for an application *)
