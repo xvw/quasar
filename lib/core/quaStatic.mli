@@ -23,10 +23,10 @@
 
 (** {2 Load external composants} *)
 
-val add_stylesheet  : string -> unit
-val add_css         : string -> unit
-val add_script      : string -> unit
-val add_js          : string -> unit
+val add_stylesheet  : ?prepend:bool -> string -> unit
+val add_css         : ?prepend:bool -> string -> unit
+val add_script      : ?prepend:bool -> string -> unit
+val add_js          : ?prepend:bool -> string -> unit
 
 (** {2 PreSaved styles} *)
 module Fx :

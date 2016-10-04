@@ -138,3 +138,14 @@ struct
     | Some f -> f
 
 end
+
+let range f_pred f_succ a b  = 
+  let f = if a < b then f_pred else f_succ in 
+  let rec range acc = function 
+    | x when x = (f a) -> acc 
+    | x -> range (x :: acc) (f x) 
+  in range [] b
+let seed  = range pred succ
+
+let ( --> ) = seed
+let ( --< ) = flip $ seed

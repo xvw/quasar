@@ -3,7 +3,7 @@ QUASAR   = -package quasar -package quasar.ppx
 SLIDES   = -package quasar.slideshow
 JSOCAML  = js_of_ocaml +weak.js +toplevel.js
 
-.PHONY: all
+.PHONY: app.ml
 
 # Specific rule
 all: app.js

@@ -175,4 +175,20 @@ sig
 
 end
 
+(** {2 Ranges} *)
 
+val range : ('a -> 'a) -> ('a -> 'a) -> 'a -> 'a -> 'a list
+(** get two function, one for pred, other for succ, and generate the 
+    range between a and b : [range succ pred 0 10] returns [0, 1, ... 10]
+*)
+
+val seed : int -> int -> int list
+(** Generate an int range between a and b : [seed 1 10] returns [0, 1, .. 10] 
+*)
+
+val ( --> ) : int -> int -> int list
+(** [a --> b] = seed a b*)
+
+val ( --< ) : int -> int -> int list
+(** [a --< b] = seed a (pred b) *)
+    

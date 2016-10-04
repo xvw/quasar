@@ -21,33 +21,53 @@
 
 open QuaPervasives
 
-let add elt = Dom.appendChild (document##.head) elt
+let add ~prepend elt =
+  let parent = document##.head in 
+  if prepend then  Dom.insertBefore parent elt (parent##.firstChild)
+  else Dom.appendChild parent elt
 
-let add_stylesheet uri =
+let add_stylesheet ?(prepend=false) uri =
   let s   = String.js uri in
   let css = Dom_html.createLink document in
-  let _   = css##setAttribute (String.js "rel") (String.js "stylesheet") in
-  let _   = css##setAttribute (String.js "type") (String.js "text/css") in
-  let _   = css##setAttribute (String.js "href") s in
-  add css
+  let _   = css##setAttribute
+      (String.js "rel")
+      (String.js "stylesheet") in
+  let _   = css##setAttribute
+      (String.js "type")
+      (String.js "text/css") in
+  let _   = css##setAttribute
+      (String.js "href") s in
+  add ~prepend css
 
-let add_css stl =
+let add_css ?(prepend=false) stl =
   let style = Dom_html.createStyle document in
-  let _     = style##setAttribute (String.js "type") (String.js "text/css") in
-  let _     = Dom.appendChild style (QuaElement.text stl) in
-  add style
+  let _     = style##setAttribute
+      (String.js "type")
+      (String.js "text/css") in
+  let _     =
+    Dom.appendChild
+      style
+      (QuaElement.text stl) in
+  add ~prepend style
 
-let add_script uri =
+let add_script ?(prepend=false) uri =
   let script = Dom_html.createScript document in
-  let _      = script##setAttribute (String.js "src") (String.js uri) in
-  let _      = script##setAttribute (String.js "type") (String.js "application/javascript") in
-  add script
+  let _      =
+    script##setAttribute
+      (String.js "src")
+      (String.js uri) in
+  let _      = script##setAttribute
+      (String.js "type")
+      (String.js "application/javascript") in
+  add ~prepend script
 
-let add_js scr =
+let add_js ?(prepend=false) scr =
   let script = Dom_html.createScript document in
-  let _      = script##setAttribute (String.js "type") (String.js "application/javascript") in
+  let _      = script##setAttribute
+      (String.js "type")
+      (String.js "application/javascript") in
   let _      = QuaElement.(Dom.appendChild script (text scr)) in
-  add script
+  add  ~prepend script
 
 
 module Fx =
@@ -65,18 +85,62 @@ struct
       ; 
     ]
 
-  let keyframe_glitch _ = ""
+  let rect () =
+    Printf.sprintf "rect(%dpx, 99999999px, %dpx, 0)"
+      (Random.int 100)
+      (Random.int 100)
 
-  let after = ""
+  let keyframe_glitch x =
+    List.fold_left
+      (fun acc coeff ->
+         acc
+         ^ (c (Printf.sprintf "%d%%" (coeff*10))
+              ["clip", rect ()])
+      )
+      (Printf.sprintf "@keyframes quasar-glitch%d {\n" x)
+      (0 --> 10)
+    ^ "}\n"
+    
+
+  let after =
+    c ".quasar-glitched-text::after,.fxglitch::after" [
+      "position", "absolute"
+    ; "top", "0"
+    ; "left", "2px"
+    ; "width", "100%"
+    ; "height", "100%"
+    ; "content", "attr(data-quasar-glitch)"
+    ; "animation", "quasar-glitch2 2s infinite linear alternate-reverse"
+    ; "background-color", "#000"
+    ; "text-shadow", "-1px 0 red"
+    ; "clip", "rect(à, 999999px, 0, 0)"
+                           
+    ]
+
+  let before =
+    c ".quasar-glitched-text::before,.fxglitch::before" [
+      "position", "absolute"
+    ; "top", "0"
+    ; "left", "-2px"
+    ; "width", "100%"
+    ; "height", "100%"
+    ; "content", "attr(data-quasar-glitch)"
+    ; "animation", "quasar-glitch1 2s infinite linear alternate-reverse"
+    ; "background-color", "#000"
+    ; "text-shadow", "-1px 0 blue"
+    ; "clip", "rect(à, 999999px, 0, 0)"
+    ]
+      
   let before = ""
 
   let use () =
-    add_css $
-      text_glitch
-      ^ keyframe_glitch 1
-      ^ keyframe_glitch 2
-      ^ after
-      ^ before
+    Random.self_init ()
+    &: add_css ~prepend:true $
+    text_glitch
+    ^ keyframe_glitch 1
+    ^ keyframe_glitch 2
+    ^ after
+    ^ before
 
 end
 

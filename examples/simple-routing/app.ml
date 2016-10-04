@@ -2,7 +2,11 @@ open Quasar
 open Html
 
 let simple_h1 txt =
-  !!(h1 ~a:[a_class ["fxglitch"]] [pcdata txt])
+  !!(h1 ~a:[
+      a_class ["fxglitch"]]
+      [pcdata txt]
+    )
+  |> Element.set_data "quasar-glitch" txt
 
 let index parent txt =
   let _ = Element.(

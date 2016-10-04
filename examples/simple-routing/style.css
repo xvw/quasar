@@ -12,12 +12,12 @@ h1, h2, h3 {
     margin: 0;
 }
 
-h2 { color: #BD4932; }
+h2 { color: #FFF; }
 
 #content {
     flex: 1;
-    background-color: #DB9E36;
-    color: #FFFAD5;
+    background-color: #000;
+    color: #FFF;
     padding: 64px;
     display: flex;
 }
@@ -28,6 +28,7 @@ h2 { color: #BD4932; }
 
 header {
     padding: 8px;
+    background-color: black;
 }
 
 footer {
@@ -44,3 +45,5 @@ footer {
 .btn:hover {
     background-color: black;
 }
+
+
