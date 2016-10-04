@@ -50,6 +50,9 @@ val ( %> ) : ('a -> 'b) -> ('b -> 'c) -> 'a -> 'c
 *)
 val ( $ ) : ('a -> 'b) -> 'a -> 'b
 
+(** x &: y is same as x; y *)
+val ( &: ) : 'a -> 'b -> 'b
+
 (** Convert a TyXML element into a DOM element *)
 val (!!) : 'a Tyxml_js.To_dom.elt -> Dom_html.element Js.t
 

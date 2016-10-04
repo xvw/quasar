@@ -2,7 +2,7 @@ open Quasar
 open Html
 
 let simple_h1 txt =
-  !!(h1 [pcdata txt])
+  !!(h1 ~a:[a_class ["fxglitch"]] [pcdata txt])
 
 let index parent txt =
   let _ = Element.(
@@ -45,5 +45,6 @@ let () = start (fun () ->
     match Element.getById_opt "app" with
     | None        -> alert "Unable to boot the application"
     | Some parent ->
-      Router.start (routes parent) 
+      Static.Fx.use ()
+      &: Router.start (routes parent) 
   )

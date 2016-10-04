@@ -29,11 +29,11 @@ module Ajax     = QuaAjax
 module Element  = QuaElement
 module Router   = QuaRouter
 module Static   = QuaStatic
+module Fx       = Static.Fx
 
 include QuaPervasives
-include Tyxml_js
 
-module Tag =
+module Html =
 struct
  
   include Tyxml_js.Html5

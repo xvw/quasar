@@ -25,5 +25,15 @@
 
 val add_stylesheet  : string -> unit
 val add_css         : string -> unit
-val add_script      : ?defer:bool -> ?async:bool -> string -> unit
-val add_js          : ?defer:bool -> ?async:bool -> string -> unit
+val add_script      : string -> unit
+val add_js          : string -> unit
+
+(** {2 PreSaved styles} *)
+module Fx :
+sig
+
+  (** Use Css Special FX *)
+  val use : unit -> unit
+    
+
+end 
