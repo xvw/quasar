@@ -1,11 +1,14 @@
 open Quasar
+open Html
 
 let simple_h1 txt =
-  let x = Html.pcdata txt in
-  !![%html "<h1>"[x]"</h1>"]
+  !!(h1 [pcdata txt])
 
 let index parent txt =
-  let _ = Element.(clean parent <+> simple_h1 txt)
+  let _ = Element.(
+      clean parent
+      <+> simple_h1 txt
+    )
   in ()
 
 
