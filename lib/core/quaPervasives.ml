@@ -149,3 +149,7 @@ let seed  = range pred succ
 
 let ( --> ) = seed
 let ( --< ) = flip $ seed
+
+let js_bool x =
+  if x then Js._true
+  else Js._false

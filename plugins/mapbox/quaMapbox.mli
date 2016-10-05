@@ -64,32 +64,36 @@ sig
   module Gl :
   sig
 
+    type a_map = <
+      repaint : unit -> unit;
+    > Js.t
+
     val map :
-      ?minZoom:float ->
-      ?maxZoom:float ->
-      ?style:style ->
-      ?hash:bool ->
-      ?interactive:bool ->
-      ?bearingSnap:int ->
-      ?classes:float list ->
-      ?attributionControl:bool ->
+      ?minZoom:float                     ->
+      ?maxZoom:float                     ->
+      ?style:style                       ->
+      ?hash:bool                         ->
+      ?interactive:bool                  ->
+      ?bearingSnap:int                   ->
+      ?classes:float array               ->
+      ?attributionControl:bool           ->
       ?failIfMajorPerformanceCaveat:bool ->
-      ?preserveDrawingBuffer:bool ->
-      ?maxBounds:float list ->
-      ?scrollZoom:bool ->
-      ?boxZoom:bool ->
-      ?dragRotate:bool ->
-      ?dragPan:bool ->
-      ?keyboard:bool ->
-      ?doubleClickZoom:bool ->
-      ?touchZoomRotate:bool ->
-      ?trackResize:bool ->
-      ?center:float list ->
-      ?zoom:float ->
-      ?bearing:int ->
-      ?pitch:int ->
-      string ->
-      unit
+      ?preserveDrawingBuffer:bool        ->
+      ?maxBounds:float array             ->
+      ?scrollZoom:bool                   ->
+      ?boxZoom:bool                      ->
+      ?dragRotate:bool                   ->
+      ?dragPan:bool                      ->
+      ?keyboard:bool                     ->
+      ?doubleClickZoom:bool              ->
+      ?touchZoomRotate:bool              ->
+      ?trackResize:bool                  ->
+      ?center:float array                ->
+      ?zoom:float                        ->
+      ?bearing:int                       ->
+      ?pitch:int                         ->
+      string                             ->
+      a_map
 
   end
 

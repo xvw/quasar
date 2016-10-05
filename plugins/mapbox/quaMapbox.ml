@@ -52,16 +52,16 @@ struct
   ; name  = "streets-v9" 
   }
 
-  let style s =
+  let from_style s =
     Printf.sprintf "mapbox://styles/%s/%s"
       s.owner
       s.name
 
   let key    = F.access_token
-  let lib    = Js.Unsafe.variable "L"
+  (* let lib    = Js.Unsafe.variable "L"
   let mapbox = lib##.mapbox
 
-  let _      = mapbox##.accessToken := key
+     let _      = mapbox##.accessToken := key *)
 
   let static
       ?retina
@@ -82,10 +82,14 @@ struct
   module Gl =
   struct
 
+    type a_map = <
+      repaint : unit -> unit;
+      > Js.t
+
 
     let mapbox  = Js.Unsafe.global##.mapboxgl 
     let _       = mapbox##.accessToken := key
-    let new_map = mapbox##.Map
+    let constr  = mapbox##.Map
 
     let map
         ?(minZoom                      = 0.)
@@ -94,11 +98,11 @@ struct
         ?(hash                         = false)
         ?(interactive                  = true)
         ?(bearingSnap                  = 7)
-        ?(classes                      = [])
+        ?(classes                      = [||])
         ?(attributionControl           = true)
         ?(failIfMajorPerformanceCaveat = false)
         ?(preserveDrawingBuffer        = false)
-        ?(maxBounds                    = [])
+        ?(maxBounds                    = [||])
         ?(scrollZoom                   = true)
         ?(boxZoom                      = true)
         ?(dragRotate                   = true)
@@ -107,12 +111,38 @@ struct
         ?(doubleClickZoom              = true)
         ?(touchZoomRotate              = true)
         ?(trackResize                  = true)
-        ?(center                       = [0;0])
+        ?(center                       = [|0.;0.|])
         ?(zoom                         = 0.)
         ?(bearing                      = 0)
         ?(pitch                        = 0)
         container =
-        ()
+
+       new%js constr (object%js
+        val minZoom = minZoom
+        val maxZoom = maxZoom
+        val style = (from_style style)
+        val hash = hash
+        val interactive = interactive
+        val bearingSnap = bearingSnap
+        val classes = Js.array classes
+        val attributionControl = attributionControl
+        val failIfMajorPerformanceCaveat = failIfMajorPerformanceCaveat
+        val preserveDrawingBuffer = preserveDrawingBuffer
+        val maxBounds = Js.array maxBounds
+        val scrollZoom = scrollZoom
+        val boxZoom = boxZoom
+        val dragRotate = dragRotate
+        val dragPan = dragPan
+        val keyboard = keyboard
+        val doubleClickZoom = doubleClickZoom
+        val touchZoomRotate = touchZoomRotate
+        val trackResize =  trackResize
+        val center = Js.array center
+        val zoom = zoom
+        val bearing = bearing
+        val pitch = pitch
+        val container = container
+      end)
     
 
   end

@@ -79,6 +79,9 @@ val try_unopt : 'a Js.Opt.t -> 'a option
 (** Check if the application is in debug mode *)
 val with_debugger : unit -> bool
 
+(** Coerce OCaml boolean to JavaScript Boolean *)
+val js_bool : bool -> bool Js.t
+
 (** {2 Option} *)
 
 module Option :
