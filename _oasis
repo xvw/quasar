@@ -72,6 +72,17 @@ Library slideshow
     js_of_ocaml,
     quasar
 
+Library mapbox
+  Path:          plugins/mapbox
+  FindlibName:   mapbox
+  FindlibParent: quasar
+  Modules:       QuaMapbox
+  CompiledObject:best
+  BuildDepends:
+    js_of_ocaml,
+    quasar
+
+
 
 Document api
   Title:                Documentation and API reference for Quasar
