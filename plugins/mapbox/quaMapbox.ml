@@ -19,6 +19,9 @@
  *
 *)
 
+
+open Quasar
+
 module type Configuration =
 sig
 
@@ -89,10 +92,15 @@ struct
     ; bearing                      : int
     ; pitch                        : int
       
-    }
+    } [@@deriving yojson]
 
     let mapbox = Js.Unsafe.variable "mapboxgl"
     let _      = mapbox##.accessToken := key
+
+    let options_to_js r =
+      options_to_yojson r
+      |> String.of_json
+      |> Js.Unsafe.js_expr
 
   end
 

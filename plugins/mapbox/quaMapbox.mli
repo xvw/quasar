@@ -54,6 +54,7 @@ sig
   module Gl :
   sig
 
+    (** Type to represent options *)
     type options = {
       container                    : string
     ; minZoom                      : int
