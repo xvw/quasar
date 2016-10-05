@@ -37,3 +37,4 @@ setup.data
 setup.log
 api.docdir
 *.js
+*config.ml

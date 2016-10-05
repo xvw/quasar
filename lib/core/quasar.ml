@@ -49,7 +49,7 @@ struct
     let _ = !!a <|> !!b in a
 
   let ( <+> ) = append
-  let ( <|> )= prepend
+  let ( <|> ) = prepend
             
 end
 

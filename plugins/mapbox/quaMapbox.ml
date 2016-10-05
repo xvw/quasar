@@ -30,7 +30,7 @@ module Static =
 struct
 
   let map =
-    Printf.sprintf "https://%s/styles/%s/static/%F,%F,%d/%sx%s?access_token=%s"
+    Printf.sprintf "https://%s/styles/%s/%F,%F,%d/%sx%s?access_token=%s"
       "api.mapbox.com"
 
 end
