@@ -54,6 +54,34 @@ sig
   module Gl :
   sig
 
+    type options = {
+      container                    : string
+    ; minZoom                      : int
+    ; maxZoom                      : int
+    ; style                        : string
+    ; hash                         : bool
+    ; interactive                  : bool
+    ; bearingSnap                  : int
+    ; classes                      : string list
+    ; attributionControl           : bool
+    ; failIfMajorPerformanceCaveat : bool
+    ; preserveDrawingBuffer        : bool
+    ; maxBounds                    : float list
+    ; scrollZoom                   : bool
+    ; boxZoom                      : bool
+    ; dragRotate                   : bool
+    ; dragPan                      : bool
+    ; keyboard                     : bool
+    ; doubleClickZoom              : bool
+    ; touchRotateZoom              : bool
+    ; trackResize                  : bool
+    ; center                       : int list 
+    ; zoom                         : int
+    ; bearing                      : int
+    ; pitch                        : int
+      
+    }
+
   end
 
   
