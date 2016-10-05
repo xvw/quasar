@@ -19,7 +19,7 @@
  *
 *)
 
-(** Configuration for the API *)
+(** {2 Configuration for the API} *)
 
 module type Configuration =
 sig
@@ -28,3 +28,23 @@ sig
   val access_token: string
 
 end
+
+(** {2 API for Mapbox} *)
+module Connect : functor (F : Configuration) ->
+sig
+
+
+  (** Provide a static url for a point on a map *)
+  val static :
+    ?retina:int      ->
+    ?style:string    ->
+    longitude:float  ->
+    latitude:float   ->
+    zoom:int         ->
+    width:int        ->
+    height:int       ->
+    unit             ->
+    string
+  
+end
+

@@ -25,3 +25,37 @@ sig
   val access_token: string
 
 end
+
+module Static =
+struct
+
+  let map =
+    Printf.sprintf "https://%s/styles/%s/static/%F,%F,%d/%sx%s?access_token=%s"
+      "api.mapbox.com"
+
+end
+
+module Connect (F : Configuration) =
+struct
+
+  let key    = F.access_token
+  let lib    = Js.Unsafe.variable "L"
+  let mapbox = lib##.mapbox
+
+  let static
+      ?retina
+      ?(style="v1/mapbox/streets-v9/static")
+      ~longitude
+      ~latitude
+      ~zoom
+      ~width
+      ~height
+      () =
+    let h = match retina with
+      | Some x -> Printf.sprintf "%d@%d" height x
+      | None -> string_of_int height
+    and w = string_of_int width in
+    Static.map style longitude latitude zoom w h key
+
+  
+end
