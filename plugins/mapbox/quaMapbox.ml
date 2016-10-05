@@ -41,6 +41,22 @@ end
 module Connect (F : Configuration) =
 struct
 
+  type style = {
+    owner : string
+  ; name  : string
+      
+  }
+  
+  let default_style = {
+    owner = "mapbox"
+  ; name  = "streets-v9" 
+  }
+
+  let style s =
+    Printf.sprintf "mapbox://styles/%s/%s"
+      s.owner
+      s.name
+
   let key    = F.access_token
   let lib    = Js.Unsafe.variable "L"
   let mapbox = lib##.mapbox
@@ -66,41 +82,38 @@ struct
   module Gl =
   struct
 
-    type options = {
-      container                    : string
-    ; minZoom                      : int
-    ; maxZoom                      : int
-    ; style                        : string
-    ; hash                         : bool
-    ; interactive                  : bool
-    ; bearingSnap                  : int
-    ; classes                      : string list
-    ; attributionControl           : bool
-    ; failIfMajorPerformanceCaveat : bool
-    ; preserveDrawingBuffer        : bool
-    ; maxBounds                    : float list
-    ; scrollZoom                   : bool
-    ; boxZoom                      : bool
-    ; dragRotate                   : bool
-    ; dragPan                      : bool
-    ; keyboard                     : bool
-    ; doubleClickZoom              : bool
-    ; touchRotateZoom              : bool
-    ; trackResize                  : bool
-    ; center                       : int list 
-    ; zoom                         : int
-    ; bearing                      : int
-    ; pitch                        : int
-      
-    } [@@deriving yojson]
 
-    let mapbox = Js.Unsafe.variable "mapboxgl"
-    let _      = mapbox##.accessToken := key
+    let mapbox  = Js.Unsafe.global##.mapboxgl 
+    let _       = mapbox##.accessToken := key
+    let new_map = mapbox##.Map
 
-    let options_to_js r =
-      options_to_yojson r
-      |> String.of_json
-      |> Js.Unsafe.js_expr
+    let map
+        ?(minZoom                      = 0.)
+        ?(maxZoom                      = 20.)
+        ?(style                        = default_style)
+        ?(hash                         = false)
+        ?(interactive                  = true)
+        ?(bearingSnap                  = 7)
+        ?(classes                      = [])
+        ?(attributionControl           = true)
+        ?(failIfMajorPerformanceCaveat = false)
+        ?(preserveDrawingBuffer        = false)
+        ?(maxBounds                    = [])
+        ?(scrollZoom                   = true)
+        ?(boxZoom                      = true)
+        ?(dragRotate                   = true)
+        ?(dragPan                      = true)
+        ?(keyboard                     = true)
+        ?(doubleClickZoom              = true)
+        ?(touchZoomRotate              = true)
+        ?(trackResize                  = true)
+        ?(center                       = [0;0])
+        ?(zoom                         = 0.)
+        ?(bearing                      = 0)
+        ?(pitch                        = 0)
+        container =
+        ()
+    
 
   end
 

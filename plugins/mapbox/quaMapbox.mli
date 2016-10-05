@@ -35,6 +35,16 @@ sig
 
   (** Classic Mapbox tools*)
 
+  (** Describe a mapbox style *)
+  type style = {
+    owner : string
+  ; name  : string
+      
+  }
+  
+  (** Default style *)
+  val default_style : style
+
 
   (** Provide a static url for a point on a map *)
   val static :
@@ -54,34 +64,32 @@ sig
   module Gl :
   sig
 
-    (** Type to represent options *)
-    type options = {
-      container                    : string
-    ; minZoom                      : int
-    ; maxZoom                      : int
-    ; style                        : string
-    ; hash                         : bool
-    ; interactive                  : bool
-    ; bearingSnap                  : int
-    ; classes                      : string list
-    ; attributionControl           : bool
-    ; failIfMajorPerformanceCaveat : bool
-    ; preserveDrawingBuffer        : bool
-    ; maxBounds                    : float list
-    ; scrollZoom                   : bool
-    ; boxZoom                      : bool
-    ; dragRotate                   : bool
-    ; dragPan                      : bool
-    ; keyboard                     : bool
-    ; doubleClickZoom              : bool
-    ; touchRotateZoom              : bool
-    ; trackResize                  : bool
-    ; center                       : int list 
-    ; zoom                         : int
-    ; bearing                      : int
-    ; pitch                        : int
-      
-    }
+    val map :
+      ?minZoom:float ->
+      ?maxZoom:float ->
+      ?style:style ->
+      ?hash:bool ->
+      ?interactive:bool ->
+      ?bearingSnap:int ->
+      ?classes:float list ->
+      ?attributionControl:bool ->
+      ?failIfMajorPerformanceCaveat:bool ->
+      ?preserveDrawingBuffer:bool ->
+      ?maxBounds:float list ->
+      ?scrollZoom:bool ->
+      ?boxZoom:bool ->
+      ?dragRotate:bool ->
+      ?dragPan:bool ->
+      ?keyboard:bool ->
+      ?doubleClickZoom:bool ->
+      ?touchZoomRotate:bool ->
+      ?trackResize:bool ->
+      ?center:float list ->
+      ?zoom:float ->
+      ?bearing:int ->
+      ?pitch:int ->
+      string ->
+      unit
 
   end
 
