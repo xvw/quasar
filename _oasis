@@ -93,6 +93,7 @@ Document api
   XOCamlbuildLibraries:
     quasar,
     quasar.slideshow,
+    quasar.mapbox,
     quasar.ppx
   Install:              true
   XOCamlbuildExtraArgs: "-docflags '-colorize-code -charset utf-8 -hide Pervasives'"
