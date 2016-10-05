@@ -42,6 +42,8 @@ struct
   let lib    = Js.Unsafe.variable "L"
   let mapbox = lib##.mapbox
 
+  let _      = mapbox##.accessToken := key
+
   let static
       ?retina
       ?(style="v1/mapbox/streets-v9/static")
@@ -56,6 +58,15 @@ struct
       | None -> string_of_int height
     and w = string_of_int width in
     Static.map style longitude latitude zoom w h key
+
+
+  module Gl =
+  struct
+
+    let mapbox = Js.Unsafe.variable "mapboxgl"
+    let _      = mapbox##.accessToken := key
+
+  end
 
   
 end

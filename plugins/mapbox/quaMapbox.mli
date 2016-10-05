@@ -33,6 +33,8 @@ end
 module Connect : functor (F : Configuration) ->
 sig
 
+  (** Classic Mapbox tools*)
+
 
   (** Provide a static url for a point on a map *)
   val static :
@@ -45,6 +47,16 @@ sig
     height:int       ->
     unit             ->
     string
+
+  
+
+  (** Tool for Mapbox GL *)
+  module Gl :
+  sig
+
+  end
+
+  
   
 end
 
