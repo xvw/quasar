@@ -87,6 +87,12 @@ sig
     method keyboard: bool Js.prop
     method keyboardPanOffset: int Js.prop
     method keyboardZoomOffset: int Js.prop
+    method intertia: bool Js.prop
+    method inertiaDeceleration: int Js.prop
+    method inertiaMaxSpeed: int Js.prop
+    method inertiaThreshold: int Js.prop
+    method zoomControl: bool Js.prop
+    method attributionControl: bool Js.prop
 
     (** Methods *)
 
@@ -99,7 +105,7 @@ sig
 
   
 
-  (** Tool for Mapbox GL *)
+  (** Tool for Mapbox GL (TO BE DONE) *)
   module Gl :
   sig
 
