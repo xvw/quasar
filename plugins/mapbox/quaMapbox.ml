@@ -61,14 +61,14 @@ struct
   let key    = F.access_token
 
   let get () =
-    let l = Js.Unsafe.global##.L in
+    let l = Js.Unsafe.variable "L" in
     let m = l##.mapbox in
     let _ = m##.accessToken := key in
     m
 
   let map html_id map_id =
     let m = get () in
-    m##map(String.js html_id, String.js map_id)
+    m##map (String.js html_id) (String.js map_id)
     |> ignore
 
   let static
