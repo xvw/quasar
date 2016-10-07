@@ -71,6 +71,8 @@ struct
   
   let key    = F.access_token
 
+  let point x y = Js.array [|x; y|]
+
   let get () =
     let l = Js.Unsafe.variable "L" in
     let m = l##.mapbox in

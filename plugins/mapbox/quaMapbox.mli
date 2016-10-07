@@ -60,6 +60,9 @@ sig
 
   (** { Standard Map Library} *)
 
+  (** Create a point (for Lat/lon for example) *)
+  val point : float -> float -> float Js.js_array Js.t
+
   (** Type to describe a map *)
   class type map = object
     method element: Js.js_string Js.prop
@@ -72,6 +75,7 @@ sig
     method dragging: bool Js.prop
   end
 
+  (** `map htmlid mapname` fill x (referenced by his Id) with a map *)
   val map : string -> string -> map
 
   
