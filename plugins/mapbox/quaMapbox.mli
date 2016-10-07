@@ -75,6 +75,18 @@ sig
     method maxZoom : float Js.prop
     method maxBounds: float Js.js_array Js.prop
     method dragging: bool Js.prop
+    method touchZoom: bool Js.prop
+    method scrollWheelZoom: bool Js.prop
+    method doubleClickZoom: bool Js.prop
+    method boxZoom: bool Js.prop
+    method tapTolerance: int Js.prop
+    method trackResize: bool Js.prop
+    method worldCopyJump: bool Js.prop
+    method closePopupOnClick: bool Js.prop
+    method bounceAtZoomLimits: bool Js.prop
+    method keyboard: bool Js.prop
+    method keyboardPanOffset: int Js.prop
+    method keyboardZoomOffset: int Js.prop
 
     (** Methods *)
 
