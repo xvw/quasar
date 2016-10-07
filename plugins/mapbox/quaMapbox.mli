@@ -65,6 +65,8 @@ sig
 
   (** Type to describe a map *)
   class type map = object
+
+    (** Properties *)
     method element: Js.js_string Js.prop
     method id : Js.js_string Js.prop
     method zoom : int Js.prop
@@ -73,6 +75,11 @@ sig
     method maxZoom : float Js.prop
     method maxBounds: float Js.js_array Js.prop
     method dragging: bool Js.prop
+
+    (** Methods *)
+
+    method setView : float Js.js_array -> float -> unit Js.meth
+    
   end
 
   (** `map htmlid mapname` fill x (referenced by his Id) with a map *)

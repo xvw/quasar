@@ -40,8 +40,12 @@ end
 
 module Connect (F : Configuration) =
 struct
+
+
+  (* Reference https://www.mapbox.com/mapbox.js/api/v2.4.0/l-map-class/ *)
   
-  class type map = object
+    class type map = object
+
     method element: Js.js_string Js.prop
     method id : Js.js_string Js.prop
     method zoom : int Js.prop
@@ -50,6 +54,9 @@ struct
     method maxZoom : float Js.prop
     method maxBounds: float Js.js_array Js.prop
     method dragging: bool Js.prop
+
+    method setView : float Js.js_array -> float -> unit Js.meth
+    
   end
 
   type style = {
