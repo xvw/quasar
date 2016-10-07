@@ -57,11 +57,19 @@ struct
       s.owner
       s.name
 
+  
   let key    = F.access_token
-  (* let lib    = Js.Unsafe.variable "L"
-  let mapbox = lib##.mapbox
 
-     let _      = mapbox##.accessToken := key *)
+  let get () =
+    let l = Js.Unsafe.global##.L in
+    let m = l##.mapbox in
+    let _ = m##.accessToken := key in
+    m
+
+  let map html_id map_id =
+    let m = get () in
+    m##map(String.js html_id, String.js map_id)
+    |> ignore
 
   let static
       ?retina
@@ -82,11 +90,13 @@ struct
   module Gl =
   struct
 
+    (* Work in progress *)
+
     type a_map = <
       repaint : unit -> unit;
       > Js.t
 
-
+(*
     let mapbox  = Js.Unsafe.global##.mapboxgl 
     let _       = mapbox##.accessToken := key
     let constr  = mapbox##.Map
@@ -144,7 +154,7 @@ struct
         val container = container
       end)
     
-
+*)
   end
 
   

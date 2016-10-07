@@ -58,42 +58,48 @@ sig
     unit             ->
     string
 
+  (** { Standard Map Library} *)
+
+  val map : string -> string -> unit
+
   
 
   (** Tool for Mapbox GL *)
   module Gl :
   sig
 
-    type a_map = <
-      repaint : unit -> unit;
-    > Js.t
+    (* Work in progress *)
 
-    val map :
-      ?minZoom:float                     ->
-      ?maxZoom:float                     ->
-      ?style:style                       ->
-      ?hash:bool                         ->
-      ?interactive:bool                  ->
-      ?bearingSnap:int                   ->
-      ?classes:float array               ->
-      ?attributionControl:bool           ->
-      ?failIfMajorPerformanceCaveat:bool ->
-      ?preserveDrawingBuffer:bool        ->
-      ?maxBounds:float array             ->
-      ?scrollZoom:bool                   ->
-      ?boxZoom:bool                      ->
-      ?dragRotate:bool                   ->
-      ?dragPan:bool                      ->
-      ?keyboard:bool                     ->
-      ?doubleClickZoom:bool              ->
-      ?touchZoomRotate:bool              ->
-      ?trackResize:bool                  ->
-      ?center:float array                ->
-      ?zoom:float                        ->
-      ?bearing:int                       ->
-      ?pitch:int                         ->
-      string                             ->
-      a_map
+    (* type a_map = < *)
+    (*   repaint : unit -> unit; *)
+    (* > Js.t *)
+
+    (* val map : *)
+    (*   ?minZoom:float                     -> *)
+    (*   ?maxZoom:float                     -> *)
+    (*   ?style:style                       -> *)
+    (*   ?hash:bool                         -> *)
+    (*   ?interactive:bool                  -> *)
+    (*   ?bearingSnap:int                   -> *)
+    (*   ?classes:float array               -> *)
+    (*   ?attributionControl:bool           -> *)
+    (*   ?failIfMajorPerformanceCaveat:bool -> *)
+    (*   ?preserveDrawingBuffer:bool        -> *)
+    (*   ?maxBounds:float array             -> *)
+    (*   ?scrollZoom:bool                   -> *)
+    (*   ?boxZoom:bool                      -> *)
+    (*   ?dragRotate:bool                   -> *)
+    (*   ?dragPan:bool                      -> *)
+    (*   ?keyboard:bool                     -> *)
+    (*   ?doubleClickZoom:bool              -> *)
+    (*   ?touchZoomRotate:bool              -> *)
+    (*   ?trackResize:bool                  -> *)
+    (*   ?center:float array                -> *)
+    (*   ?zoom:float                        -> *)
+    (*   ?bearing:int                       -> *)
+    (*   ?pitch:int                         -> *)
+    (*   string                             -> *)
+    (*   a_map *)
 
   end
 

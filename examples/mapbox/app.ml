@@ -29,11 +29,10 @@ let routing parent () =
   match [%routes] with
   | [%route "map-{float}-{float}-{int}"] ->
     let lon, lat, zoom = route_arguments () in
+    log "route";
     insert_a_map parent lon lat zoom
   | "dynamic" ->
-    let _ = Element.clean parent in
-    let _ = log "test" in
-    let _ = Mapbox.Gl.map "app" in log "fin"
+    log "route dynamic"
   | _ -> ()
   
 
