@@ -40,6 +40,17 @@ end
 
 module Connect (F : Configuration) =
 struct
+  
+  class type map = object
+    method element: Js.js_string Js.prop
+    method id : Js.js_string Js.prop
+    method zoom : int Js.prop
+    method center: float Js.js_array Js.prop
+    method minZoom : float Js.prop
+    method maxZoom : float Js.prop
+    method maxBounds: float Js.js_array Js.prop
+    method dragging: bool Js.prop
+  end
 
   type style = {
     owner : string
@@ -68,8 +79,9 @@ struct
 
   let map html_id map_id =
     let m = get () in
-    m##map (String.js html_id) (String.js map_id)
-    |> ignore
+    let _ = m##map (String.js html_id) (String.js map_id) in
+    m
+    
 
   let static
       ?retina
