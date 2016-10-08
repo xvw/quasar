@@ -25,6 +25,8 @@ h2 { color: #FFF; }
 #content > * {
     margin: auto;
     width: 100%;
+    min-height: 550px;
+    background-color: black;
 }
 
 header {

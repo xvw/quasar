@@ -93,6 +93,10 @@ sig
     method inertiaThreshold: int Js.prop
     method zoomControl: bool Js.prop
     method attributionControl: bool Js.prop
+    method fadeAnimation: bool Js.prop
+    method zoomAnimation: bool Js.prop
+    method zoomAnimationThreshold: int Js.prop
+    method markerZoomAnimation: bool Js.prop
 
     (** Methods *)
 

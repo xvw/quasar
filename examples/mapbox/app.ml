@@ -31,8 +31,10 @@ let routing parent () =
     let lon, lat, zoom = route_arguments () in
     log "route";
     insert_a_map parent lon lat zoom
-      
-  | "dynamic" -> Mapbox.map "a_map" "mapbox.streets"
+  | "dynamic" ->
+    let _ = Element.clean parent in 
+    Mapbox.map "app" "mapbox.streets"
+    |> ignore
     
   | _ -> ()
   
