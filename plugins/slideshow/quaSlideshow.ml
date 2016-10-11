@@ -106,16 +106,26 @@ let default_pred  ~length ~slides cursor =
   if c < 1 then false
   else let _ = decr cursor in true
 
+let get_hash () =
+  try int_of_string (Url.get_hash ()) with _ -> 0
+
+let direction old c =
+  if old > c then "from-right"
+  else "from-left"
+
 let default_update ~length ~slides cursor =
+  let h = get_hash () in
   let _ = Url.set_hash (string_of_int !cursor) in
   let current_div = List.nth slides !cursor in
   let () = List.iter (fun x ->
       Element.remove_class "quasar-slide-active" x
       |> Element.add_class "quasar-slide-inactive"
+      |> Element.add_class (direction h !cursor)
       |> ignore) slides                 
   in
   let _ =
     Element.remove_class "quasar-slide-inactive" current_div
+    |> Element.remove_classes ["from-left"; "from-right"]
     |> Element.add_class "quasar-slide-active"
   in ()
 
