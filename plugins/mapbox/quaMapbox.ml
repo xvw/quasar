@@ -45,7 +45,6 @@ struct
   (* Reference https://www.mapbox.com/mapbox.js/api/v2.4.0/l-map-class/ *)
   
     class type map = object
-
       method element: Js.js_string Js.prop
       method id : Js.js_string Js.prop
       method zoom : int Js.prop
@@ -76,15 +75,12 @@ struct
       method zoomAnimation: bool Js.prop
       method zoomAnimationThreshold: int Js.prop
       method markerZoomAnimation: bool Js.prop
-          
-      method setView : float Js.js_array -> float -> unit Js.meth
-    
+      method setView : float Js.js_array -> float -> unit Js.meth    
   end
 
   type style = {
     owner : string
   ; name  : string
-      
   }
   
   let default_style = {
