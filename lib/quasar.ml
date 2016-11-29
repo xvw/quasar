@@ -21,4 +21,6 @@
 
 
 
+module Router = QuaRouter
+
 include QuaPervasives
