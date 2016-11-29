@@ -1,6 +1,0 @@
-REC
-S .
-B .
-PKG quasar
-PKG quasar.ppx
-EXT js
