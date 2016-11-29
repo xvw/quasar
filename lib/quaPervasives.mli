@@ -19,6 +19,20 @@
  *
 *)
 
+(** {2 Common JavaScript objects} *)
 
+val document : Dom_html.document Js.t
+val window   : Dom_html.window   Js.t
+val console  : Firebug.console   Js.t
+val location : Dom_html.location Js.t
 
-include QuaPervasives
+(**{2 Debugging function} *)
+    
+(** Check if the application is in debug mode *)
+val with_debugger : unit -> bool
+
+(** Perform a JavaScript alert *)
+val alert : string -> unit
+
+(** Write data int the console *)
+val log : 'a -> unit

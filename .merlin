@@ -1,6 +1,6 @@
 S .
 S lib/*
-B _build/lib/*
+B _build/lib
 B _build
 PKG js_of_ocaml js_of_ocaml.ppx
 PKG lwt.ppx

@@ -19,6 +19,20 @@
  *
 *)
 
+(* Common JavaScript object *)
+let document     = Dom_html.document
+let window       = Dom_html.window
+let console      = Firebug.console
+let location     = window##.location
+
+(* Check if the application is in debug mode *)
+let with_debugger () =
+  try
+    let f = Js.Unsafe.js_expr "$QUASAR_DEBUG" in
+    f <> Js._false
+  with _ -> false
 
 
-include QuaPervasives
+(* printing function *)
+let alert str = window##alert(Js.string str)
+let log value = console##log(value)
