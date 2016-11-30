@@ -20,6 +20,10 @@
 *)
 
 
-
+(** Module for routing in a SPA *)
 module Router = QuaRouter
 
+(** Check if the debugger is running. Just add [<script type="application/javascript"></a>]
+    in your [<head>] node for adding debugger!
+ *)
+let with_debugger = QuaPervasives.with_debugger
