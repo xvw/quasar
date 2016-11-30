@@ -26,6 +26,7 @@ let console      = Firebug.console
 let location     = window##.location
 
 let always_true _ = true
+let id x = x
 let unopt x = Js.Opt.get x (fun () -> raise (Failure "Unoptable data"))
 
 (* Check if the application is in debug mode *)
@@ -44,7 +45,7 @@ let log value = console##log(value)
 module Tag =
 struct
 
-  let unopt_where f coersion elt acc =
+  let unopt_where f map coersion elt acc =
     match Js.Opt.to_option elt with
     | None   -> acc
     | Some x ->
@@ -52,26 +53,26 @@ struct
       |> function
       | None   -> acc
       | Some e ->
-        if f e then e::acc else acc
+        if f e then (map e)::acc else acc
 
-  let all_elements_of ?(where=always_true) str coersion parent =
+  let all_elements_of ?(where=always_true) ?(map = id) str coersion parent =
     let nodes = parent##querySelectorAll(Js.string str) in
     let len = nodes##.length in
     let rec aux acc i =
       if i = len then acc
       else aux
-          (unopt_where where coersion (nodes##item(i)) acc)
+          (unopt_where where map coersion (nodes##item(i)) acc)
           (succ i)
     in aux [] 0
 
-  let all_elements ?(where = always_true) str coersion =
-    all_elements_of ~where str coersion document
+  let all_elements ?(where = always_true) ?(map = id) str coersion =
+    all_elements_of ~where ~map str coersion document
 
-  let all_links_of ?(where = always_true) =
-    all_elements_of ~where "a" Dom_html.CoerceTo.a
+  let all_links_of ?(where = always_true) ?(map = id) =
+    all_elements_of ~where ~map "a" Dom_html.CoerceTo.a
 
-  let all_links ?(where = always_true) () =
-    all_links_of ~where document
+  let all_links ?(where = always_true) ?(map = id) () =
+    all_links_of ~where ~map document
 
   let raw_has_attribute element attribute =
     let str = Js.string attribute in 

@@ -39,6 +39,9 @@ val alert : string -> unit
 (** Write data int the console *)
 val log : 'a -> unit
 
+(** {2 Usefuls functions} *)
+val id : 'a -> 'a
+
 (** {2 Dom manipulation} *)
 module Tag :
 sig
@@ -46,6 +49,7 @@ sig
   (** returns each nammed elements in an element *)
   val all_elements_of :
     ?where:('a -> bool)
+    -> ?map:('a -> 'a)
     -> string
     -> (Dom_html.element Js.t -> 'a Js.Opt.t)
     -> #Dom_html.nodeSelector Js.t
@@ -54,6 +58,7 @@ sig
   (** Returns all elements in a document *)
   val all_elements :
     ?where:('a -> bool)
+    -> ?map:('a -> 'a)
     -> string
     -> (Dom_html.element Js.t -> 'a Js.Opt.t)
     -> 'a list
@@ -61,12 +66,14 @@ sig
   (** Returns all links in an element *)
   val all_links_of :
     ?where:(Dom_html.anchorElement Js.t -> bool)
+    -> ?map:(Dom_html.anchorElement Js.t -> Dom_html.anchorElement Js.t)
     -> #Dom_html.nodeSelector Js.t
     -> Dom_html.anchorElement Js.t list
 
   (** Returns all links in a document *)
   val all_links:
     ?where:(Dom_html.anchorElement Js.t -> bool)
+    -> ?map:(Dom_html.anchorElement Js.t -> Dom_html.anchorElement Js.t)
     -> unit
     -> Dom_html.anchorElement Js.t list
 
