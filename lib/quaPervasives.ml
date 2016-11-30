@@ -25,6 +25,8 @@ let window       = Dom_html.window
 let console      = Firebug.console
 let location     = window##.location
 
+let always_true _ = true
+
 (* Check if the application is in debug mode *)
 let with_debugger () =
   try
@@ -51,8 +53,8 @@ struct
       | Some e ->
         if f e then e::acc else acc
 
-  let all_elements_of ?(where=fun _ -> true) coersion parent =
-    let nodes = parent##querySelectorAll(Js.string "a") in
+  let all_elements_of ?(where=always_true) str coersion parent =
+    let nodes = parent##querySelectorAll(Js.string str) in
     let len = nodes##.length in
     let rec aux acc i =
       if i = len then acc
@@ -61,7 +63,13 @@ struct
           (succ i)
     in aux [] 0
 
-  let all_elements ?(where = fun _ -> true) coersion =
-    all_elements_of ~where coersion document
+  let all_elements ?(where = always_true) str coersion =
+    all_elements_of ~where str coersion document
+
+  let all_links_of ?(where = always_true) =
+    all_elements_of ~where "a" Dom_html.CoerceTo.a
+
+  let all_links ?(where = always_true) () =
+    all_links_of ~where document
 
 end

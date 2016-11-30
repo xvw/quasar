@@ -43,17 +43,31 @@ val log : 'a -> unit
 module Tag :
 sig
 
-  (** returns each links in an element *)
+  (** returns each nammed elements in an element *)
   val all_elements_of :
     ?where:('a -> bool)
+    -> string
     -> (Dom_html.element Js.t -> 'a Js.Opt.t)
     -> #Dom_html.nodeSelector Js.t
     -> 'a list
 
-  (** Returns all links in a document *)
+  (** Returns all elements in a document *)
   val all_elements :
     ?where:('a -> bool)
+    -> string
     -> (Dom_html.element Js.t -> 'a Js.Opt.t)
     -> 'a list
+
+  (** Returns all links in an element *)
+  val all_links_of :
+    ?where:(Dom_html.anchorElement Js.t -> bool)
+    -> #Dom_html.nodeSelector Js.t
+    -> Dom_html.anchorElement Js.t list
+
+  (** Returns all links in a document *)
+  val all_links:
+    ?where:(Dom_html.anchorElement Js.t -> bool)
+    -> unit
+    -> Dom_html.anchorElement Js.t list
 
 end
