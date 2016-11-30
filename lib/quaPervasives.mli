@@ -19,6 +19,8 @@
  *
 *)
 
+(** This module is only defined for internal usage ! *)
+
 (** {2 Common JavaScript objects} *)
 
 val document : Dom_html.document Js.t
@@ -36,3 +38,15 @@ val alert : string -> unit
 
 (** Write data int the console *)
 val log : 'a -> unit
+
+(** {2 Dom manipulation} *)
+module Tag :
+sig
+
+  (** returns each links in an element *)
+  val all_links_of :
+    ?where:(Dom_html.anchorElement Js.t -> bool)
+    ->Dom_html.element Js.t
+    -> Dom_html.anchorElement Js.t list
+
+end

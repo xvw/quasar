@@ -1,3 +1,5 @@
 (* A simple example *)
 
-let () = Quasar.alert "test"
+let () = Quasar.(Router.start (fun () ->
+    alert "test"
+  ))

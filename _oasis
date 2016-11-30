@@ -17,8 +17,9 @@ Library quasar
   Install:        true
   Modules:
     Quasar,
-    QuaPervasives,
     QuaRouter
+  InternalModules:
+    QuaPervasives
   CompiledObject: byte
   ByteOpt: -g -w +a-4-40..42-44-45-48
   BuildDepends:

@@ -21,6 +21,19 @@
 
 open QuaPervasives
 
+(* Iteration change for each link *)
+let change_a () =
+  document##querySelectorAll(Js.string "a")
+  |> Dom.list_of_nodeList
+  |> List.iter (fun a -> (
+        let open Lwt_js_events in
+        async_loop click a (fun e _ ->
+            let _ = Dom_html.stopPropagation e in
+            let _ = alert "test" in Lwt.return ()
+          )
+        |> ignore
+      ))
+
 
 (* Watching changement *)
 let watch_once event args f =
@@ -35,7 +48,7 @@ let rec watch event args f =
 (* Entry point for the routing *)
 let start f =
   let open Lwt_js_events in
-  let _ = watch_once onload  () (fun _ -> f()) in
-  let _ = watch onhashchange () (fun _ -> f()) in
+  let _ = watch_once onload  () (fun _ -> change_a () ; f()) in
+  let _ = watch onhashchange () (fun _ -> change_a () ; f()) in
   ()
 

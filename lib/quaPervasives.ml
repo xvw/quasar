@@ -36,3 +36,29 @@ let with_debugger () =
 (* printing function *)
 let alert str = window##alert(Js.string str)
 let log value = console##log(value)
+
+(* Module for DOM manipulation  *)
+module Tag =
+struct
+
+  let unopt_where f coersion elt acc =
+    match Js.Opt.to_option elt with
+    | None   -> acc
+    | Some x ->
+      Js.Opt.to_option (coersion x)
+      |> function
+      | None   -> acc
+      | Some e ->
+        if f e then e::acc else acc
+
+  let all_links_of ?(where=fun _ -> true) parent =
+    let nodes = parent##querySelectorAll(Js.string "a") in
+    let len = nodes##.length in
+    let rec aux acc i =
+      if i = len then acc
+      else aux
+          (unopt_where where Dom_html.CoerceTo.a (nodes##item(i)) acc)
+          (succ i)
+    in aux [] 0
+
+end
