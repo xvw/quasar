@@ -70,4 +70,17 @@ sig
     -> unit
     -> Dom_html.anchorElement Js.t list
 
+  (** Check if a tag has an attribute *)
+  val has_attribute : string -> #Dom_html.element Js.t -> bool
+
+  (** Get the attribute of a tag [get_attribute key element] *)
+  val get_attribute : string -> #Dom_html.element Js.t -> string option
+
+
+  (** Check if a tag has a custom attribute *)
+  val has_data : string -> #Dom_html.element Js.t -> bool
+
+  (** Get the custom attribute of a tag [get_data key element] *)
+  val get_data : string -> #Dom_html.element Js.t -> string option
+
 end

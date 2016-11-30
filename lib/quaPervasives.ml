@@ -26,6 +26,7 @@ let console      = Firebug.console
 let location     = window##.location
 
 let always_true _ = true
+let unopt x = Js.Opt.get x (fun () -> raise (Failure "Unoptable data"))
 
 (* Check if the application is in debug mode *)
 let with_debugger () =
@@ -72,4 +73,26 @@ struct
   let all_links ?(where = always_true) () =
     all_links_of ~where document
 
+  let raw_has_attribute element attribute =
+    let str = Js.string attribute in 
+    ((element##hasAttribute(str)) == Js._true, str)
+
+  let has_attribute attribute element =
+    fst (raw_has_attribute element attribute)
+
+  let has_data data = has_attribute ("data-" ^ data)
+
+  let get_attribute attribute element =
+    let (check, str) = raw_has_attribute element attribute in
+    if check then
+      Some (
+        element##getAttribute(str)
+        |> unopt
+        |> Js.to_string
+      )
+    else None
+
+  let get_data data = get_attribute ("data-" ^ data)
+
+    
 end
