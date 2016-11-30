@@ -27,3 +27,9 @@ module Router = QuaRouter
     in your [<head>] node for adding debugger!
  *)
 let with_debugger = QuaPervasives.with_debugger
+
+(** Shortcut for Alert *)
+let alert = QuaPervasives.alert
+
+(** Shortcut for Logs *)
+let log = QuaPervasives.log

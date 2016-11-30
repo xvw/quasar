@@ -21,34 +21,70 @@
 
 open QuaPervasives
 
-(* Iteration change for each link *)
-let change_a () =
-  document##querySelectorAll(Js.string "a")
-  |> Dom.list_of_nodeList
-  |> List.iter (fun a -> (
-        let open Lwt_js_events in
-        async_loop click a (fun e _ ->
-            let _ = Dom_html.stopPropagation e in
-            let _ = alert "test" in Lwt.return ()
-          )
-        |> ignore
-      ))
+
+(* Get the history *)
+let history = window##.history
+
+(* Check if an element is scoped *)
+let is_scoped elt =
+  match Tag.get_data "scope" elt with
+  | Some "internal" | Some "scoped" -> true
+  | Some _ | None -> false
 
 
-(* Watching changement *)
+(* Watching changement ONCE *)
 let watch_once event args f =
   let%lwt result = event args in
   let _ = f result in
   Lwt.return ()
 
+(* Watching each changement *)
 let rec watch event args f =
   let%lwt _ = watch_once event args f in
   watch event args f
 
+(* Extract fragment of a link *)
+let fragment_of = function
+  | Url.Http e | Url.Https e -> e.Url.hu_path_string
+  | Url.File e -> "#" ^ e.Url.fu_path_string
+
+(* Perform link transformation *)
+let perform_transformation elt = function
+  | None -> ()
+  | Some url ->
+    let fragment = Js.string (fragment_of url) in
+    history##pushState
+      Js.null
+      document##.title
+      (Js.Opt.return fragment)
+
+(* Change the behaviour of a link *)
+let link_behaviour elt ev result =
+  let _ = Dom.preventDefault ev in
+  let href = Js.to_string (elt##.href) in
+  let () = perform_transformation elt (Url.url_of_string href)
+  in result
+
+(* Apply the changement on each scoped link *)
+let routing_behaviour link_tag =
+  let _ = Lwt_js_events.(
+      async_loop click link_tag  (link_behaviour link_tag)
+    ) in link_tag
+
+(* Perform DOM transformation before routing*)
+let routing_callback f _ =
+  let _ =
+    Tag.all_links
+      ~where:is_scoped
+      ~map:routing_behaviour
+      ()
+  in
+  f ()
+
 (* Entry point for the routing *)
 let start f =
   let open Lwt_js_events in
-  let _ = watch_once onload  () (fun _ -> change_a () ; f()) in
-  let _ = watch onhashchange () (fun _ -> change_a () ; f()) in
+  let _ = watch_once onload  () (routing_callback f) in
+  let _ = watch onhashchange () (routing_callback f) in
   ()
 
