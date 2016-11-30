@@ -44,9 +44,16 @@ module Tag :
 sig
 
   (** returns each links in an element *)
-  val all_links_of :
-    ?where:(Dom_html.anchorElement Js.t -> bool)
-    ->Dom_html.element Js.t
-    -> Dom_html.anchorElement Js.t list
+  val all_elements_of :
+    ?where:('a -> bool)
+    -> (Dom_html.element Js.t -> 'a Js.Opt.t)
+    -> #Dom_html.nodeSelector Js.t
+    -> 'a list
+
+  (** Returns all links in a document *)
+  val all_elements :
+    ?where:('a -> bool)
+    -> (Dom_html.element Js.t -> 'a Js.Opt.t)
+    -> 'a list
 
 end

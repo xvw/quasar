@@ -51,14 +51,17 @@ struct
       | Some e ->
         if f e then e::acc else acc
 
-  let all_links_of ?(where=fun _ -> true) parent =
+  let all_elements_of ?(where=fun _ -> true) coersion parent =
     let nodes = parent##querySelectorAll(Js.string "a") in
     let len = nodes##.length in
     let rec aux acc i =
       if i = len then acc
       else aux
-          (unopt_where where Dom_html.CoerceTo.a (nodes##item(i)) acc)
+          (unopt_where where coersion (nodes##item(i)) acc)
           (succ i)
     in aux [] 0
+
+  let all_elements ?(where = fun _ -> true) coersion =
+    all_elements_of ~where coersion document
 
 end
