@@ -24,4 +24,4 @@
 (** {2 Routing functions} *)
 
 (** [Router.start f] starts routing *)
-val start : (unit -> 'a) -> unit
+val start : (unit -> unit) -> unit

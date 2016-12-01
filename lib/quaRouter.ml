@@ -25,6 +25,9 @@ open QuaPervasives
 (* Get the history *)
 let history = window##.history
 
+(* last url *)
+let prev_state = ref ""
+
 (* Check if an element is scoped *)
 let is_scoped elt =
   match Tag.get_data "scope" elt with
@@ -50,25 +53,30 @@ let fragment_of = function
 
 (* Perform link transformation *)
 let perform_transformation elt = function
-  | None -> ()
+  | None -> ""
   | Some url ->
-    let fragment = Js.string (fragment_of url) in
-    history##pushState
-      Js.null
-      document##.title
-      (Js.Opt.return fragment)
+    let fragment = fragment_of url in
+    let () = elt##.classList##add(Js.string "quasar-visited") in
+    let () = history##pushState
+        Js.null
+        document##.title
+        (Js.(Opt.return (string fragment)))
+    in fragment
 
 (* Change the behaviour of a link *)
-let link_behaviour elt ev result =
+let link_behaviour f elt ev result =
   let _ = Dom.preventDefault ev in
   let href = Js.to_string (elt##.href) in
-  let () = perform_transformation elt (Url.url_of_string href)
-  in result
+  let fragment = perform_transformation elt (Url.url_of_string href) in
+  let _ = if fragment <> !prev_state then f () in
+  let _ = prev_state := fragment in
+  if (with_debugger ()) then log (Js.string !prev_state);
+  result
 
 (* Apply the changement on each scoped link *)
-let routing_behaviour link_tag =
+let routing_behaviour f link_tag =
   let _ = Lwt_js_events.(
-      async_loop click link_tag  (link_behaviour link_tag)
+      async_loop click link_tag  (link_behaviour f link_tag)
     ) in link_tag
 
 (* Perform DOM transformation before routing*)
@@ -76,14 +84,16 @@ let routing_callback f _ =
   let _ =
     Tag.all_links
       ~where:is_scoped
-      ~map:routing_behaviour
+      ~map:(routing_behaviour f)
       ()
   in
+  prev_state := Js.to_string (location##.hash) ;
   f ()
 
 (* Entry point for the routing *)
 let start f =
   let open Lwt_js_events in
+  (* let g = fun () -> if !prev_state f () in *)
   let _ = watch_once onload  () (routing_callback f) in
   let _ = watch onhashchange () (routing_callback f) in
   ()
