@@ -18,3 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
 *)
+
+(** This module give some tools to manage external configuration *)
+val with_debugger   : unit -> bool
+val with_hash       : unit -> bool
+val fixed_path      : unit -> string
