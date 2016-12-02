@@ -27,3 +27,13 @@ Library quasar
     js_of_ocaml (>= 2.8.1),
     js_of_ocaml.ppx,
     lwt.ppx
+
+Document api
+  Title:                Documentation and API reference for Quasar
+  Type:                 ocamlbuild (0.4)
+  BuildTools+:          ocamldoc
+  InstallDir:           $htmldir/quasar
+  XOCamlbuildPath:      .
+  XOCamlbuildLibraries: quasar
+  Install:              true
+  XOCamlbuildExtraArgs: "-docflags '-colorize-code -charset utf-8 -hide Pervasives'"

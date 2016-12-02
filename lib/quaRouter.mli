@@ -20,8 +20,8 @@
 *)
 
 
-
-(** {2 Routing functions} *)
+(** This module provide the tools for managing routing in Single Page App
+*)
 
 (** [Router.start f] starts routing *)
 val start : (unit -> unit) -> unit

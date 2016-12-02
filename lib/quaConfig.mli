@@ -19,7 +19,15 @@
  *
 *)
 
-(** This module give some tools to manage external configuration *)
+(** This module give some tools to manage external configuration :
+    [Example te be done]
+*)
+
+(** Returns true if the application is in debug mode *)
 val with_debugger   : unit -> bool
+  
+(** Returns true if the application must always use the hash for routing *)
 val with_hash       : unit -> bool
+
+(** Returns the fixed path of the application *)
 val fixed_path      : unit -> string
