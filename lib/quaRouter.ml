@@ -46,10 +46,32 @@ let rec watch event args f =
   let%lwt _ = watch_once event args f in
   watch event args f
 
+let protocol_of = function
+  | Url.Https _ -> "https://"
+  |  _          -> "http://"
+
+let port_of e =
+  let port = e.Url.hu_port in
+  if port = 80 then ""
+  else Printf.sprintf ":%d" port 
+
+let host_of url e =
+  let base = protocol_of url ^ e.Url.hu_host in
+  let port = port_of e in
+  base ^ port
+
+(* build uri for a specific url *)
+let build_uri url e =
+  let base = host_of url e in
+  let path = e.Url.hu_path_string in
+  base ^ "/" ^ path
+
 (* Extract fragment of a link *)
-let fragment_of = function
-  | Url.Http e | Url.Https e -> e.Url.hu_path_string
-  | Url.File e -> "#" ^ e.Url.fu_path_string
+let fragment_of url =
+  match url with 
+  | Url.Http  e
+  | Url.Https e -> build_uri url e
+  | Url.File  e -> "#" ^ e.Url.fu_path_string
 
 (* Perform link transformation *)
 let perform_transformation elt = function
