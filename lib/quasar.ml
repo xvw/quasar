@@ -23,6 +23,10 @@
 (** A wrapper for all quasar Modules *)
 
 
+(** {1 Internals modules} *)
+
+module Config = QuaConfig
+module Router = QuaRouter
 
 (** {1 Shortcuts} *)
 
@@ -32,10 +36,5 @@ let alert = QuaPervasives.alert
 (** Shortcut for Logs *)
 let log = QuaPervasives.log
 
-
-(** {1 Internals modules} *)
-
-module Config = QuaConfig
-module Router = QuaRouter
-
-
+(** Shortcut for with_debugger *)
+let with_debugger = Config.with_debugger

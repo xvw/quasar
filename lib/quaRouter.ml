@@ -92,7 +92,7 @@ let link_behaviour f elt ev result =
   let fragment = perform_transformation elt (Url.url_of_string href) in
   let _ = if fragment <> !prev_state then f () in
   let _ = prev_state := fragment in
-  if (with_debugger ()) then log (Js.string !prev_state);
+  if (QuaConfig.with_debugger ()) then log (Js.string !prev_state);
   result
 
 (* Apply the changement on each scoped link *)

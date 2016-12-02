@@ -29,13 +29,6 @@ let always_true _ = true
 let id x = x
 let unopt x = Js.Opt.get x (fun () -> raise (Failure "Unoptable data"))
 
-(* Check if the application is in debug mode *)
-let with_debugger () =
-  try
-    let f = Js.Unsafe.js_expr "$QUASAR_DEBUG" in
-    f <> Js._false
-  with _ -> false
-
 
 (* printing function *)
 let alert str = window##alert(Js.string str)

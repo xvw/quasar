@@ -29,9 +29,6 @@ val console  : Firebug.console   Js.t
 val location : Dom_html.location Js.t
 
 (**{2 Debugging function} *)
-    
-(** Check if the application is in debug mode *)
-val with_debugger : unit -> bool
 
 (** Perform a JavaScript alert *)
 val alert : string -> unit
