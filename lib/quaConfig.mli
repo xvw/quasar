@@ -18,16 +18,3 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
 *)
-
-
-
-module Config = QuaConfig
-module Router = QuaRouter
-
-
-
-(** Shortcut for Alert *)
-let alert = QuaPervasives.alert
-
-(** Shortcut for Logs *)
-let log = QuaPervasives.log

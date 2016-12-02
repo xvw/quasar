@@ -17,6 +17,7 @@ Library quasar
   Install:        true
   Modules:
     Quasar,
+    QuaConfig,
     QuaRouter
   InternalModules:
     QuaPervasives
