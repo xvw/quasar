@@ -5,9 +5,14 @@
     <title>A sample of simple routing</title>
   </head>
   <body>
-    <a data-scope="scoped" href="/test">Test</a> |
-    <a data-scope="scoped" href="/test/bar/baz">Test</a> | 
-    <a href="http://google.fr">Google</a>
+    <div id="main">
+      <ul>
+	<li><a data-scope="scoped" href="/">Home</a></li>
+	<li><a data-scope="scoped" href="/test">Test</a></li>
+	<li><a data-scope="scoped" href="/test/bar/baz">Test/bar/baz</a></li>
+	<li><a href="http://google.fr">Google</a></li>
+      </ul>
+    </div>
     <script type="application/javascript">
       var $QUASAR = {
         debug : true,
