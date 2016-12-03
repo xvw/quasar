@@ -115,6 +115,7 @@ let routing_callback f param =
       ~map:(routing_behaviour f)
       ()
   in
+  (* NEED TO BE REWRITTED WITH FRAGMENT STYLE*)
   prev_state := Js.to_string (location##.hash) ;
   log ("A:" ^ !prev_state);
   f ()
