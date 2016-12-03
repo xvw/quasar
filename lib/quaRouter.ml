@@ -115,8 +115,11 @@ let routing_callback f _ =
 (* Entry point for the routing *)
 let start f =
   let open Lwt_js_events in
-  (* let g = fun () -> if !prev_state f () in *)
-  let _ = watch_once onload  () (routing_callback f) in
+  
+  let _ = watch_once onload  () (fun param ->
+      let _ = QuaConfig.inspect () in
+      routing_callback f param
+    ) in
   let _ = watch onhashchange () (routing_callback f) in
   ()
 

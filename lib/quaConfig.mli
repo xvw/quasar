@@ -31,3 +31,6 @@ val with_hash       : unit -> bool
 
 (** Returns the fixed path of the application *)
 val fixed_path      : unit -> string
+
+(** Inspect a debugging environement*)
+val inspect         : unit -> unit

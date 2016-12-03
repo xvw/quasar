@@ -9,7 +9,11 @@
     <a data-scope="scoped" href="/test/bar/baz">Test</a> | 
     <a href="http://google.fr">Google</a>
     <script type="application/javascript">
-      var $QUASAR = { debug : true }
+      var $QUASAR = {
+        debug : true,
+        route_with_hash : true,
+        fixed_path: "test" 
+      }
     </script>
     <script type="application/javascript" src="example.js"></script>
   </body>
