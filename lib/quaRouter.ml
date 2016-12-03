@@ -108,7 +108,7 @@ let routing_behaviour f link_tag =
     ) in link_tag
 
 (* Perform DOM transformation before routing*)
-let routing_callback f _ =
+let routing_callback f param =
   let _ =
     Tag.all_links
       ~where:is_scoped
@@ -116,6 +116,7 @@ let routing_callback f _ =
       ()
   in
   prev_state := Js.to_string (location##.hash) ;
+  log ("A:" ^ !prev_state);
   f ()
 
 (* Entry point for the routing *)
