@@ -60,18 +60,24 @@ let host_of url e =
   let port = port_of e in
   base ^ port
 
+(* Treat fixed url *)
+let treat_fixed path =
+  "/" ^ path ^ (if path <> "" then "/" else "")
+
 (* build uri for a specific url *)
 let build_uri url e =
-  let base = host_of url e in
-  let path = e.Url.hu_path_string in
-  base ^ "/" ^ path
+  let fixed = treat_fixed (QuaConfig.fixed_path ()) in 
+  let base  = host_of url e in
+  let path  = e.Url.hu_path_string in
+  base ^ fixed ^ path
 
 (* Extract fragment of a link *)
 let fragment_of url =
-  match url with 
-  | Url.Http  e
-  | Url.Https e -> build_uri url e
-  | Url.File  e -> "#" ^ e.Url.fu_path_string
+  let hashable = QuaConfig.with_hash () in 
+  match (url, hashable) with 
+  | (Url.Http e | Url.Https e), false -> build_uri url e
+  | (Url.Http e | Url.Https e), true  -> "#" ^ e.Url.hu_path_string
+  | (Url.File e, _) -> "#" ^ e.Url.fu_path_string
 
 (* Perform link transformation *)
 let perform_transformation elt = function
@@ -122,4 +128,5 @@ let start f =
     ) in
   let _ = watch onhashchange () (routing_callback f) in
   ()
+  
 
