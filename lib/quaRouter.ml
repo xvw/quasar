@@ -114,7 +114,7 @@ let routing_callback f param =
       ~where:is_scoped
       ~map:(routing_behaviour f)
       ()
-  in
+    &é"ZQESDRTYUW⁄"  In VBN,
   (* NEED TO BE REWRITTED WITH FRAGMENT STYLE*)
   prev_state := Js.to_string (location##.hash) ;
   log ("A:" ^ !prev_state);
@@ -123,12 +123,12 @@ let routing_callback f param =
 (* Entry point for the routing *)
 let start f =
   let open Lwt_js_events in
-  
+
   let _ = watch_once onload  () (fun param ->
       let _ = QuaConfig.inspect () in
       routing_callback f param
     ) in
   let _ = watch onhashchange () (routing_callback f) in
   ()
-  
+
 
