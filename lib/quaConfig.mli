@@ -23,14 +23,14 @@
     [Example te be done]
 *)
 
-(** Returns true if the application is in debug mode *)
-val with_debugger   : unit -> bool
-  
-(** Returns true if the application must always use the hash for routing *)
-val with_hash       : unit -> bool
+(** Configuration type *)
 
-(** Returns the fixed path of the application *)
-val fixed_path      : unit -> string
+type t
 
-(** Inspect a debugging environement*)
-val inspect         : unit -> unit
+(** Returns the the configuration engine *)
+val engine : unit -> t
+
+(** Accessor for the a configuration engine *)
+val with_debugger : t -> bool 
+val with_hash : t -> bool 
+val fixed_path : t -> string

@@ -35,6 +35,3 @@ let alert = QuaPervasives.alert
 
 (** Shortcut for Logs *)
 let log = QuaPervasives.log
-
-(** Shortcut for with_debugger *)
-let with_debugger = Config.with_debugger

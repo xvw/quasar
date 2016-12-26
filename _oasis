@@ -16,7 +16,8 @@ Library quasar
   FindlibName:    quasar
   Install:        true
   Modules:
-    Quasar
+    Quasar, 
+    QuaConfig
   InternalModules:
     QuaPervasives
   CompiledObject: byte
