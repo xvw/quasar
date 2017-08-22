@@ -37,8 +37,7 @@ let integer nb = Integer nb
 let float nb = Float nb
 let tagged_node tag tokens = Tagged_node (tag, tokens)
 
-let of_stream stream =
-  Atom ""
+let of_stream stream = Atom ""
 
 let of_string string =
   string
