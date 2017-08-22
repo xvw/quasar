@@ -26,6 +26,7 @@ type t =
   | Integer of int
   | Float of float
   | Node of t list
+  | Tagged_node of (string * t list)
 
 
 let node tokens = Node tokens
@@ -34,6 +35,7 @@ let atom kwd = Atom kwd
 let string str = String str
 let integer nb = Integer nb
 let float nb = Float nb
+let tagged_node tag tokens = Tagged_node (tag, tokens)
 
 let of_stream stream =
   Atom ""

@@ -30,6 +30,7 @@ type t =
   | Integer of int
   | Float of float
   | Node of t list
+  | Tagged_node of (string * t list)
 
 
 (** {2 Create specifics nodes} *)
@@ -40,6 +41,7 @@ val keyword : string -> t
 val string : string -> t
 val integer : int -> t
 val float : float -> t
+val tagged_node : string -> t list -> t
 
 
 (** {2 Parsers} *)
