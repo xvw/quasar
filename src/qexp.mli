@@ -30,3 +30,9 @@ type t =
   | Integer of int
   | Float of float
   | Node of t list
+
+
+(** {2 Parsers} *)
+
+val of_string : string -> t
+val of_stream : char Stream.t -> t

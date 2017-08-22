@@ -26,3 +26,12 @@ type t =
   | Integer of int
   | Float of float
   | Node of t list
+
+
+let of_stream stream =
+  Atom ""
+
+let of_string string =
+  string
+  |> Stream.of_string
+  |> of_stream
