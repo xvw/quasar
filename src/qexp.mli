@@ -18,3 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *)
+
+(** A Qexp is a king of Sexp to describe the main tokens of a Quasar file *)
+
+
+(** The internal representation of a Qexp *)
+type t =
+  | Atom of string
+  | Keyword of string
+  | String of string
+  | Integer of int
+  | Float of float
+  | Node of t list

@@ -18,3 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *)
+
+type t =
+  | Atom of string
+  | Keyword of string
+  | String of string
+  | Integer of int
+  | Float of float
+  | Node of t list
