@@ -32,6 +32,14 @@ type t =
   | Node of t list
 
 
+(** {2 Create specifics nodes} *)
+val node : t list -> t
+val atom : string -> t
+val keyword : string -> t
+val string : string -> t
+val integer : int -> t
+val float : float -> t
+
 (** {2 Parsers} *)
 
 val of_string : string -> t

@@ -28,6 +28,13 @@ type t =
   | Node of t list
 
 
+let node tokens = Node tokens
+let keyword kwd = Keyword kwd
+let atom kwd = Atom kwd
+let string str = String str
+let integer nb = Integer nb
+let float nb = Float nb
+
 let of_stream stream =
   Atom ""
 
