@@ -95,3 +95,16 @@ let iter f js_array =
 let iteri f js_array =
   js_array##forEach (Js.wrap_callback (fun x i _ -> f i x))
 ;;
+
+let map = Js.array_map
+let mapi = Js.array_mapi
+
+let fold_left f (default : 'a) (js_array : 'b t) : 'a =
+  let callback = Js.wrap_callback (fun acc elt _ _ -> f acc elt) in
+  js_array##reduce_init callback default
+;;
+
+let fold_right f (js_array : 'a t) (default : 'b) : 'b =
+  let callback = Js.wrap_callback (fun acc elt _ _ -> f elt acc) in
+  js_array##reduceRight_init callback default
+;;

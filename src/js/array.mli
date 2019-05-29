@@ -87,3 +87,20 @@ val iter : ('a -> unit) -> 'a t -> unit
     the element as first argument, and the element itself as second argument. 
 *)
 val iteri : (int -> 'a -> unit) -> 'a t -> unit
+
+(** Mapping over [js_array]. *)
+val map : ('a -> 'b) -> 'a t -> 'b t
+
+(** Mapping over [js_array] with index has first callback parameter. *)
+val mapi : (int -> 'a -> 'b) -> 'a t -> 'b t
+
+(** [Array.fold_left f x] a computes [f (... (f (f x a.(0)) a.(1)) ...) 
+    a.(n-1)], where n is the length of the array [a]. 
+*)
+val fold_left : ('a -> 'b -> 'a) -> 'a -> 'b t -> 'a
+
+(** [Array.fold_right f a x] computes [f a.(0) 
+    (f a.(1) ( ... (f a.(n-1) x) ...))], where n is the length of 
+    the array [a].
+*)
+val fold_right : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
