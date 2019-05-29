@@ -1,0 +1,25 @@
+opam-version: "2.0"
+synopsis: "A standard library to write JavaScript application using OCaml - Node part"
+version: "dev"
+maintainer: "xvw"
+authors: ["xvw"]
+homepage: "https://github.com/xvw/quasar"
+bug-reports: "https://github.com/xvw/quasar/issues"
+dev-repo: "git+https://github.com/xvw/quasar.git"
+license: "MIT"
+
+build: [
+  ["dune" "subst"] {pinned}
+  ["dune" "build" "-p" name "-j" jobs]
+  ["dune" "build" "@doc" "-p" name ] {with-doc}
+  ["dune" "runtest" "-p" name] {with-test}
+]
+ 
+depends: [
+  "dune" {build}
+  "odoc" {with-doc}
+  "ocaml" { >= "4.07.0" }
+  "js_of_ocaml-compiler" {build & >= "3.0" & < "4.0"}
+  "js_of_ocaml-ppx" {build & >= "3.0" & < "4.0"}
+  "js_of_ocaml" {>= "3.0" & < "4.0"}
+]
