@@ -1,0 +1,4 @@
+(library
+ (name quasar_core)
+ (public_name quasar_core)
+ (synopsis "Commons (and backend-agnostic) part of Quasar"))

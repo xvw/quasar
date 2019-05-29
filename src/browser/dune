@@ -1,0 +1,6 @@
+(library
+ (name quasar_browser)
+ (public_name quasar_browser)
+ (synopsis "Browser part of Quasar")
+ (preprocess (pps js_of_ocaml-ppx))
+ (libraries js_of_ocaml))
