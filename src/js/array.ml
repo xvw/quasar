@@ -87,3 +87,11 @@ let to_list f js_array =
       Js.Optdef.get elt (fun () -> Error.raise $ unbound_index i)
       |> f)
 ;;
+
+let iter f js_array =
+  js_array##forEach (Js.wrap_callback (fun x _ _ -> f x))
+;;
+
+let iteri f js_array =
+  js_array##forEach (Js.wrap_callback (fun x i _ -> f i x))
+;;

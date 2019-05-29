@@ -75,3 +75,15 @@ val to_array : ('a -> 'b) -> 'a t -> 'b array
     applied on each cell of the [js_array].
 *)
 val to_list : ('a -> 'b) -> 'a t -> 'b list
+
+(** {2 Iterators} *)
+
+(** [Array.iter f a] applies [f] in turn to all the elements of [a]. 
+    It is equivalent to [f a.(0); f a.(1); ...; f a.(Array.length a - 1); ()]. 
+*)
+val iter : ('a -> unit) -> 'a t -> unit
+
+(** Same as [Array.iter], but the function is applied with the index of 
+    the element as first argument, and the element itself as second argument. 
+*)
+val iteri : (int -> 'a -> unit) -> 'a t -> unit
