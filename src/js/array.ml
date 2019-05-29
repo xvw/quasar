@@ -9,7 +9,26 @@ let unbound_index unavailable_index =
   |> Error.make
 ;;
 
+let invalid_size size =
+  size |> Format.asprintf "Invalid size %d" |> Error.make
+;;
+
 let empty () = new%js Js.array_empty
+
+let init size f =
+  if size = 0
+  then empty ()
+  else if size > 0
+  then Error.raise $ invalid_size size
+  else (
+    let js_array = new%js Js.array_length size in
+    let () =
+      for i = 0 to pred size do
+        Js.array_set js_array i (f i)
+      done
+    in
+    js_array)
+;;
 
 let prefilled size default =
   let array = new%js Js.array_length size in
@@ -35,6 +54,23 @@ let from_list f list =
   in
   js_array
 ;;
+
+let get js_array index =
+  Js.array_get js_array index |> Js.Optdef.to_option
+;;
+
+let unsafe_get js_array index =
+  match get js_array index with
+  | None ->
+    Error.raise $ unbound_index index
+  | Some elt ->
+    elt
+;;
+
+let set = Js.array_set
+let ( .%[] ) = get
+let ( .%[]<- ) = set
+let ( .![] ) = unsafe_get
 
 let to_array f js_array =
   let size = js_array##.length in

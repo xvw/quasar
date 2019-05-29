@@ -9,18 +9,19 @@
 
 open Js_of_ocaml
 
-(** {2 Types and errors} *)
+(** {2 Types} *)
 
 (** ['a Quasar_js.Array.t] is an alias for ['a Js.js_array Js.t]. *)
 type 'a t = 'a Js.js_array Js.t
-
-(** Error emitted when an index is not available. *)
-val unbound_index : int -> Error.t
 
 (** {2 Array creation} *)
 
 (** [Array.empty ()] returns a fresh empty array. *)
 val empty : unit -> 'a t
+
+(** [Array.init n f] returns a fresh array of length [n]  with element number 
+    [i] initialized to the result of [f i]. *)
+val init : int -> (int -> 'a) -> 'a t
 
 (** [Array.prefilled n x] returns a fresh array of length [n], initialized 
     with [x].
@@ -36,6 +37,32 @@ val from_array : ('a -> 'b) -> 'a array -> 'b t
     where [f] is applied on each element of the list.
 *)
 val from_list : ('a -> 'b) -> 'a list -> 'b t
+
+(** {2 Access and mutation} *)
+
+(** [Array.get array i] try to returns the [i]-nd values of [array]. *)
+val get : 'a t -> int -> 'a option
+
+(** [Array.unsafe_get array i] returns the [i]-nd values of [array]. *)
+val unsafe_get : 'a t -> int -> 'a
+
+(** [Array.set array i x] replace the [i]-nd values of [array] by [x]. *)
+val set : 'a t -> int -> 'a -> unit
+
+(** Alias of [Array.get], used like that : [js_array.%[index]] is 
+    [Array.get js_array index]. 
+*)
+val ( .%[] ) : 'a t -> int -> 'a option
+
+(** Alias of [Array.set], used like that : [js_array.%[index] <- x] is
+    [Array.set js_array index value]
+*)
+val ( .%[]<- ) : 'a t -> int -> 'a -> unit
+
+(** Alias of [Array.unsafe_get], used like that : [js_array.![index]] is 
+    [Array.unsafe_get js_array index]. 
+*)
+val ( .![] ) : 'a t -> int -> 'a
 
 (** {2 Array conversion} *)
 
