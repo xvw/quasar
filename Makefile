@@ -1,5 +1,7 @@
 .PHONY: build dev-deps doc
 
+all: build doc
+
 build:
 	dune build
 

@@ -13,6 +13,7 @@ let invalid_size size =
   size |> Format.asprintf "Invalid size %d" |> Error.make
 ;;
 
+let length js_array = js_array##.length
 let empty () = new%js Js.array_empty
 
 let init size f =
@@ -67,10 +68,28 @@ let unsafe_get js_array index =
     elt
 ;;
 
+let map = Js.array_map
+let mapi = Js.array_mapi
+
+let fold_left f (default : 'a) (js_array : 'b t) : 'a =
+  let callback = Js.wrap_callback (fun acc elt _ _ -> f acc elt) in
+  js_array##reduce_init callback default
+;;
+
+let fold_right f (js_array : 'a t) (default : 'b) : 'b =
+  let callback = Js.wrap_callback (fun acc elt _ _ -> f elt acc) in
+  js_array##reduceRight_init callback default
+;;
+
 let set = Js.array_set
 let ( .%[] ) = get
 let ( .%[]<- ) = set
 let ( .![] ) = unsafe_get
+let push js_array x = js_array##push x
+let pop js_array = js_array##pop |> Js.Optdef.to_option
+let shift js_array = js_array##shift |> Js.Optdef.to_option
+let append a b = a##concat b
+let flatten js_array = fold_left append (empty ()) js_array
 
 let to_array f js_array =
   let size = js_array##.length in
@@ -94,17 +113,4 @@ let iter f js_array =
 
 let iteri f js_array =
   js_array##forEach (Js.wrap_callback (fun x i _ -> f i x))
-;;
-
-let map = Js.array_map
-let mapi = Js.array_mapi
-
-let fold_left f (default : 'a) (js_array : 'b t) : 'a =
-  let callback = Js.wrap_callback (fun acc elt _ _ -> f acc elt) in
-  js_array##reduce_init callback default
-;;
-
-let fold_right f (js_array : 'a t) (default : 'b) : 'b =
-  let callback = Js.wrap_callback (fun acc elt _ _ -> f elt acc) in
-  js_array##reduceRight_init callback default
 ;;

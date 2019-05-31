@@ -40,6 +40,9 @@ val from_list : ('a -> 'b) -> 'a list -> 'b t
 
 (** {2 Access and mutation} *)
 
+(** Return the length (number of elements) of the given [js_array]. *)
+val length : 'a t -> int
+
 (** [Array.get array i] try to returns the [i]-nd values of [array]. *)
 val get : 'a t -> int -> 'a option
 
@@ -63,6 +66,31 @@ val ( .%[]<- ) : 'a t -> int -> 'a -> unit
     [Array.unsafe_get js_array index]. 
 *)
 val ( .![] ) : 'a t -> int -> 'a
+
+(** [Array.push js_array x] add [x] at the end of [js_array] and returns
+    the new length of the array.
+ *)
+val push : 'a t -> 'a -> int
+
+(** [Array.pop js_array] remove and returns the last element of 
+    [js_array]. 
+*)
+val pop : 'a t -> 'a option
+
+(** [Array.shift js_array] remove and returns the first element of 
+    [js_array]. 
+*)
+val shift : 'a t -> 'a option
+
+(** [Array.append array_a array_b] returns a fresh array containing 
+    the concatenation of the arrays [array_a] and [array_b]. 
+*)
+val append : 'a t -> 'a t -> 'a t
+
+(** Concatenate a [js_array] of [js_array]. The elements of the argument
+    are all concatenated together (in the same order) to give the result. 
+*)
+val flatten : 'a t t -> 'a t
 
 (** {2 Array conversion} *)
 
