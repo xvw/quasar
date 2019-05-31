@@ -1,6 +1,11 @@
 open Js_of_ocaml
 open Quasar_core.Util
 
+class type ['a] js_array =
+  object
+    inherit ['a] Js.js_array
+  end
+
 type 'a t = 'a Js.js_array Js.t
 
 let unbound_index unavailable_index =
@@ -113,4 +118,14 @@ let iter f js_array =
 
 let iteri f js_array =
   js_array##forEach (Js.wrap_callback (fun x i _ -> f i x))
+;;
+
+let for_all f js_array =
+  js_array##every (Js.wrap_callback (fun x _ _ -> Js.bool $ f x))
+  |> Js.to_bool
+;;
+
+let exists f js_array =
+  js_array##some (Js.wrap_callback (fun x _ _ -> Js.bool $ f x))
+  |> Js.to_bool
 ;;

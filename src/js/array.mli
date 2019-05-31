@@ -11,10 +11,17 @@ open Js_of_ocaml
 
 (** {2 Types} *)
 
-(** ['a Quasar_js.Array.t] is an alias for ['a Js.js_array Js.t]. *)
-type 'a t = 'a Js.js_array Js.t
+class type ['a] js_array =
+  object
+    inherit ['a] Js.js_array
+  end
 
-(** {2 Array creation} *)
+(** ['a Quasar_js.Array.t] is an alias for ['a Js.js_array Js.t]. *)
+type 'a t = 'a js_array Js.t
+
+(** {2 API} *)
+
+(** {3 Array creation} *)
 
 (** [Array.empty ()] returns a fresh empty array. *)
 val empty : unit -> 'a t
@@ -38,7 +45,7 @@ val from_array : ('a -> 'b) -> 'a array -> 'b t
 *)
 val from_list : ('a -> 'b) -> 'a list -> 'b t
 
-(** {2 Access and mutation} *)
+(** {3 Access and mutation} *)
 
 (** Return the length (number of elements) of the given [js_array]. *)
 val length : 'a t -> int
@@ -82,6 +89,8 @@ val pop : 'a t -> 'a option
 *)
 val shift : 'a t -> 'a option
 
+(** {3 Array composition} *)
+
 (** [Array.append array_a array_b] returns a fresh array containing 
     the concatenation of the arrays [array_a] and [array_b]. 
 *)
@@ -92,7 +101,7 @@ val append : 'a t -> 'a t -> 'a t
 *)
 val flatten : 'a t t -> 'a t
 
-(** {2 Array conversion} *)
+(** {3 Array conversion} *)
 
 (** [Array.to_array] returns the ocaml [array] of a [js_array] where [f] is 
     applied on each cell of the [js_array].
@@ -104,7 +113,7 @@ val to_array : ('a -> 'b) -> 'a t -> 'b array
 *)
 val to_list : ('a -> 'b) -> 'a t -> 'b list
 
-(** {2 Iterators} *)
+(** {3 Iterators} *)
 
 (** [Array.iter f a] applies [f] in turn to all the elements of [a]. 
     It is equivalent to [f a.(0); f a.(1); ...; f a.(Array.length a - 1); ()]. 
@@ -132,3 +141,11 @@ val fold_left : ('a -> 'b -> 'a) -> 'a -> 'b t -> 'a
     the array [a].
 *)
 val fold_right : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
+
+(** {3 Array Scanning} *)
+
+(** Checks if all elements of the array satisfy a predicate. *)
+val for_all : ('a -> bool) -> 'a t -> bool
+
+(** Checks if at least one element of the array satisfies a predicate. *)
+val exists : ('a -> bool) -> 'a t -> bool
