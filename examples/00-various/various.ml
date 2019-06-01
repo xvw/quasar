@@ -21,3 +21,4 @@ let () = Console.time "foo"
 let () = Console.time_log "foo" ()
 let () = Console.time_log "foo" ()
 let () = Console.time_end "foo"
+let () = Console.clear ()
