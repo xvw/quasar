@@ -13,4 +13,4 @@ Quasar is an umbrella for four specific libraries:
    JavaScript (via Js_of_ocaml);
 - `Quasar_browser`: a browser-specific library as the execution context;
 - `Quasar_node`: a specific library has Node as the execution context.
-  (NodeJS recommandes version `>= v10.7.0`) 
+  (NodeJS recommandes version `>= v10.7.0`)

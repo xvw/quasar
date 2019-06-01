@@ -19,6 +19,20 @@ val error : 'a -> unit
 (** Log warning on [console]. *)
 val warning : 'a -> unit
 
+(** {3 Counters} *)
+
+(** If supplied, [Console.count ~label ()] outputs the number of times 
+    it has been called with that label. 
+    If omitted, [count] behaves as though it was called with the 
+    ["default"] label. 
+*)
+val count : ?label:string -> unit -> unit
+
+(** If supplied, [count_reset] resets the count for that [label] to 0. 
+    If omitted, [count_reset] resets the ["default"] counter to 0. 
+*)
+val count_reset : ?label:string -> unit -> unit
+
 (** {3 Timers} 
     Timers are used to calculate the procedure execution time. 
     - We instantiate a timer with: [Console.time name], 
