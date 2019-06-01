@@ -1,4 +1,4 @@
-.PHONY: build dev-deps doc examples
+.PHONY: build dev-deps doc examples*
 
 all: build doc examples
 
@@ -12,4 +12,4 @@ dev-deps:
 	opam install . --deps-only --yes
 
 examples:
-	dune build examples/00-various/various.bc.js
+	dune build examples/00-various/index.bc.js
