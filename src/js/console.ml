@@ -1,4 +1,5 @@
 open Js_of_ocaml
+open Quasar_core.Util
 
 class type hook =
   object
@@ -13,7 +14,7 @@ class type hook =
     method timeLog : 'a. Js.js_string Js.t -> 'a -> unit Js.meth
 
     method table :
-      'a. 'a -> Js.js_string Js.t Js.js_array Js.t Js.Optdef.t
+      'b. 'b -> Js.js_string Js.t Js.js_array Js.t Js.Optdef.t
       -> unit Js.meth
   end
 
@@ -23,8 +24,20 @@ let console = get_console ()
 let log x = console##log x
 let print x = x |> Js.string |> log
 let clear () = console##clear
+let info x = console##info x
 let error x = console##error x
 let warning x = console##warn x
+let dir x = console##dir x
+let trace () = console##trace
+
+let table ?columns obj =
+  let opt_columns =
+    Js.Optdef.map
+    $ Js.Optdef.option columns
+    $ Array.from_list Js.string
+  in
+  console##table obj opt_columns
+;;
 
 let opt_str str_value =
   str_value |> Js.Optdef.option |> fun x -> Js.Optdef.map x Js.string
@@ -44,3 +57,6 @@ let timetrack timer_name actions =
   in
   console##timeEnd name
 ;;
+
+let group ?label () = console##group (Js.Optdef.option label)
+let group_end () = console##groupEnd

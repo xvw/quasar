@@ -13,11 +13,23 @@ val print : string -> unit
 (** Clear [console]. *)
 val clear : unit -> unit
 
+(** Log info on [console]. *)
+val info : 'a -> unit
+
 (** Log error on [console]. *)
 val error : 'a -> unit
 
 (** Log warning on [console]. *)
 val warning : 'a -> unit
+
+(** Display a JavaScript object whose properties should be output. *)
+val dir : 'a -> unit
+
+(** Outputs a stack trace. *)
+val trace : unit -> unit
+
+(** Display a table on the [console]. *)
+val table : ?columns:string list -> 'a -> unit
 
 (** {3 Counters} *)
 
@@ -65,3 +77,17 @@ val time_end : string -> unit
     the to instanciate and closed a timer.
 *)
 val timetrack : string -> (('a -> unit) -> unit) list -> unit
+
+(** {3 Groups} 
+    You can use nested groups to help organize your output by visually 
+    combining related material. To create a new nested block, 
+    call [Console.group ()].
+
+    To exit the current group, simply call [Console.group_end ()]. 
+*)
+
+(** Creates a new inline group in the [console]. *)
+val group : ?label:'a -> unit -> unit
+
+(** Exits the current inline group in the [console]. *)
+val group_end : unit -> unit
