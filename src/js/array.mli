@@ -11,17 +11,12 @@ open Js_of_ocaml
 
 (** {2 Types} *)
 
-class type ['a] js_array =
-  object
-    inherit ['a] Js.js_array
-  end
-
 (** ['a Quasar_js.Array.t] is an alias for ['a Js.js_array Js.t]. *)
-type 'a t = 'a js_array Js.t
+type 'a t = 'a Js.js_array Js.t
 
 (** {2 API} *)
 
-(** {3 Array creation} *)
+(** {3 Creation} *)
 
 (** [Array.empty ()] returns a fresh empty array. *)
 val empty : unit -> 'a t
@@ -45,7 +40,7 @@ val from_array : ('a -> 'b) -> 'a array -> 'b t
 *)
 val from_list : ('a -> 'b) -> 'a list -> 'b t
 
-(** {3 Access and mutation} *)
+(** {3 Access, mutation, merge} *)
 
 (** Return the length (number of elements) of the given [js_array]. *)
 val length : 'a t -> int
@@ -74,6 +69,19 @@ val ( .%[]<- ) : 'a t -> int -> 'a -> unit
 *)
 val ( .![] ) : 'a t -> int -> 'a
 
+(** [Array.fill arr x] replace each value of [arr] with [x]. *)
+val fill : 'a t -> 'b -> 'b t
+
+(** [Array.fill_from arr i x] replace each value of [arr] from
+    [i] with [x]. 
+*)
+val fill_from : 'a t -> int -> 'a -> 'a t
+
+(** [Array.fill_between arr i j x] replace each value between [i] and [j]
+    with [x].
+*)
+val fill_between : 'a t -> int -> int -> 'a -> 'a t
+
 (** [Array.push js_array x] add [x] at the end of [js_array] and returns
     the new length of the array.
  *)
@@ -89,8 +97,6 @@ val pop : 'a t -> 'a option
 *)
 val shift : 'a t -> 'a option
 
-(** {3 Array composition} *)
-
 (** [Array.append array_a array_b] returns a fresh array containing 
     the concatenation of the arrays [array_a] and [array_b]. 
 *)
@@ -101,7 +107,7 @@ val append : 'a t -> 'a t -> 'a t
 *)
 val flatten : 'a t t -> 'a t
 
-(** {3 Array conversion} *)
+(** {3 Conversion} *)
 
 (** [Array.to_array] returns the ocaml [array] of a [js_array] where [f] is 
     applied on each cell of the [js_array].
@@ -142,10 +148,19 @@ val fold_left : ('a -> 'b -> 'a) -> 'a -> 'b t -> 'a
 *)
 val fold_right : ('a -> 'b -> 'b) -> 'a t -> 'b -> 'b
 
-(** {3 Array Scanning} *)
+(** {3 Scanning} *)
 
 (** Checks if all elements of the array satisfy a predicate. *)
 val for_all : ('a -> bool) -> 'a t -> bool
 
 (** Checks if at least one element of the array satisfies a predicate. *)
 val exists : ('a -> bool) -> 'a t -> bool
+
+(** {3 Sorting} *)
+
+(** Sort an array in increasing order according to a comparison function. 
+    The comparison function must return 0 if its arguments compare as 
+    equal, a positive integer if the first is greater, and a negative 
+    integer if the first is smaller (see below for a complete specification). 
+*)
+val sort : ('a -> 'a -> int) -> 'a t -> 'a t

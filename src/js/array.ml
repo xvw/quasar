@@ -1,11 +1,6 @@
 open Js_of_ocaml
 open Quasar_core.Util
 
-class type ['a] js_array =
-  object
-    inherit ['a] Js.js_array
-  end
-
 type 'a t = 'a Js.js_array Js.t
 
 let unbound_index unavailable_index =
@@ -94,7 +89,11 @@ let push js_array x = js_array##push x
 let pop js_array = js_array##pop |> Js.Optdef.to_option
 let shift js_array = js_array##shift |> Js.Optdef.to_option
 let append a b = a##concat b
-let flatten js_array = fold_left append (empty ()) js_array
+
+let flatten js_array =
+  let e = empty () in
+  fold_left append e js_array
+;;
 
 let to_array f js_array =
   let size = js_array##.length in
@@ -128,4 +127,23 @@ let for_all f js_array =
 let exists f js_array =
   js_array##some (Js.wrap_callback (fun x _ _ -> Js.bool $ f x))
   |> Js.to_bool
+;;
+
+let sort f js_array =
+  let callback =
+    Js.wrap_callback (fun x y -> float_of_int $ f x y)
+  in
+  js_array##sort callback
+;;
+
+let fill js_array value = map (fun _ -> value) js_array
+
+let fill_from js_array min value =
+  mapi (fun i x -> if i >= min then value else x) js_array
+;;
+
+let fill_between js_array min max value =
+  mapi
+    (fun i x -> if i >= min && i <= max then value else x)
+    js_array
 ;;
