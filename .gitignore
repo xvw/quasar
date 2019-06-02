@@ -4,3 +4,5 @@ _opam
 *.merlin
 node_modules
 *.bc.js
+test/js/*.test.js
+test/js/*.test.map

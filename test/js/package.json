@@ -4,7 +4,8 @@
   "description": "Test for QuasarJS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "init": "jest --init",
+    "test": "jest"
   },
   "author": "xvw",
   "license": "MIT",
