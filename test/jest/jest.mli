@@ -4,6 +4,7 @@ open Js_of_ocaml
 
 (** {2 API} *)
 
+val describe : string -> (unit -> unit) -> unit
 val test : string -> (unit -> unit) -> unit
 val expect : 'a -> 'a Sigs.expected Js.t
 

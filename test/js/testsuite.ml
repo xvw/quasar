@@ -1,1 +1,1 @@
-let () = Base_test.suite ()
+let _ = Base_test.suite ()

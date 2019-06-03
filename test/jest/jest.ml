@@ -1,17 +1,28 @@
 open Js_of_ocaml
 
+let describe message test_list =
+  let open Js.Unsafe in
+  fun_call
+    global##.describe
+    [| inject (Js.string message)
+     ; inject (Js.wrap_callback test_list)
+    |]
+  |> ignore
+;;
+
 let test message action =
   let open Js.Unsafe in
   fun_call
-    (js_expr "test")
+    global##.test
     [| inject (Js.string message)
      ; inject (Js.wrap_callback action)
     |]
+  |> ignore
 ;;
 
 let expect value =
   let open Js.Unsafe in
-  fun_call (js_expr "expect") [| inject value |]
+  fun_call global##.expect [| inject value |]
 ;;
 
 let ( .%{}<- ) expected driver value = driver expected value
