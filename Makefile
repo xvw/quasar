@@ -20,5 +20,5 @@ build-test:
 	cp _build/default/test/js/testsuite.bc.js test/js/testsuite.test.js
 	cp _build/default/test/js/testsuite.bc.map test/js/testsuite.test.map
 
-test:
+test: build-test
 	(cd test/js; npm run test)
