@@ -3,5 +3,4 @@
  (public_name quasar_js.jest)
  (synopsis "Partial binding of Jest (for testing Quasar)")
  (preprocess (pps js_of_ocaml-ppx))
- (libraries js_of_ocaml quasar_core quasar_js quasar_node)
- (modules_without_implementation sigs))
+ (libraries js_of_ocaml quasar_core quasar_js quasar_node))

@@ -19,7 +19,7 @@ let empty () = new%js Js.array_empty
 let init size f =
   if size = 0
   then empty ()
-  else if size > 0
+  else if size < 0
   then Error.raise $ invalid_size size
   else (
     let js_array = new%js Js.array_length size in

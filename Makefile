@@ -15,10 +15,10 @@ dev-deps:
 examples:
 	dune build examples/00-various/index.bc.js
 
-build-test:
+build-test: build
 	dune build test/js/testsuite.bc.js --profile release
 	cp _build/default/test/js/testsuite.bc.js test/js/testsuite.test.js
-	cp _build/default/test/js/testsuite.bc.map test/js/testsuite.test.map
+	cp _build/default/test/js/testsuite.bc.map test/js/testsuite.test.map | true
 
 test: build-test
 	(cd test/js; npm run test)
