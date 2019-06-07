@@ -26,4 +26,22 @@ let init2 () =
       (expect input).%{to_strict_equal} <- expected)
 ;;
 
-let suite () = List.iter (fun t -> t ()) [ empty_array; init1; init2 ]
+let prefilled1 () =
+  test "Create an array using prefilled - 1" (fun () ->
+      let expected : int J.Array.t = arr "[]" in
+      let input = J.Array.prefilled 0 7 in
+      (expect input).%{to_strict_equal} <- expected)
+;;
+
+let prefilled2 () =
+  test "Create an array using prefilled - 2" (fun () ->
+      let expected : int J.Array.t = arr "[7, 7, 7, 7, 7]" in
+      let input = J.Array.prefilled 5 7 in
+      (expect input).%{to_strict_equal} <- expected)
+;;
+
+let suite () =
+  List.iter
+    (fun t -> t ())
+    [ empty_array; init1; init2; prefilled1; prefilled2 ]
+;;

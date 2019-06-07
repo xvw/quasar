@@ -33,10 +33,7 @@ let init size f =
     js_array)
 ;;
 
-let prefilled size default =
-  let array = new%js Js.array_length size in
-  Js.array_map (fun _ -> default) array
-;;
+let prefilled size default = init size (fun _ -> default)
 
 let from_array f array =
   let js_array = empty () in
