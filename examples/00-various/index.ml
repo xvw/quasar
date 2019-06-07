@@ -22,7 +22,6 @@ let () = Console.time "foo"
 let () = Console.time_log "foo" ()
 let () = Console.time_log "foo" ()
 let () = Console.time_end "foo"
-let () = Console.clear ()
 let () = Console.count ()
 let () = Console.count ()
 let () = Console.count ~label:"foo" ()

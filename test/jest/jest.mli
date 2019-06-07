@@ -33,6 +33,8 @@ class type ['a] expected =
     method toBeLessThanOrEqual : 'a -> unit Js.meth
 
     method toBeCloseTo : float -> unit Js.meth
+
+    method toThrow : Js.error Js.t Js.Optdef.t -> unit Js.meth
   end
 
 (** {2 API} *)
@@ -65,3 +67,5 @@ val to_be_greather_than_or_equal : 'a expected Js.t -> 'a -> unit
 val to_be_less_than : 'a expected Js.t -> 'a -> unit
 val to_be_less_than_or_equal : 'a expected Js.t -> 'a -> unit
 val to_be_close_to : float expected Js.t -> float -> unit
+val to_throw : 'a expected Js.t -> unit
+val to_throw_error : 'a expected Js.t -> Js.error Js.t -> unit

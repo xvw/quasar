@@ -1,5 +1,6 @@
 (executable
  (name testsuite)
+
  (js_of_ocaml (flags --source-map --debug-info --pretty))
  (preprocess (pps js_of_ocaml-ppx))
  (libraries js_of_ocaml quasar_core quasar_js quasar_node quasar_js.jest)) 

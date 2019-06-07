@@ -29,6 +29,8 @@ class type ['a] expected =
     method toBeLessThanOrEqual : 'a -> unit Js.meth
 
     method toBeCloseTo : float -> unit Js.meth
+
+    method toThrow : Js.error Js.t Js.Optdef.t -> unit Js.meth
   end
 
 let describe message test_list =
@@ -71,3 +73,5 @@ let to_be_greather_than_or_equal e x = e##toBeGreaterThanOrEqual x
 let to_be_less_than e x = e##toBeLessThan x
 let to_be_less_than_or_equal e x = e##toBeLessThanOrEqual x
 let to_be_close_to e x = e##toBeCloseTo x
+let to_throw e = e##toThrow Js.Optdef.empty
+let to_throw_error e error = e##toThrow (Js.Optdef.return error)

@@ -6,11 +6,13 @@ type 'a t = 'a Js.js_array Js.t
 let unbound_index unavailable_index =
   unavailable_index
   |> Format.asprintf "Unbound index %d"
-  |> Error.make
+  |> Error.make |> Error.raise
 ;;
 
 let invalid_size size =
-  size |> Format.asprintf "Invalid size %d" |> Error.make
+  size
+  |> Format.asprintf "Invalid size %d"
+  |> Error.make |> Error.raise
 ;;
 
 let length js_array = js_array##.length
@@ -20,7 +22,7 @@ let init size f =
   if size = 0
   then empty ()
   else if size < 0
-  then Error.raise $ invalid_size size
+  then invalid_size size
   else (
     let js_array = new%js Js.array_length size in
     let () =
@@ -63,7 +65,7 @@ let get js_array index =
 let unsafe_get js_array index =
   match get js_array index with
   | None ->
-    Error.raise $ unbound_index index
+    unbound_index index
   | Some elt ->
     elt
 ;;
@@ -99,16 +101,14 @@ let to_array f js_array =
   let size = js_array##.length in
   Stdlib.Array.init size (fun i ->
       let elt = Js.array_get js_array i in
-      Js.Optdef.get elt (fun () -> Error.raise $ unbound_index i)
-      |> f)
+      Js.Optdef.get elt (fun () -> unbound_index i) |> f)
 ;;
 
 let to_list f js_array =
   let size = js_array##.length in
   Stdlib.List.init size (fun i ->
       let elt = Js.array_get js_array i in
-      Js.Optdef.get elt (fun () -> Error.raise $ unbound_index i)
-      |> f)
+      Js.Optdef.get elt (fun () -> unbound_index i) |> f)
 ;;
 
 let iter f js_array =
