@@ -122,6 +122,70 @@ let get2 () =
       (expect input).%{to_be} <- (Js.Opt.return 3))
 ;;
 
+let set1 () =
+  test "Test set - 1" (fun () ->
+      let expected : int J.Array.t = arr "[10]" in
+      let input = J.Array.empty () in
+      let () = J.Array.set input 0 10 in
+      (expect input).%{to_strict_equal} <- expected)
+;;
+
+let set2 () =
+  test "Test set - 2" (fun () ->
+      let expected : int J.Array.t = arr "[1, 2, 10, 4, 5]" in
+      let input = J.Array.init 5 (fun x -> x + 1) in
+      let () = J.Array.set input 2 10 in
+      (expect input).%{to_strict_equal} <- expected)
+;;
+
+let fill1 () =
+  test "Test for Array filling - 1" (fun () ->
+      let expected : int J.Array.t = arr "[]" in
+      let input = J.Array.(fill $ empty () $ 10) in
+      (expect input).%{to_strict_equal} <- expected)
+;;
+
+let fill2 () =
+  test "Test for Array filling - 2" (fun () ->
+      let expected : int J.Array.t = arr "[10, 10, 10]" in
+      let input = J.Array.(fill $ init 3 id $ 10) in
+      (expect input).%{to_strict_equal} <- expected)
+;;
+
+let fill_from1 () =
+  test
+    "Test for Array filling (from a specific index) - 1"
+    (fun () ->
+      let expected : int J.Array.t = arr "[]" in
+      let input = J.Array.(fill_from $ init 0 id $ 2 $ 10) in
+      (expect input).%{to_strict_equal} <- expected)
+;;
+
+let fill_from2 () =
+  test
+    "Test for Array filling (from a specific index) - 2"
+    (fun () ->
+      let expected : int J.Array.t = arr "[10, 10, 10]" in
+      let input = J.Array.(fill_from $ init 3 id $ 0 $ 10) in
+      (expect input).%{to_strict_equal} <- expected)
+;;
+
+let fill_from3 () =
+  test
+    "Test for Array filling (from a specific index) - 3"
+    (fun () ->
+      let expected : int J.Array.t = arr "[0, 1, 10, 10]" in
+      let input = J.Array.(fill_from $ init 4 id $ 2 $ 10) in
+      (expect input).%{to_strict_equal} <- expected)
+;;
+
+let fill_between1 () =
+  test "Test for Array filling (between two indexes) - 1" (fun () ->
+      let expected : int J.Array.t = arr "[]" in
+      let input = J.Array.(fill_between (init 0 id) 0 10 10) in
+      (expect input).%{to_strict_equal} <- expected)
+;;
+
 let suite () =
   List.iter
     (fun t -> t ())
@@ -140,5 +204,13 @@ let suite () =
     ; length2
     ; get1
     ; get2
+    ; set1
+    ; set2
+    ; fill1
+    ; fill2
+    ; fill_from1
+    ; fill_from2
+    ; fill_from3
+    ; fill_between1
     ]
 ;;
