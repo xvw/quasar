@@ -253,6 +253,24 @@ let pop2 () =
       (expect length).%{to_be} <- 4)
 ;;
 
+let shift1 () =
+  test "Test for shift - 1" (fun () ->
+      let array = J.Array.empty () in
+      let result = J.Array.shift array |> Js.Opt.option in
+      (expect result).%{to_be_null})
+;;
+
+let shift2 () =
+  test "Test for shift - 2" (fun () ->
+      let expected_array = arr "[1, 2, 3, 4]" in
+      let array = J.Array.init 5 id in
+      let result = J.Array.shift array |> Js.Opt.option in
+      let length = J.Array.length array in
+      let () = (expect result).%{to_be} <- (Js.Opt.return 0) in
+      let () = (expect array).%{to_strict_equal} <- expected_array in
+      (expect length).%{to_be} <- 4)
+;;
+
 let suite () =
   List.iter
     (fun t -> t ())
@@ -285,5 +303,7 @@ let suite () =
     ; push2
     ; pop1
     ; pop2
+    ; shift1
+    ; shift2
     ]
 ;;
