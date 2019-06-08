@@ -186,6 +186,55 @@ let fill_between1 () =
       (expect input).%{to_strict_equal} <- expected)
 ;;
 
+let fill_between2 () =
+  test "Test for Array filling (between two indexes) - 2" (fun () ->
+      let expected : int J.Array.t = arr "[0, 1, 10, 10, 4]" in
+      let input = J.Array.(fill_between (init 5 id) 2 3 10) in
+      (expect input).%{to_strict_equal} <- expected)
+;;
+
+let fill_between3 () =
+  test "Test for Array filling (between two indexes) - 3" (fun () ->
+      let expected : Js.js_string Js.t J.Array.t =
+        arr "['foo', 'foo', 'foo', 'foo', 'foo']"
+      in
+      let input =
+        J.Array.(
+          fill_between
+            (init 5 (fun x -> string_of_int x |> Js.string))
+            0
+            200
+            (Js.string "foo"))
+      in
+      (expect input).%{to_strict_equal} <- expected)
+;;
+
+let push1 () =
+  test "Test for push - 1" (fun () ->
+      let expected_array : int J.Array.t = arr "[10]" in
+      let expected_length = 1 in
+      let array = J.Array.empty () in
+      let () = (expect array).%{to_strict_equal} <- (arr "[]") in
+      let length = J.Array.push array 10 in
+      let () = (expect length).%{to_be} <- expected_length in
+      (expect array).%{to_strict_equal} <- expected_array)
+;;
+
+let push2 () =
+  test "Test for push - 2" (fun () ->
+      let expected_array : int J.Array.t =
+        arr "[0, 1, 2, 3, 4, 10]"
+      in
+      let expected_length = 6 in
+      let array = J.Array.init 5 id in
+      let () =
+        (expect array).%{to_strict_equal} <- (arr "[0, 1, 2, 3, 4]")
+      in
+      let length = J.Array.push array 10 in
+      let () = (expect length).%{to_be} <- expected_length in
+      (expect array).%{to_strict_equal} <- expected_array)
+;;
+
 let suite () =
   List.iter
     (fun t -> t ())
@@ -212,5 +261,9 @@ let suite () =
     ; fill_from2
     ; fill_from3
     ; fill_between1
+    ; fill_between2
+    ; fill_between3
+    ; push1
+    ; push2
     ]
 ;;
