@@ -235,6 +235,24 @@ let push2 () =
       (expect array).%{to_strict_equal} <- expected_array)
 ;;
 
+let pop1 () =
+  test "Test for pop - 1" (fun () ->
+      let array = J.Array.empty () in
+      let result = J.Array.pop array |> Js.Opt.option in
+      (expect result).%{to_be_null})
+;;
+
+let pop2 () =
+  test "Test for pop - 2" (fun () ->
+      let expected_array = arr "[0, 1, 2, 3]" in
+      let array = J.Array.init 5 id in
+      let result = J.Array.pop array |> Js.Opt.option in
+      let length = J.Array.length array in
+      let () = (expect result).%{to_be} <- (Js.Opt.return 4) in
+      let () = (expect array).%{to_strict_equal} <- expected_array in
+      (expect length).%{to_be} <- 4)
+;;
+
 let suite () =
   List.iter
     (fun t -> t ())
@@ -265,5 +283,7 @@ let suite () =
     ; fill_between3
     ; push1
     ; push2
+    ; pop1
+    ; pop2
     ]
 ;;
