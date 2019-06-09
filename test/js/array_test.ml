@@ -290,6 +290,25 @@ let append () =
       <- (arr "[0, 1, 2, 3, 4, 100, 101, 102, 103, 104, 105]"))
 ;;
 
+let flatten () =
+  test "Test for flatten" (fun () ->
+      let empty = arr "[]" in
+      (expect
+         ([ []; []; []; [] ]
+         |> J.Array.from_list (J.Array.from_list id)
+         |> J.Array.flatten)).%{to_strict_equal} <- empty;
+      (expect
+         ([ [ 1; 2; 3; 4 ]
+          ; []
+          ; [ 5; 6; 7; 8 ]
+          ; []
+          ; [ 9; 10; 11; 12 ]
+          ]
+         |> J.Array.from_list (J.Array.from_list id)
+         |> J.Array.flatten)).%{to_strict_equal}
+      <- (arr "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]"))
+;;
+
 let suite () =
   List.iter
     (fun t -> t ())
@@ -325,5 +344,6 @@ let suite () =
     ; shift1
     ; shift2
     ; append
+    ; flatten
     ]
 ;;
