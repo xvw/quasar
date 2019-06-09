@@ -271,6 +271,25 @@ let shift2 () =
       (expect length).%{to_be} <- 4)
 ;;
 
+let append () =
+  test "Test for append" (fun () ->
+      let expected_a = arr "[0, 1, 2, 3, 4]" in
+      let expected_b = arr "[100, 101, 102, 103, 104, 105]" in
+      let a = J.Array.init 5 id in
+      let b = J.Array.init 6 (fun x -> x + 100) in
+      let c = J.Array.empty () in
+      let () =
+        (expect (J.Array.append a c)).%{to_strict_equal}
+        <- expected_a
+      in
+      let () =
+        (expect (J.Array.append c b)).%{to_strict_equal}
+        <- expected_b
+      in
+      (expect (J.Array.append a b)).%{to_strict_equal}
+      <- (arr "[0, 1, 2, 3, 4, 100, 101, 102, 103, 104, 105]"))
+;;
+
 let suite () =
   List.iter
     (fun t -> t ())
@@ -305,5 +324,6 @@ let suite () =
     ; pop2
     ; shift1
     ; shift2
+    ; append
     ]
 ;;
