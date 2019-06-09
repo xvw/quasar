@@ -5,7 +5,7 @@ let () = Console.log "Hello World"
 let () = Console.print "Hello World"
 let () = Console.error "test"
 let () = Console.warning "foobar"
-let () = Console.log (Array.prefilled 10 7)
+let () = Console.log (Array.make 10 7)
 
 let () =
   Console.timetrack

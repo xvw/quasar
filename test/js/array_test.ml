@@ -26,17 +26,17 @@ let init2 () =
       (expect input).%{to_strict_equal} <- expected)
 ;;
 
-let prefilled1 () =
-  test "Create an array using prefilled - 1" (fun () ->
+let make1 () =
+  test "Create an array using make - 1" (fun () ->
       let expected : int J.Array.t = arr "[]" in
-      let input = J.Array.prefilled 0 7 in
+      let input = J.Array.make 0 7 in
       (expect input).%{to_strict_equal} <- expected)
 ;;
 
-let prefilled2 () =
-  test "Create an array using prefilled - 2" (fun () ->
+let make2 () =
+  test "Create an array using make - 2" (fun () ->
       let expected : int J.Array.t = arr "[7, 7, 7, 7, 7]" in
-      let input = J.Array.prefilled 5 7 in
+      let input = J.Array.make 5 7 in
       (expect input).%{to_strict_equal} <- expected)
 ;;
 
@@ -315,8 +315,8 @@ let suite () =
     [ empty_array
     ; init1
     ; init2
-    ; prefilled1
-    ; prefilled2
+    ; make1
+    ; make2
     ; from_array1
     ; from_array2
     ; from_array3

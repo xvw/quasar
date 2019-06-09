@@ -25,10 +25,10 @@ val empty : unit -> 'a t
     [i] initialized to the result of [f i]. *)
 val init : int -> (int -> 'a) -> 'a t
 
-(** [Array.prefilled n x] returns a fresh array of length [n], initialized 
+(** [Array.make n x] returns a fresh array of length [n], initialized 
     with [x].
 *)
-val prefilled : int -> 'a -> 'a t
+val make : int -> 'a -> 'a t
 
 (** [Array.from_array f ocaml_array] returns the [js_array] of an ocaml [array]
     where [f] is applied on each cell of the ocaml [array].
