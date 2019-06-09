@@ -10,9 +10,7 @@ let unbound_index unavailable_index =
 ;;
 
 let invalid_size size =
-  size
-  |> Format.asprintf "Invalid size %d"
-  |> Error.make |> Error.raise
+  size |> Format.asprintf "Invalid size %d" |> Error.make |> Error.raise
 ;;
 
 let length js_array = js_array##.length
@@ -38,9 +36,7 @@ let make size default = init size (fun _ -> default)
 let from_array f array =
   let js_array = empty () in
   let () =
-    Stdlib.Array.iteri
-      (fun i elt -> Js.array_set js_array i $ f elt)
-      array
+    Stdlib.Array.iteri (fun i elt -> Js.array_set js_array i $ f elt) array
   in
   js_array
 ;;
@@ -48,23 +44,15 @@ let from_array f array =
 let from_list f list =
   let js_array = empty () in
   let () =
-    Stdlib.List.iteri
-      (fun i elt -> Js.array_set js_array i $ f elt)
-      list
+    Stdlib.List.iteri (fun i elt -> Js.array_set js_array i $ f elt) list
   in
   js_array
 ;;
 
-let get js_array index =
-  Js.array_get js_array index |> Js.Optdef.to_option
-;;
+let get js_array index = Js.array_get js_array index |> Js.Optdef.to_option
 
 let unsafe_get js_array index =
-  match get js_array index with
-  | None ->
-    unbound_index index
-  | Some elt ->
-    elt
+  match get js_array index with None -> unbound_index index | Some elt -> elt
 ;;
 
 let map = Js.array_map
@@ -108,28 +96,22 @@ let to_list f js_array =
       Js.Optdef.get elt (fun () -> unbound_index i) |> f)
 ;;
 
-let iter f js_array =
-  js_array##forEach (Js.wrap_callback (fun x _ _ -> f x))
-;;
+let iter f js_array = js_array##forEach (Js.wrap_callback (fun x _ _ -> f x))
 
 let iteri f js_array =
   js_array##forEach (Js.wrap_callback (fun x i _ -> f i x))
 ;;
 
 let for_all f js_array =
-  js_array##every (Js.wrap_callback (fun x _ _ -> Js.bool $ f x))
-  |> Js.to_bool
+  js_array##every (Js.wrap_callback (fun x _ _ -> Js.bool $ f x)) |> Js.to_bool
 ;;
 
 let exists f js_array =
-  js_array##some (Js.wrap_callback (fun x _ _ -> Js.bool $ f x))
-  |> Js.to_bool
+  js_array##some (Js.wrap_callback (fun x _ _ -> Js.bool $ f x)) |> Js.to_bool
 ;;
 
 let sort f js_array =
-  let callback =
-    Js.wrap_callback (fun x y -> float_of_int $ f x y)
-  in
+  let callback = Js.wrap_callback (fun x y -> float_of_int $ f x y) in
   js_array##sort callback
 ;;
 
@@ -140,7 +122,5 @@ let fill_from js_array min value =
 ;;
 
 let fill_between js_array min max value =
-  mapi
-    (fun i x -> if i >= min && i <= max then value else x)
-    js_array
+  mapi (fun i x -> if i >= min && i <= max then value else x) js_array
 ;;
