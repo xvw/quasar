@@ -16,7 +16,8 @@ examples:
 	dune build examples/00-various/index.bc.js
 
 build-test: build
-	dune build test/js/testsuite.bc.js --profile release
+	dune build test/js/base_test.bc.js --profile release
+	dune build test/js/array_test.bc.js --profile release
 
 test: build-test
 	(cd test/js; npm run test)

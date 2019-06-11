@@ -37,8 +37,8 @@ let describe message test_list =
   let open Js.Unsafe in
   fun_call
     (js_expr "describe")
-    [| inject (Js.string message)
-     ; inject (Js.wrap_callback test_list)
+    [| inject (Js.string message);
+       inject (Js.wrap_callback test_list)
     |]
 ;;
 
@@ -46,8 +46,8 @@ let test message action =
   let open Js.Unsafe in
   fun_call
     global##.test
-    [| inject (Js.string message)
-     ; inject (Js.wrap_callback action)
+    [| inject (Js.string message);
+       inject (Js.wrap_callback action)
     |]
   |> ignore
 ;;
@@ -75,3 +75,10 @@ let to_be_less_than_or_equal e x = e##toBeLessThanOrEqual x
 let to_be_close_to e x = e##toBeCloseTo x
 let to_throw e = e##toThrow Js.Optdef.empty
 let to_throw_error e error = e##toThrow (Js.Optdef.return error)
+let ( ! ) e = e##.not
+let ( <=> ) a b = (expect a).%{to_be} <- b
+let ( = ) a b = (expect a).%{to_equal} <- b
+let ( == ) a b = (expect a).%{to_strict_equal} <- b
+let ( !<=> ) a b = (not (expect a)).%{to_be} <- b
+let ( <> ) a b = (not (expect a)).%{to_equal} <- b
+let ( != ) a b = (not (expect a)).%{to_strict_equal} <- b

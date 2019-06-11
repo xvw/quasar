@@ -1,6 +1,13 @@
 (executable
- (name testsuite)
-
+ (name base_test)
  (js_of_ocaml (flags --source-map --debug-info --pretty))
  (preprocess (pps js_of_ocaml-ppx))
+ (modules base_test)
+ (libraries js_of_ocaml quasar_core quasar_js quasar_node quasar_js.jest)) 
+
+(executable
+ (name array_test)
+ (js_of_ocaml (flags --source-map --debug-info --pretty))
+ (preprocess (pps js_of_ocaml-ppx))
+ (modules array_test)
  (libraries js_of_ocaml quasar_core quasar_js quasar_node quasar_js.jest)) 

@@ -44,10 +44,10 @@ val test : string -> (unit -> unit) -> unit
 val expect : 'a -> 'a expected Js.t
 
 val ( .%{}<- )
-  :  'a expected Js.t
-  -> ('a expected Js.t -> 'a -> unit)
-  -> 'a
-  -> unit
+  :  'a expected Js.t ->
+  ('a expected Js.t -> 'a -> unit) ->
+  'a ->
+  unit
 
 val ( .%{} ) : 'a expected Js.t -> ('a expected Js.t -> unit) -> unit
 
@@ -69,3 +69,13 @@ val to_be_less_than_or_equal : 'a expected Js.t -> 'a -> unit
 val to_be_close_to : float expected Js.t -> float -> unit
 val to_throw : 'a expected Js.t -> unit
 val to_throw_error : 'a expected Js.t -> Js.error Js.t -> unit
+
+(** {2 Toplevel API} *)
+
+val ( ! ) : 'a expected Js.t -> 'a expected Js.t
+val ( <=> ) : 'a -> 'a -> unit
+val ( = ) : 'a -> 'a -> unit
+val ( == ) : 'a -> 'a -> unit
+val ( !<=> ) : 'a -> 'a -> unit
+val ( <> ) : 'a -> 'a -> unit
+val ( != ) : 'a -> 'a -> unit
