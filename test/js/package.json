@@ -4,7 +4,7 @@
   "description": "Test for QuasarJS",
   "main": "index.js",
   "scripts": {
-    "test": "jest --silent"
+    "test": "jest"
   },
   "author": "xvw",
   "license": "MIT",

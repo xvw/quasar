@@ -3,8 +3,6 @@ open Quasar_core.Util
 open Jest
 module A = Quasar_js.Array
 
-let ( ?! ) x = expect x
-
 let () =
   test "Create an empty ?ay" (fun () ->
       let expected : 'a A.t = js "[]" in
@@ -112,7 +110,7 @@ let () =
   test "Test get - 1" (fun () ->
       let array = A.empty () in
       let input = A.get array 2 |> Js.Opt.option in
-      ?!input.%{to_be_null})
+      (expect input).%{to_be_null})
 ;;
 
 let () =
@@ -235,7 +233,7 @@ let () =
   test "Test for pop - 1" (fun () ->
       let array = A.empty () in
       let result = A.pop array |> Js.Opt.option in
-      ?!result.%{to_be_null})
+      (expect result).%{to_be_null})
 ;;
 
 let () =
@@ -253,7 +251,7 @@ let () =
   test "Test for shift - 1" (fun () ->
       let array = A.empty () in
       let result = A.shift array |> Js.Opt.option in
-      ?!result.%{to_be_null})
+      (expect result).%{to_be_null})
 ;;
 
 let () =
