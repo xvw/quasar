@@ -3,7 +3,6 @@ open Quasar_core.Util
 open Jest
 module A = Quasar_js.Array
 
-let js str = Js.Unsafe.js_expr str
 let ( ?! ) x = expect x
 
 let () =

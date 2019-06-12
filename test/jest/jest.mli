@@ -79,3 +79,6 @@ val ( == ) : 'a -> 'a -> unit
 val ( !<=> ) : 'a -> 'a -> unit
 val ( <> ) : 'a -> 'a -> unit
 val ( != ) : 'a -> 'a -> unit
+
+(** {2 Helpers} *)
+val js : string -> 'a

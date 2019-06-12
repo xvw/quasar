@@ -82,3 +82,4 @@ let ( == ) a b = (expect a).%{to_strict_equal} <- b
 let ( !<=> ) a b = (not (expect a)).%{to_be} <- b
 let ( <> ) a b = (not (expect a)).%{to_equal} <- b
 let ( != ) a b = (not (expect a)).%{to_strict_equal} <- b
+let js str = Js.Unsafe.js_expr str
