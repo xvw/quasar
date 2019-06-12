@@ -52,6 +52,11 @@ let test message action =
   |> ignore
 ;;
 
+let todo message =
+  let t = Js.Unsafe.global##.test in
+  t##todo (Js.string message)
+;;
+
 let expect value =
   let open Js.Unsafe in
   fun_call global##.expect [| inject value |]
@@ -83,3 +88,8 @@ let ( !<=> ) a b = (not (expect a)).%{to_be} <- b
 let ( <> ) a b = (not (expect a)).%{to_equal} <- b
 let ( != ) a b = (not (expect a)).%{to_strict_equal} <- b
 let js str = Js.Unsafe.js_expr str
+
+let hole () =
+  (expect (Js.string "has to be done")).%{to_equal}
+  <- (Js.string "to be done")
+;;

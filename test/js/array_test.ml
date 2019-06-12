@@ -339,3 +339,9 @@ let () =
       A.fold_right (fun x acc -> x :: acc) (mk [ 1; 2; 3; 4 ]) []
       |> mk == js "[1, 2, 3, 4]")
 ;;
+
+let () = todo "Test for iter"
+let () = todo "Test for iteri"
+let () = todo "Test for for_all"
+let () = todo "Test for for_exists"
+let () = todo "Test for for_sort"

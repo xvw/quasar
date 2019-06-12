@@ -42,6 +42,7 @@ class type ['a] expected =
 val describe : string -> (unit -> unit) -> unit
 val test : string -> (unit -> unit) -> unit
 val expect : 'a -> 'a expected Js.t
+val todo : string -> unit
 
 val ( .%{}<- )
   :  'a expected Js.t ->
@@ -81,4 +82,6 @@ val ( <> ) : 'a -> 'a -> unit
 val ( != ) : 'a -> 'a -> unit
 
 (** {2 Helpers} *)
+
 val js : string -> 'a
+val hole : unit -> unit
