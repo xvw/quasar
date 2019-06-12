@@ -139,14 +139,14 @@ let () =
 let () =
   test "Test for Array filling - 1" (fun () ->
       let expected : int A.t = js "[]" in
-      let input = A.(fill $ empty () $ 10) in
+      let input = A.(fill (empty ()) 10) in
       input == expected)
 ;;
 
 let () =
   test "Test for Array filling - 2" (fun () ->
       let expected : int A.t = js "[10, 10, 10]" in
-      let input = A.(fill $ init 3 id $ 10) in
+      let input = A.(fill (init 3 id) 10) in
       input == expected)
 ;;
 
@@ -155,7 +155,7 @@ let () =
     "Test for Array filling (from a specific index) - 1"
     (fun () ->
       let expected : int A.t = js "[]" in
-      let input = A.(fill_from $ init 0 id $ 2 $ 10) in
+      let input = A.(fill_from (init 0 id) 2 10) in
       input == expected)
 ;;
 
@@ -164,7 +164,7 @@ let () =
     "Test for Array filling (from a specific index) - 2"
     (fun () ->
       let expected : int A.t = js "[10, 10, 10]" in
-      let input = A.(fill_from $ init 3 id $ 0 $ 10) in
+      let input = A.(fill_from (init 3 id) 0 10) in
       input == expected)
 ;;
 
@@ -173,7 +173,7 @@ let () =
     "Test for Array filling (from a specific index) - 3"
     (fun () ->
       let expected : int A.t = js "[0, 1, 10, 10]" in
-      let input = A.(fill_from $ init 4 id $ 2 $ 10) in
+      let input = A.(fill_from (init 4 id) 2 10) in
       input == expected)
 ;;
 
@@ -292,26 +292,34 @@ let () =
 
 let () =
   test "Test for to_array" (fun () ->
-      A.to_array id $ js "[1, 2, 3, 4]" == [| 1; 2; 3; 4 |];
-      A.to_array id $ js "[]" == [||];
-      A.to_array (fun x -> x * 2)
-      $ js "[1, 2, 3, 4]" == [| 2; 4; 6; 8 |])
+      A.to_array id (js "[1, 2, 3, 4]") == [| 1; 2; 3; 4 |];
+      A.to_array id (js "[]") == [||];
+      A.to_array (fun x -> x * 2) (js "[1, 2, 3, 4]")
+      == [| 2; 4; 6; 8 |])
 ;;
 
 let () =
   test "Test for to_list" (fun () ->
-      A.to_list id $ js "[1, 2, 3, 4]" == [ 1; 2; 3; 4 ];
-      A.to_list id $ js "[]" == [];
-      A.to_list (fun x -> x * 2) $ js "[1, 2, 3, 4]" == [ 2; 4; 6; 8 ]
+      A.to_list id (js "[1, 2, 3, 4]") == [ 1; 2; 3; 4 ];
+      A.to_list id (js "[]") == [];
+      A.to_list (fun x -> x * 2) (js "[1, 2, 3, 4]") == [ 2; 4; 6; 8 ]
   )
 ;;
 
 let () =
   test "Test for map" (fun () ->
-      A.map id $ A.empty () == js "[]";
-      A.map id $ A.from_list id [ 1; 2; 3; 4 ] == js "[1, 2, 3, 4]";
-      A.map succ $ A.from_list id [ 1; 2; 3; 4 ] == js "[2, 3, 4, 5]";
-      A.map (fun x -> x, x)
-      $ A.from_list id [ 1; 2; 3; 4 ]
+      A.map id (A.empty ()) == js "[]";
+      A.map id (A.from_list id [ 1; 2; 3; 4 ]) == js "[1, 2, 3, 4]";
+      A.map succ (A.from_list id [ 1; 2; 3; 4 ]) == js "[2, 3, 4, 5]";
+      A.map (fun x -> x, x) (A.from_list id [ 1; 2; 3; 4 ])
       == A.from_list id [ 1, 1; 2, 2; 3, 3; 4, 4 ])
+;;
+
+let () =
+  test "Test for mapi" (fun () ->
+      A.mapi (fun _ x -> x) (A.empty ()) == js "[]";
+      A.mapi
+        (fun i x -> A.from_list id [ i; x ])
+        (A.from_list id [ 1; 2; 3; 4 ])
+      == js "[[0, 1], [1, 2], [2, 3], [3, 4]]")
 ;;
