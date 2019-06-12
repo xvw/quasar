@@ -3,6 +3,8 @@ open Quasar_core.Util
 open Jest
 module A = Quasar_js.Array
 
+let mk list = A.from_list id list
+
 let () =
   test "Create an empty ?ay" (fun () ->
       let expected : 'a A.t = js "[]" in
@@ -68,14 +70,14 @@ let () =
 let () =
   test "Create an array from an OCaml list - 1" (fun () ->
       let expected : int A.t = js "[]" in
-      let input = A.from_list id [] in
+      let input = mk [] in
       input == expected)
 ;;
 
 let () =
   test "Create an array from an OCaml list - 2" (fun () ->
       let expected : int A.t = js "[1, 2, 3, 4, 5]" in
-      let input = A.from_list id [ 1; 2; 3; 4; 5 ] in
+      let input = mk [ 1; 2; 3; 4; 5 ] in
       input == expected)
 ;;
 
@@ -101,7 +103,7 @@ let () =
 
 let () =
   test "Test the length of an array - 2" (fun () ->
-      let array = A.from_list id [ 1; 2; 3 ] in
+      let array = mk [ 1; 2; 3 ] in
       let input = A.length array in
       input = 3)
 ;;
@@ -115,7 +117,7 @@ let () =
 
 let () =
   test "Test get - 2" (fun () ->
-      let array = A.from_list id [ 1; 2; 3 ] in
+      let array = mk [ 1; 2; 3 ] in
       let input = A.get array 2 |> Js.Opt.option in
       input = Js.Opt.return 3)
 ;;
@@ -309,17 +311,31 @@ let () =
 let () =
   test "Test for map" (fun () ->
       A.map id (A.empty ()) == js "[]";
-      A.map id (A.from_list id [ 1; 2; 3; 4 ]) == js "[1, 2, 3, 4]";
-      A.map succ (A.from_list id [ 1; 2; 3; 4 ]) == js "[2, 3, 4, 5]";
-      A.map (fun x -> x, x) (A.from_list id [ 1; 2; 3; 4 ])
-      == A.from_list id [ 1, 1; 2, 2; 3, 3; 4, 4 ])
+      A.map id (mk [ 1; 2; 3; 4 ]) == js "[1, 2, 3, 4]";
+      A.map succ (mk [ 1; 2; 3; 4 ]) == js "[2, 3, 4, 5]";
+      A.map (fun x -> x, x) (mk [ 1; 2; 3; 4 ])
+      == mk [ 1, 1; 2, 2; 3, 3; 4, 4 ])
 ;;
 
 let () =
   test "Test for mapi" (fun () ->
       A.mapi (fun _ x -> x) (A.empty ()) == js "[]";
-      A.mapi
-        (fun i x -> A.from_list id [ i; x ])
-        (A.from_list id [ 1; 2; 3; 4 ])
+      A.mapi (fun i x -> mk [ i; x ]) (mk [ 1; 2; 3; 4 ])
       == js "[[0, 1], [1, 2], [2, 3], [3, 4]]")
+;;
+
+let () =
+  test "Test for fold_left" (fun () ->
+      A.fold_left ( + ) 123 (A.empty ()) = 123;
+      A.fold_left ( + ) 0 (mk [ 1; 2; 3; 4 ]) = 10;
+      A.fold_left (fun acc x -> x :: acc) [] (mk [ 1; 2; 3; 4 ])
+      |> mk == js "[4, 3, 2, 1]")
+;;
+
+let () =
+  test "Test for fold_right" (fun () ->
+      A.fold_right ( + ) (A.empty ()) 123 = 123;
+      A.fold_right ( + ) (mk [ 1; 2; 3; 4 ]) 0 = 10;
+      A.fold_right (fun x acc -> x :: acc) (mk [ 1; 2; 3; 4 ]) []
+      |> mk == js "[1, 2, 3, 4]")
 ;;
