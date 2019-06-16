@@ -369,6 +369,12 @@ let () =
       (expect c).%{to_be_falsy})
 ;;
 
-let () = todo "Test for sort"
+let () =
+  test "Test for sort" (fun () ->
+      A.sort compare (A.empty ()) == A.empty ();
+      A.sort compare (mk [ 2; 1; 8; 9; 11; -7; 43 ])
+      == mk [ -7; 1; 2; 8; 9; 11; 43 ])
+;;
+
 let () = todo "Test for iter"
 let () = todo "Test for iteri"
