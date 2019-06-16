@@ -340,8 +340,35 @@ let () =
       |> mk == js "[1, 2, 3, 4]")
 ;;
 
+let () =
+  test "Test for for_all" (fun () ->
+      let a = A.for_all (fun x -> x > 10) (A.empty ()) |> Js.bool in
+      let () = (expect a).%{to_be_truthy} in
+      let b =
+        A.for_all (fun x -> x > 10) (mk [ 11; 12; 178; 17 ])
+        |> Js.bool
+      in
+      let () = (expect b).%{to_be_truthy} in
+      let c =
+        A.for_all (fun x -> x > 10) (mk [ 11; 12; 5; 17 ]) |> Js.bool
+      in
+      (expect c).%{to_be_falsy})
+;;
+
+let () =
+  test "Test for exists" (fun () ->
+      let a = A.exists (fun x -> x > 10) (A.empty ()) |> Js.bool in
+      let () = (expect a).%{to_be_falsy} in
+      let b =
+        A.exists (fun x -> x > 10) (mk [ 1; 12; 0; -7 ]) |> Js.bool
+      in
+      let () = (expect b).%{to_be_truthy} in
+      let c =
+        A.exists (fun x -> x > 10) (mk [ 1; 2; 0; -7 ]) |> Js.bool
+      in
+      (expect c).%{to_be_falsy})
+;;
+
+let () = todo "Test for sort"
 let () = todo "Test for iter"
 let () = todo "Test for iteri"
-let () = todo "Test for for_all"
-let () = todo "Test for for_exists"
-let () = todo "Test for for_sort"
