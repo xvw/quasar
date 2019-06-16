@@ -1,5 +1,5 @@
-open Quasar_core.Util
 open Quasar_js
+open Util
 
 let () = Console.log "Hello World"
 let () = Console.print "Hello World"
@@ -12,8 +12,8 @@ let () =
     "answer time"
     [ (fun logger ->
         logger "foo";
-        Console.print "Hello")
-    ; (fun logger ->
+        Console.print "Hello");
+      (fun logger ->
         logger "bar";
         Console.print "World")
     ]

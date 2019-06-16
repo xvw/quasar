@@ -1,5 +1,5 @@
 open Js_of_ocaml
-open Quasar_core.Util
+open Util
 
 class type hook =
   object
@@ -14,8 +14,8 @@ class type hook =
     method timeLog : 'a. Js.js_string Js.t -> 'a -> unit Js.meth
 
     method table :
-      'b. 'b -> Js.js_string Js.t Js.js_array Js.t Js.Optdef.t
-      -> unit Js.meth
+      'b. 'b -> Js.js_string Js.t Js.js_array Js.t Js.Optdef.t ->
+      unit Js.meth
   end
 
 external get_console : unit -> hook Js.t = "caml_js_get_console"

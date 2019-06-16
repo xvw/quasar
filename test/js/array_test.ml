@@ -1,5 +1,5 @@
 open Js_of_ocaml
-open Quasar_core.Util
+open Quasar_js.Util
 open Jest
 module A = Quasar_js.Array
 

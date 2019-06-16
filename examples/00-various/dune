@@ -2,4 +2,4 @@
  (name index)
  (js_of_ocaml)
  (preprocess (pps js_of_ocaml-ppx))
- (libraries js_of_ocaml quasar_core quasar_js)) 
+ (libraries js_of_ocaml quasar_js)) 
