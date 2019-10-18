@@ -156,6 +156,16 @@ val for_all : ('a -> bool) -> 'a t -> bool
 (** Checks if at least one element of the array satisfies a predicate. *)
 val exists : ('a -> bool) -> 'a t -> bool
 
+(** Creates a new array with all elements that pass the test implemented
+    by the provided function. 
+*)
+val filter : ('a -> bool) -> 'a t -> 'a t
+
+(** Creates a new array with all elements that pass the test implemented
+    by the provided function (with index). 
+*)
+val filteri : (int -> 'a -> bool) -> 'a t -> 'a t
+
 (** {3 Sorting} *)
 
 (** Sort an array in increasing order according to a comparison function. 

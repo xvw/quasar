@@ -3,4 +3,5 @@
  (public_name quasar_js)
  (synopsis "Javascript part of Quasar")
  (preprocess (pps js_of_ocaml-ppx))
+ (modules_without_implementation runtime)
  (libraries js_of_ocaml))

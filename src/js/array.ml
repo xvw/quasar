@@ -142,3 +142,13 @@ let fill_between js_array min max value =
     (fun i x -> if i >= min && i <= max then value else x)
     js_array
 ;;
+
+let filter f js_array =
+  let callback = Js.wrap_callback (fun x _ _ -> Js.bool $ f x) in
+  js_array##filter callback
+;;
+
+let filteri f js_array =
+  let callback = Js.wrap_callback (fun x i _ -> Js.bool $ f i x) in
+  js_array##filter callback
+;;

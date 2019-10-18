@@ -376,5 +376,21 @@ let () =
       == mk [ -7; 1; 2; 8; 9; 11; 43 ])
 ;;
 
+let () =
+  test "Test for filter" (fun () ->
+      A.filter (fun _ -> true) (A.empty ()) == A.empty ();
+      A.filter (fun _ -> false) (A.empty ()) == A.empty ();
+      A.filter (fun x ->  Stdlib.(x mod 2 = 0)) (mk [1; 2; 3; 4; 5; 6])
+      == mk [2; 4; 6]
+    )
+
+let () =
+  test "Test for filteri" (fun () ->
+      A.filteri (fun _ _ -> true) (A.empty ()) == A.empty ();
+      A.filteri (fun _ _ -> false) (A.empty ()) == A.empty ();
+      A.filteri (fun x _ ->  Stdlib.(x mod 2 = 0)) (mk [1; 2; 3; 4; 5; 6])
+      == mk [1; 3; 5]
+    )
+    
 let () = todo "Test for iter"
 let () = todo "Test for iteri"
