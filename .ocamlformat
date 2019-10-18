@@ -4,4 +4,4 @@ break-separators = after-and-docked
 break-infix = wrap
 type-decl = sparse
 margin = 70
-version = 0.9
+version=0.11.0
